@@ -22,6 +22,9 @@ if __name__ == '__main__':
     # adds initial position
     journey.insert(0, houses[0])
 
+    # We could have used .index() instead of creating a dictionary to access the houses positions,
+    # but dictionary access time complexity is O(1), while .index() is O(n).
+    # Inside the final loop, this solution has linear complexity, while using .index() would have quadratic complexity
     pos_dict = {}
     for idx, house in enumerate(houses):
         pos_dict[house] = idx
