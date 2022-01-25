@@ -13,7 +13,7 @@ def nth_prime(n):
         if candidate_is_prime:
             memory.append(candidate)
             counter += 1
-        candidate += 1
+        candidate += 2
     return memory[-1]
 
 
