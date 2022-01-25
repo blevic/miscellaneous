@@ -11,18 +11,13 @@ def is_palindrome(n):
 
 
 def simple_factorize(n):
+    lst = []
     while n > 1:
         for i in range(2, int(n + 1)):
             if n % i == 0:
                 n /= i
-                yield i
+                lst.append(i)
                 break
-
-
-def all_factors(n):
-    lst = []
-    for factor in simple_factorize(n):
-        lst.append(factor)
     return lst
 
 
@@ -45,7 +40,7 @@ def split_two_3digit_factors(lst):
 
 for number in range(MAX_POSSIBLE, MIN_POSSIBLE, -1):
     if is_palindrome(number):
-        factors = all_factors(number)
+        factors = simple_factorize(number)
 
         if split_two_3digit_factors(factors):
             break
