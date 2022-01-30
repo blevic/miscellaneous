@@ -2,7 +2,7 @@
 
 distinct_terms = set()
 
-for a in range(2,100+1):
+for a in range(2, 100+1):
     for b in range(2, 100+1):
         if a**b not in distinct_terms:
             distinct_terms.add(a**b)
