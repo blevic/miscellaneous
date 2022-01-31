@@ -18,6 +18,6 @@ def is_likely_lychrel(n):
 total = 0
 for i in range(10000):
     if is_likely_lychrel(i):
-        total+= 1
+        total += 1
 
 print(total)
