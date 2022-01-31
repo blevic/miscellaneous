@@ -2,8 +2,6 @@
 
 # yeah, it's slow, but go drink some water. it'll be finished by the time you come back
 
-import time
-
 
 def factorize(n):
     lst = []
@@ -18,7 +16,6 @@ def factorize(n):
 
 consecutive_counter = 0
 n = 0
-t0 = time.time()
 while consecutive_counter < 4:
     four_distinct_prime_factors = len(set(factorize(n))) == 4
     if four_distinct_prime_factors:
@@ -27,5 +24,4 @@ while consecutive_counter < 4:
         consecutive_counter = 0
     n += 1
 
-print(time.time() - t0)
 print(n - 4)
