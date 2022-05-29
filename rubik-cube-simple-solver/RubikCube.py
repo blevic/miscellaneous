@@ -42,33 +42,36 @@ class RubikCube(RubikCubeInterface):
 
             return emoji_map[color]
 
-        padding = emoji(Color.BLACK)
+        pad = emoji(Color.BLACK)
+        n = self.size
 
-        for row in range(self.size):
-            upper_lines = (padding + " ") * self.size
-            for square in range(self.size):
-                upper_lines += emoji(self.faceUp[row][square]) + " "
-            upper_lines += (padding + " ") * 2 * self.size
+        for row in range(n):
+            upper_lines = (pad + " ") * n \
+                          + " ".join([emoji(i) for i in self.faceUp[row]]) + " " \
+                          + (pad + " ") * 2 * n
             print(upper_lines)
 
-        for row in range(self.size):
-            middle_lines = ""
-            for square in range(self.size):
-                middle_lines += emoji(self.faceLeft[row][square]) + " "
-            for square in range(self.size):
-                middle_lines += emoji(self.faceFront[row][square]) + " "
-            for square in range(self.size):
-                middle_lines += emoji(self.faceRight[row][square]) + " "
-            for square in range(self.size):
-                middle_lines += emoji(self.faceBack[row][square]) + " "
+        for row in range(n):
+            middle_lines = " ".join([emoji(i) for i in self.faceLeft[row]]) + " " \
+                           + " ".join([emoji(i) for i in self.faceFront[row]]) + " " \
+                           + " ".join([emoji(i) for i in self.faceRight[row]]) + " " \
+                           + " ".join([emoji(i) for i in self.faceBack[row]]) + " "
             print(middle_lines)
 
-        for row in range(self.size):
-            lower_lines = (padding + " ") * self.size
-            for square in range(self.size):
-                lower_lines += emoji(self.faceDown[row][square]) + " "
-            lower_lines += (padding + " ") * 2 * self.size
+        for row in range(n):
+            lower_lines = (pad + " ") * n \
+                          + " ".join([emoji(i) for i in self.faceDown[row]]) + " " \
+                          + (pad + " ") * 2 * n
             print(lower_lines)
+
+    def is_solved(self) -> bool:
+        """Overrides RubikCubeInterface.is_solved()"""
+        return len(set([s for row in self.faceFront for s in row])) == 1 \
+               and len(set([s for row in self.faceBack for s in row])) == 1 \
+               and len(set([s for row in self.faceUp for s in row])) == 1 \
+               and len(set([s for row in self.faceDown for s in row])) == 1 \
+               and len(set([s for row in self.faceLeft for s in row])) == 1 \
+               and len(set([s for row in self.faceRight for s in row])) == 1
 
     def __create_face(self, color):
         return [[color] * self.size] * self.size
