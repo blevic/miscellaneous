@@ -22,8 +22,13 @@ class RubikCubeInterface:
         """
         pass
 
-    def shuffle(self, steps: int) -> None:
-        """Shuffle the cube"""
+    def scramble(self, steps: int = 30) -> None:
+        """
+        Scramble the cube
+
+            Args:
+                steps: number of random moves to be executed on the cube
+        """
         pass
 
     def is_solved(self) -> bool:
