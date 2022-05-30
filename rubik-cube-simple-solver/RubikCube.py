@@ -33,13 +33,13 @@ class RubikCube(RubikCubeInterface):
 
         def emoji(color):
             emoji_map = {
-                Color.RED: '🟥',
+                Color.RED:    '🟥',
                 Color.ORANGE: '🟧',
                 Color.YELLOW: '🟨',
-                Color.WHITE: '⬜',
-                Color.BLUE: '🟦',
-                Color.GREEN: '🟩',
-                Color.BLACK: '⬛'
+                Color.WHITE:  '⬜',
+                Color.BLUE:   '🟦',
+                Color.GREEN:  '🟩',
+                Color.BLACK:  '⬛'
             }
 
             return emoji_map[color]
@@ -66,8 +66,11 @@ class RubikCube(RubikCubeInterface):
                           + (pad + " ") * 2 * n
             print(lower_lines)
 
-    def move(self, turn: str) -> None:
-        """Overrides RubikCubeInterface.move(turn)"""
+    def move(self, turns: str) -> None:
+        """Overrides RubikCubeInterface.move(turns)"""
+        allowed_moves = set("FBUDLRfbudlrxyzMES")
+        allowed_modifiers = set("2p′")
+
         turn_functions = {
             'F': self.__move_F,
             'B': self.__move_B,
@@ -86,10 +89,71 @@ class RubikCube(RubikCubeInterface):
             'z': self.__move_z,
             'M': self.__move_M,
             'E': self.__move_E,
-            'S': self.__move_S
+            'S': self.__move_S,
+            'Fp': self.__move_Fp,
+            'Bp': self.__move_Bp,
+            'Up': self.__move_Up,
+            'Dp': self.__move_Dp,
+            'Lp': self.__move_Lp,
+            'Rp': self.__move_Rp,
+            'fp': self.__move_fp,
+            'bp': self.__move_bp,
+            'up': self.__move_up,
+            'dp': self.__move_dp,
+            'lp': self.__move_lp,
+            'rp': self.__move_rp,
+            'xp': self.__move_xp,
+            'yp': self.__move_yp,
+            'zp': self.__move_zp,
+            'Mp': self.__move_Mp,
+            'Ep': self.__move_Ep,
+            'Sp': self.__move_Sp,
+            'F2': self.__move_F2,
+            'B2': self.__move_B2,
+            'U2': self.__move_U2,
+            'D2': self.__move_D2,
+            'L2': self.__move_L2,
+            'R2': self.__move_R2,
+            'f2': self.__move_f2,
+            'b2': self.__move_b2,
+            'u2': self.__move_u2,
+            'd2': self.__move_d2,
+            'l2': self.__move_l2,
+            'r2': self.__move_r2,
+            'x2': self.__move_x2,
+            'y2': self.__move_y2,
+            'z2': self.__move_z2,
+            'M2': self.__move_M2,
+            'E2': self.__move_E2,
+            'S2': self.__move_S2
         }
 
-        turn_functions[turn]()
+        def parse_sequence(s):
+            if len(s) <= 2:
+                if len(s) == 0:
+                    return []
+                elif len(s) == 1:
+                    if s in allowed_moves:
+                        return [s]
+                    else:
+                        raise ValueError("Unrecognized move was requested: '" + s + "'")
+                elif len(s) == 2:
+                    if s[0] in allowed_moves and s[1] in allowed_moves:
+                        return [s[0], s[1]]
+                    elif s[0] in allowed_moves and s[1] in allowed_modifiers:
+                        return [s]
+                    else:
+                        raise ValueError("Unrecognized move(s) requested: '" + s + "'")
+            else:
+                if s[0] in allowed_moves and s[1] in allowed_modifiers:
+                    return [s[:2]] + parse_sequence(s[2:])
+                elif s[0] in allowed_moves:
+                    return [s[:1]] + parse_sequence(s[1:])
+                else:
+                    raise ValueError("Unrecognized move was requested: '" + s[0] + "'")
+
+        for move in parse_sequence(turns):
+            turn_functions[move]()
 
     @staticmethod
     def __rotate_clockwise(face: list) -> list:
@@ -168,6 +232,114 @@ class RubikCube(RubikCubeInterface):
 
     def __move_S(self) -> None:
         pass
+
+    def __move_Fp(self) -> None:
+        self.move("FFF")
+
+    def __move_Bp(self) -> None:
+        self.move("BBB")
+
+    def __move_Up(self) -> None:
+        self.move("UUU")
+
+    def __move_Dp(self) -> None:
+        self.move("DDD")
+
+    def __move_Lp(self) -> None:
+        self.move("LLL")
+
+    def __move_Rp(self) -> None:
+        self.move("RRR")
+
+    def __move_fp(self) -> None:
+        self.move("fff")
+
+    def __move_bp(self) -> None:
+        self.move("bbb")
+
+    def __move_up(self) -> None:
+        self.move("uuu")
+
+    def __move_dp(self) -> None:
+        self.move("ddd")
+
+    def __move_lp(self) -> None:
+        self.move("lll")
+
+    def __move_rp(self) -> None:
+        self.move("rrr")
+
+    def __move_xp(self) -> None:
+        self.move("xxx")
+
+    def __move_yp(self) -> None:
+        self.move("yyy")
+
+    def __move_zp(self) -> None:
+        self.move("zzz")
+
+    def __move_Mp(self) -> None:
+        self.move("MMM")
+
+    def __move_Ep(self) -> None:
+        self.move("EEE")
+
+    def __move_Sp(self) -> None:
+        self.move("SSS")
+
+    def __move_F2(self) -> None:
+        self.move("FF")
+
+    def __move_B2(self) -> None:
+        self.move("BB")
+
+    def __move_U2(self) -> None:
+        self.move("UU")
+
+    def __move_D2(self) -> None:
+        self.move("DD")
+
+    def __move_L2(self) -> None:
+        self.move("LL")
+
+    def __move_R2(self) -> None:
+        self.move("RR")
+
+    def __move_f2(self) -> None:
+        self.move("ff")
+
+    def __move_b2(self) -> None:
+        self.move("bb")
+
+    def __move_u2(self) -> None:
+        self.move("uu")
+
+    def __move_d2(self) -> None:
+        self.move("dd")
+
+    def __move_l2(self) -> None:
+        self.move("ll")
+
+    def __move_r2(self) -> None:
+        self.move("rr")
+
+    def __move_x2(self) -> None:
+        self.move("xx")
+
+    def __move_y2(self) -> None:
+        self.move("yy")
+
+    def __move_z2(self) -> None:
+        self.move("zz")
+
+    def __move_M2(self) -> None:
+        self.move("MM")
+
+    def __move_E2(self) -> None:
+        self.move("EE")
+
+    def __move_S2(self) -> None:
+        self.move("SS")
 
     def is_solved(self) -> bool:
         """Overrides RubikCubeInterface.is_solved()"""

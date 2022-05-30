@@ -3,12 +3,12 @@ class RubikCubeInterface:
         """Draw the cube"""
         pass
 
-    def move(self, turn: str) -> None:
+    def move(self, turns: str) -> None:
         """
-        Move the cube
+        Make a sequence of moves
 
             Args:
-                turn: a letter denoting the movement/turn to be executed, according to Singmaster notation
+                turns: sequence of letters denoting the movements/turns to be executed, according to Singmaster notation
                     Allowed letters:
                         F: Front;  B: Back;  U: Up;  D: Down;  L: Left;  R: Right;
                         f: Front 2 layers;  b: Back 2 layers;
@@ -17,8 +17,15 @@ class RubikCubeInterface:
                         x: rotation;  y: rotation;  z: rotation;
                         M: Middle;  E: Equator;  S: Standing
 
-                    If followed by prime symbol (′), turn it anticlockwise; otherwise, turn it clockwise.
+                    If followed by a p or a prime symbol (′), turn it anticlockwise; otherwise, turn it clockwise.
                     If followed by a 2, execute the operation twice.
+
+                    Examples:
+                        Valid:   "F′", "", "FFF", "FpF′", "x2l2lll′", "FBUDLRLLpL′L2fulxMMEyzSS′S2"
+                        Invalid: "F'", "A", "m", "Fpp", "pF", "S22", "S3" "FfuUY", "F "
+
+            Raises:
+                ValueError: Unrecognized move is requested
         """
         pass
 
