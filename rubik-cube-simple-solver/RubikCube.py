@@ -234,10 +234,32 @@ class RubikCube(RubikCubeInterface):
         self.move("xL")
 
     def __move_x(self) -> None:
-        pass
+        self.faceRight = self.__rotate_clockwise(self.faceRight)
+        self.faceLeft = self.__rotate_counterclockwise(self.faceLeft)
+
+        _saved_up = self.faceUp
+        _saved_down = self.faceDown
+        _saved_front = self.faceFront
+        _saved_back = self.faceBack
+
+        self.faceUp = _saved_front
+        self.faceDown = [i[::-1] for i in _saved_back[::-1]]
+        self.faceFront = _saved_down
+        self.faceBack = [i[::-1] for i in _saved_up[::-1]]
 
     def __move_y(self) -> None:
-        pass
+        self.faceUp = self.__rotate_clockwise(self.faceUp)
+        self.faceDown = self.__rotate_counterclockwise(self.faceDown)
+
+        _saved_front = self.faceFront
+        _saved_back = self.faceBack
+        _saved_left = self.faceLeft
+        _saved_right = self.faceRight
+
+        self.faceFront = _saved_right
+        self.faceBack = _saved_left
+        self.faceLeft = _saved_front
+        self.faceRight = _saved_back
 
     def __move_z(self) -> None:
         self.move("xyx′")
