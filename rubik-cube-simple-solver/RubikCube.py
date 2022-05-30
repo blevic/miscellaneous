@@ -201,37 +201,37 @@ class RubikCube(RubikCubeInterface):
             self.faceRight[i][0] = _saved_up[i]
 
     def __move_B(self) -> None:
-        pass
+        self.move("x2Fx2")
 
     def __move_U(self) -> None:
-        pass
+        self.move("x′Fx")
 
     def __move_D(self) -> None:
-        pass
+        self.move("xFx′")
 
     def __move_L(self) -> None:
-        pass
+        self.move("y′Fy")
 
     def __move_R(self) -> None:
-        pass
+        self.move("yFy′")
 
     def __move_f(self) -> None:
-        pass
+        self.move("zB")
 
     def __move_b(self) -> None:
-        pass
+        self.move("z′F")
 
     def __move_u(self) -> None:
-        pass
+        self.move("yD")
 
     def __move_d(self) -> None:
-        pass
+        self.move("y′U")
 
     def __move_l(self) -> None:
-        pass
+        self.move("x′R")
 
     def __move_r(self) -> None:
-        pass
+        self.move("xL")
 
     def __move_x(self) -> None:
         pass
@@ -240,16 +240,16 @@ class RubikCube(RubikCubeInterface):
         pass
 
     def __move_z(self) -> None:
-        pass
+        self.move("xyx′")
 
     def __move_M(self) -> None:
-        pass
+        self.move("lL′")
 
     def __move_E(self) -> None:
-        pass
+        self.move("dD′")
 
     def __move_S(self) -> None:
-        pass
+        self.move("fF′")
 
     def __move_Fp(self) -> None:
         self.move("FFF")
