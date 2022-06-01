@@ -22,12 +22,12 @@ class RubikCube(RubikCubeInterface):
 
     def __init__(self):
         self.size = CUBE_SIZE
-        self.faceFront = self.__create_face(Color.GREEN)
-        self.faceBack = self.__create_face(Color.BLUE)
-        self.faceUp = self.__create_face(Color.WHITE)
-        self.faceDown = self.__create_face(Color.YELLOW)
-        self.faceLeft = self.__create_face(Color.ORANGE)
-        self.faceRight = self.__create_face(Color.RED)
+        self.face_front = self.__create_face(Color.GREEN)
+        self.face_back = self.__create_face(Color.BLUE)
+        self.face_up = self.__create_face(Color.WHITE)
+        self.face_down = self.__create_face(Color.YELLOW)
+        self.face_left = self.__create_face(Color.ORANGE)
+        self.face_right = self.__create_face(Color.RED)
 
     def draw(self) -> None:
         """Overrides RubikCubeInterface.draw()"""
@@ -50,20 +50,20 @@ class RubikCube(RubikCubeInterface):
 
         for row in range(n):
             upper_lines = (pad + " ") * n \
-                          + " ".join([emoji(i) for i in self.faceUp[row]]) + " " \
+                          + " ".join([emoji(i) for i in self.face_up[row]]) + " " \
                           + (pad + " ") * 2 * n
             print(upper_lines)
 
         for row in range(n):
-            middle_lines = " ".join([emoji(i) for i in self.faceLeft[row]]) + " " \
-                           + " ".join([emoji(i) for i in self.faceFront[row]]) + " " \
-                           + " ".join([emoji(i) for i in self.faceRight[row]]) + " " \
-                           + " ".join([emoji(i) for i in self.faceBack[row]]) + " "
+            middle_lines = " ".join([emoji(i) for i in self.face_left[row]]) + " " \
+                           + " ".join([emoji(i) for i in self.face_front[row]]) + " " \
+                           + " ".join([emoji(i) for i in self.face_right[row]]) + " " \
+                           + " ".join([emoji(i) for i in self.face_back[row]]) + " "
             print(middle_lines)
 
         for row in range(n):
             lower_lines = (pad + " ") * n \
-                          + " ".join([emoji(i) for i in self.faceDown[row]]) + " " \
+                          + " ".join([emoji(i) for i in self.face_down[row]]) + " " \
                           + (pad + " ") * 2 * n
             print(lower_lines)
 
@@ -150,37 +150,37 @@ class RubikCube(RubikCubeInterface):
         return [[face[j][i] for j in range(len(face))] for i in range(len(face[0]) - 1, -1, -1)]
 
     def __move_F(self) -> None:
-        self.faceFront = self.__rotate_clockwise(self.faceFront)
+        self.face_front = self.__rotate_clockwise(self.face_front)
 
         n = self.size
-        _saved_up = self.faceUp[n - 1]
+        _saved_up = self.face_up[n - 1]
 
-        self.faceUp[n - 1] = [self.faceLeft[row][n - 1] for row in range(n)][::-1]
-        self.faceLeft = [l[:-1] + [self.faceDown[0][i]] for i, l in enumerate(self.faceLeft)]
-        self.faceDown[0] = [self.faceRight[row][0] for row in range(n)][::-1]
-        self.faceRight = [[_saved_up[i]] + l[1:] for i, l in enumerate(self.faceRight)]
+        self.face_up[n - 1] = [self.face_left[row][n - 1] for row in range(n)][::-1]
+        self.face_left = [l[:-1] + [self.face_down[0][i]] for i, l in enumerate(self.face_left)]
+        self.face_down[0] = [self.face_right[row][0] for row in range(n)][::-1]
+        self.face_right = [[_saved_up[i]] + l[1:] for i, l in enumerate(self.face_right)]
 
     def __move_x(self) -> None:
-        self.faceRight = self.__rotate_clockwise(self.faceRight)
-        self.faceLeft = self.__rotate_counterclockwise(self.faceLeft)
+        self.face_right = self.__rotate_clockwise(self.face_right)
+        self.face_left = self.__rotate_counterclockwise(self.face_left)
 
-        _saved_up = self.faceUp
+        _saved_up = self.face_up
 
-        self.faceUp = self.faceFront
-        self.faceFront = self.faceDown
-        self.faceDown = [i[::-1] for i in self.faceBack[::-1]]
-        self.faceBack = [i[::-1] for i in _saved_up[::-1]]
+        self.face_up = self.face_front
+        self.face_front = self.face_down
+        self.face_down = [i[::-1] for i in self.face_back[::-1]]
+        self.face_back = [i[::-1] for i in _saved_up[::-1]]
 
     def __move_y(self) -> None:
-        self.faceUp = self.__rotate_clockwise(self.faceUp)
-        self.faceDown = self.__rotate_counterclockwise(self.faceDown)
+        self.face_up = self.__rotate_clockwise(self.face_up)
+        self.face_down = self.__rotate_counterclockwise(self.face_down)
 
-        _saved_front = self.faceFront
+        _saved_front = self.face_front
 
-        self.faceFront = self.faceRight
-        self.faceRight = self.faceBack
-        self.faceBack = self.faceLeft
-        self.faceLeft = _saved_front
+        self.face_front = self.face_right
+        self.face_right = self.face_back
+        self.face_back = self.face_left
+        self.face_left = _saved_front
 
     def scramble(self, steps=20, wide_moves=False, slice_moves=False, cube_rotations=False) -> str:
         """Overrides RubikCubeInterface.scramble(steps)"""
@@ -210,12 +210,12 @@ class RubikCube(RubikCubeInterface):
 
     def is_solved(self) -> bool:
         """Overrides RubikCubeInterface.is_solved()"""
-        return len(set([s for row in self.faceFront for s in row])) == 1 \
-               and len(set([s for row in self.faceBack for s in row])) == 1 \
-               and len(set([s for row in self.faceUp for s in row])) == 1 \
-               and len(set([s for row in self.faceDown for s in row])) == 1 \
-               and len(set([s for row in self.faceLeft for s in row])) == 1 \
-               and len(set([s for row in self.faceRight for s in row])) == 1
+        return len(set([s for row in self.face_front for s in row])) == 1 \
+               and len(set([s for row in self.face_back for s in row])) == 1 \
+               and len(set([s for row in self.face_up for s in row])) == 1 \
+               and len(set([s for row in self.face_down for s in row])) == 1 \
+               and len(set([s for row in self.face_left for s in row])) == 1 \
+               and len(set([s for row in self.face_right for s in row])) == 1
 
     def __create_face(self, color):
         return [[color] * self.size] * self.size
