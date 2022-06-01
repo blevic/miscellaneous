@@ -21,13 +21,13 @@ class RubikCube(RubikCubeInterface):
     """Models Rubik's Cube"""
 
     def __init__(self):
-        self.size = CUBE_SIZE
-        self.face_front = self.__create_face(Color.GREEN)
-        self.face_back = self.__create_face(Color.BLUE)
-        self.face_up = self.__create_face(Color.WHITE)
-        self.face_down = self.__create_face(Color.YELLOW)
-        self.face_left = self.__create_face(Color.ORANGE)
-        self.face_right = self.__create_face(Color.RED)
+        self.size = n = CUBE_SIZE
+        self.face_front = [[Color.GREEN]*n]*n
+        self.face_back = [[Color.BLUE]*n]*n
+        self.face_up = [[Color.WHITE]*n]*n
+        self.face_down = [[Color.YELLOW]*n]*n
+        self.face_left = [[Color.ORANGE]*n]*n
+        self.face_right = [[Color.RED]*n]*n
 
     def draw(self) -> None:
         """Overrides RubikCubeInterface.draw()"""
@@ -216,6 +216,3 @@ class RubikCube(RubikCubeInterface):
                and len(set([s for row in self.face_down for s in row])) == 1 \
                and len(set([s for row in self.face_left for s in row])) == 1 \
                and len(set([s for row in self.face_right for s in row])) == 1
-
-    def __create_face(self, color):
-        return [[color] * self.size] * self.size
