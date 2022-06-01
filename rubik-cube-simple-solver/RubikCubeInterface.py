@@ -29,12 +29,18 @@ class RubikCubeInterface:
         """
         pass
 
-    def scramble(self, steps: int = 30) -> None:
+    def scramble(self, steps: int, wide_moves: bool, slice_moves: bool, cube_rotations: bool) -> str:
         """
         Scramble the cube
 
             Args:
                 steps: number of random moves to be executed on the cube
+                wide_moves: allow moves f-b-u-d-l-r to be executed
+                slice_moves: allow moves M-E-S to be executed
+                cube_rotations: allow rotations x-y-z to be executed
+
+            Return:
+                Sequence of scrambles executed on the cube
         """
         pass
 

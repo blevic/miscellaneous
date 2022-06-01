@@ -1,4 +1,5 @@
 from enum import Enum
+from random import choice
 
 from RubikCubeInterface import RubikCubeInterface
 
@@ -33,13 +34,13 @@ class RubikCube(RubikCubeInterface):
 
         def emoji(color):
             emoji_map = {
-                Color.RED:    '🟥',
+                Color.RED: '🟥',
                 Color.ORANGE: '🟧',
                 Color.YELLOW: '🟨',
-                Color.WHITE:  '⬜',
-                Color.BLUE:   '🟦',
-                Color.GREEN:  '🟩',
-                Color.BLACK:  '⬛'
+                Color.WHITE: '⬜',
+                Color.BLUE: '🟦',
+                Color.GREEN: '🟩',
+                Color.BLACK: '⬛'
             }
 
             return emoji_map[color]
@@ -181,14 +182,40 @@ class RubikCube(RubikCubeInterface):
         self.faceBack = self.faceLeft
         self.faceLeft = _saved_front
 
+    def scramble(self, steps=20, wide_moves=False, slice_moves=False, cube_rotations=False) -> str:
+        """Overrides RubikCubeInterface.scramble(steps)"""
+        if steps < 1:
+            return ""
+
+        face_turns = ["F", "B", "U", "D", "L", "R"]
+        wm_lst = ["f", "b", "u", "d", "l", "r"]
+        sm_lst = ["M", "E", "S"]
+        cr_lst = ["x", "y", "z"]
+        modifiers = ["", "′", "2"]
+
+        allowed_moves = face_turns + wide_moves * wm_lst + slice_moves * sm_lst + cube_rotations * cr_lst
+
+        def choice_avoiding(lst, avoid):
+            return choice([e for e in lst if e != avoid])
+
+        move = choice(allowed_moves) + choice(modifiers)
+        self.move(move)
+        sequence = [move]
+        for _ in range(steps - 1):
+            move = choice_avoiding(allowed_moves, sequence[-1][0]) + choice(modifiers)
+            self.move(move)
+            sequence.append(move)
+
+        return ' '.join(sequence)
+
     def is_solved(self) -> bool:
         """Overrides RubikCubeInterface.is_solved()"""
         return len(set([s for row in self.faceFront for s in row])) == 1 \
-            and len(set([s for row in self.faceBack for s in row])) == 1 \
-            and len(set([s for row in self.faceUp for s in row])) == 1 \
-            and len(set([s for row in self.faceDown for s in row])) == 1 \
-            and len(set([s for row in self.faceLeft for s in row])) == 1 \
-            and len(set([s for row in self.faceRight for s in row])) == 1
+               and len(set([s for row in self.faceBack for s in row])) == 1 \
+               and len(set([s for row in self.faceUp for s in row])) == 1 \
+               and len(set([s for row in self.faceDown for s in row])) == 1 \
+               and len(set([s for row in self.faceLeft for s in row])) == 1 \
+               and len(set([s for row in self.faceRight for s in row])) == 1
 
     def __create_face(self, color):
         return [[color] * self.size] * self.size
