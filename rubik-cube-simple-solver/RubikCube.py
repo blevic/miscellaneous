@@ -152,18 +152,12 @@ class RubikCube(RubikCubeInterface):
         self.faceFront = self.__rotate_clockwise(self.faceFront)
 
         n = self.size
-
         _saved_up = self.faceUp[n - 1]
 
         self.faceUp[n - 1] = [self.faceLeft[row][n - 1] for row in range(n)][::-1]
-
-        for i in range(n):
-            self.faceLeft[i][n - 1] = self.faceDown[0][i]
-
+        self.faceLeft = [l[:-1] + [self.faceDown[0][i]] for i, l in enumerate(self.faceLeft)]
         self.faceDown[0] = [self.faceRight[row][0] for row in range(n)][::-1]
-
-        for i in range(n):
-            self.faceRight[i][0] = _saved_up[i]
+        self.faceRight = [[_saved_up[i]] + l[1:] for i, l in enumerate(self.faceRight)]
 
     def __move_x(self) -> None:
         self.faceRight = self.__rotate_clockwise(self.faceRight)
