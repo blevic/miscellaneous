@@ -71,79 +71,28 @@ class RubikCube(RubikCubeInterface):
         allowed_moves = set("FBUDLRfbudlrxyzMES")
         allowed_modifiers = set("2p′")
 
-        turn_functions = {
+        move_base_functions = {
             'F': self.__move_F,
-            'B': self.__move_B,
-            'U': self.__move_U,
-            'D': self.__move_D,
-            'L': self.__move_L,
-            'R': self.__move_R,
-            'f': self.__move_f,
-            'b': self.__move_b,
-            'u': self.__move_u,
-            'd': self.__move_d,
-            'l': self.__move_l,
-            'r': self.__move_r,
             'x': self.__move_x,
-            'y': self.__move_y,
-            'z': self.__move_z,
-            'M': self.__move_M,
-            'E': self.__move_E,
-            'S': self.__move_S,
-            'Fp': self.__move_Fp,
-            'Bp': self.__move_Bp,
-            'Up': self.__move_Up,
-            'Dp': self.__move_Dp,
-            'Lp': self.__move_Lp,
-            'Rp': self.__move_Rp,
-            'fp': self.__move_fp,
-            'bp': self.__move_bp,
-            'up': self.__move_up,
-            'dp': self.__move_dp,
-            'lp': self.__move_lp,
-            'rp': self.__move_rp,
-            'xp': self.__move_xp,
-            'yp': self.__move_yp,
-            'zp': self.__move_zp,
-            'Mp': self.__move_Mp,
-            'Ep': self.__move_Ep,
-            'Sp': self.__move_Sp,
-            'F′': self.__move_Fp,
-            'B′': self.__move_Bp,
-            'U′': self.__move_Up,
-            'D′': self.__move_Dp,
-            'L′': self.__move_Lp,
-            'R′': self.__move_Rp,
-            'f′': self.__move_fp,
-            'b′': self.__move_bp,
-            'u′': self.__move_up,
-            'd′': self.__move_dp,
-            'l′': self.__move_lp,
-            'r′': self.__move_rp,
-            'x′': self.__move_xp,
-            'y′': self.__move_yp,
-            'z′': self.__move_zp,
-            'M′': self.__move_Mp,
-            'E′': self.__move_Ep,
-            'S′': self.__move_Sp,
-            'F2': self.__move_F2,
-            'B2': self.__move_B2,
-            'U2': self.__move_U2,
-            'D2': self.__move_D2,
-            'L2': self.__move_L2,
-            'R2': self.__move_R2,
-            'f2': self.__move_f2,
-            'b2': self.__move_b2,
-            'u2': self.__move_u2,
-            'd2': self.__move_d2,
-            'l2': self.__move_l2,
-            'r2': self.__move_r2,
-            'x2': self.__move_x2,
-            'y2': self.__move_y2,
-            'z2': self.__move_z2,
-            'M2': self.__move_M2,
-            'E2': self.__move_E2,
-            'S2': self.__move_S2
+            'y': self.__move_y
+        }
+
+        move_equivalence = {
+            "B": "x2Fx2",
+            "U": "x′Fx",
+            "D": "xFx′",
+            "L": "y′Fy",
+            "R": "yFy′",
+            "f": "zB",
+            "b": "z′F",
+            "u": "yD",
+            "d": "y′U",
+            "l": "x′R",
+            "r": "xL",
+            "z": "xyx′",
+            "M": "lL′",
+            "E": "dD′",
+            "S": "fF′"
         }
 
         def parse_sequence(s):
@@ -171,7 +120,25 @@ class RubikCube(RubikCubeInterface):
                     raise ValueError("Unrecognized move was requested: '" + s[0] + "'")
 
         for move in parse_sequence(turns):
-            turn_functions[move]()
+            if len(move) == 1:
+                if move in move_base_functions:
+                    move_base_functions[move]()
+                elif move in move_equivalence:
+                    self.move(move_equivalence[move])
+                else:
+                    raise ValueError("Unrecognized move: " + move)
+
+            elif len(move) == 2:
+                if move[1] in 'p′':
+                    for _ in range(3):
+                        self.move(move[0])
+                elif move[1] == '2':
+                    for _ in range(2):
+                        self.move(move[0])
+                else:
+                    raise ValueError("Unrecognized modifier. Move: " + move)
+            else:
+                raise ValueError("Unrecognized move length. Move: " + move)
 
     @staticmethod
     def __rotate_clockwise(face: list) -> list:
@@ -200,39 +167,6 @@ class RubikCube(RubikCubeInterface):
         for i in range(n):
             self.faceRight[i][0] = _saved_up[i]
 
-    def __move_B(self) -> None:
-        self.move("x2Fx2")
-
-    def __move_U(self) -> None:
-        self.move("x′Fx")
-
-    def __move_D(self) -> None:
-        self.move("xFx′")
-
-    def __move_L(self) -> None:
-        self.move("y′Fy")
-
-    def __move_R(self) -> None:
-        self.move("yFy′")
-
-    def __move_f(self) -> None:
-        self.move("zB")
-
-    def __move_b(self) -> None:
-        self.move("z′F")
-
-    def __move_u(self) -> None:
-        self.move("yD")
-
-    def __move_d(self) -> None:
-        self.move("y′U")
-
-    def __move_l(self) -> None:
-        self.move("x′R")
-
-    def __move_r(self) -> None:
-        self.move("xL")
-
     def __move_x(self) -> None:
         self.faceRight = self.__rotate_clockwise(self.faceRight)
         self.faceLeft = self.__rotate_counterclockwise(self.faceLeft)
@@ -260,126 +194,6 @@ class RubikCube(RubikCubeInterface):
         self.faceBack = _saved_left
         self.faceLeft = _saved_front
         self.faceRight = _saved_back
-
-    def __move_z(self) -> None:
-        self.move("xyx′")
-
-    def __move_M(self) -> None:
-        self.move("lL′")
-
-    def __move_E(self) -> None:
-        self.move("dD′")
-
-    def __move_S(self) -> None:
-        self.move("fF′")
-
-    def __move_Fp(self) -> None:
-        self.move("FFF")
-
-    def __move_Bp(self) -> None:
-        self.move("BBB")
-
-    def __move_Up(self) -> None:
-        self.move("UUU")
-
-    def __move_Dp(self) -> None:
-        self.move("DDD")
-
-    def __move_Lp(self) -> None:
-        self.move("LLL")
-
-    def __move_Rp(self) -> None:
-        self.move("RRR")
-
-    def __move_fp(self) -> None:
-        self.move("fff")
-
-    def __move_bp(self) -> None:
-        self.move("bbb")
-
-    def __move_up(self) -> None:
-        self.move("uuu")
-
-    def __move_dp(self) -> None:
-        self.move("ddd")
-
-    def __move_lp(self) -> None:
-        self.move("lll")
-
-    def __move_rp(self) -> None:
-        self.move("rrr")
-
-    def __move_xp(self) -> None:
-        self.move("xxx")
-
-    def __move_yp(self) -> None:
-        self.move("yyy")
-
-    def __move_zp(self) -> None:
-        self.move("zzz")
-
-    def __move_Mp(self) -> None:
-        self.move("MMM")
-
-    def __move_Ep(self) -> None:
-        self.move("EEE")
-
-    def __move_Sp(self) -> None:
-        self.move("SSS")
-
-    def __move_F2(self) -> None:
-        self.move("FF")
-
-    def __move_B2(self) -> None:
-        self.move("BB")
-
-    def __move_U2(self) -> None:
-        self.move("UU")
-
-    def __move_D2(self) -> None:
-        self.move("DD")
-
-    def __move_L2(self) -> None:
-        self.move("LL")
-
-    def __move_R2(self) -> None:
-        self.move("RR")
-
-    def __move_f2(self) -> None:
-        self.move("ff")
-
-    def __move_b2(self) -> None:
-        self.move("bb")
-
-    def __move_u2(self) -> None:
-        self.move("uu")
-
-    def __move_d2(self) -> None:
-        self.move("dd")
-
-    def __move_l2(self) -> None:
-        self.move("ll")
-
-    def __move_r2(self) -> None:
-        self.move("rr")
-
-    def __move_x2(self) -> None:
-        self.move("xx")
-
-    def __move_y2(self) -> None:
-        self.move("yy")
-
-    def __move_z2(self) -> None:
-        self.move("zz")
-
-    def __move_M2(self) -> None:
-        self.move("MM")
-
-    def __move_E2(self) -> None:
-        self.move("EE")
-
-    def __move_S2(self) -> None:
-        self.move("SS")
 
     def is_solved(self) -> bool:
         """Overrides RubikCubeInterface.is_solved()"""
