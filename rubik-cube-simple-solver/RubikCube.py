@@ -154,15 +154,13 @@ class RubikCube(RubikCubeInterface):
         n = self.size
 
         _saved_up = self.faceUp[n - 1]
-        _saved_down = self.faceDown[0]
-        _saved_left = [self.faceLeft[row][n - 1] for row in range(n)]
-        _saved_right = [self.faceRight[row][0] for row in range(n)]
 
-        self.faceUp[n - 1] = _saved_left[::-1]
-        self.faceDown[0] = _saved_right[::-1]
+        self.faceUp[n - 1] = [self.faceLeft[row][n - 1] for row in range(n)][::-1]
 
         for i in range(n):
-            self.faceLeft[i][n - 1] = _saved_down[i]
+            self.faceLeft[i][n - 1] = self.faceDown[0][i]
+
+        self.faceDown[0] = [self.faceRight[row][0] for row in range(n)][::-1]
 
         for i in range(n):
             self.faceRight[i][0] = _saved_up[i]
@@ -172,13 +170,10 @@ class RubikCube(RubikCubeInterface):
         self.faceLeft = self.__rotate_counterclockwise(self.faceLeft)
 
         _saved_up = self.faceUp
-        _saved_down = self.faceDown
-        _saved_front = self.faceFront
-        _saved_back = self.faceBack
 
-        self.faceUp = _saved_front
-        self.faceDown = [i[::-1] for i in _saved_back[::-1]]
-        self.faceFront = _saved_down
+        self.faceUp = self.faceFront
+        self.faceFront = self.faceDown
+        self.faceDown = [i[::-1] for i in self.faceBack[::-1]]
         self.faceBack = [i[::-1] for i in _saved_up[::-1]]
 
     def __move_y(self) -> None:
@@ -186,14 +181,11 @@ class RubikCube(RubikCubeInterface):
         self.faceDown = self.__rotate_counterclockwise(self.faceDown)
 
         _saved_front = self.faceFront
-        _saved_back = self.faceBack
-        _saved_left = self.faceLeft
-        _saved_right = self.faceRight
 
-        self.faceFront = _saved_right
-        self.faceBack = _saved_left
+        self.faceFront = self.faceRight
+        self.faceRight = self.faceBack
+        self.faceBack = self.faceLeft
         self.faceLeft = _saved_front
-        self.faceRight = _saved_back
 
     def is_solved(self) -> bool:
         """Overrides RubikCubeInterface.is_solved()"""
