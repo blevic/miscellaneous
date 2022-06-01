@@ -22,12 +22,12 @@ class RubikCube(RubikCubeInterface):
 
     def __init__(self):
         self.size = CUBE_SIZE
-        self.faceFront = self.__create_face(Color.RED)
-        self.faceBack = self.__create_face(Color.ORANGE)
-        self.faceUp = self.__create_face(Color.YELLOW)
-        self.faceDown = self.__create_face(Color.WHITE)
-        self.faceLeft = self.__create_face(Color.BLUE)
-        self.faceRight = self.__create_face(Color.GREEN)
+        self.faceFront = self.__create_face(Color.GREEN)
+        self.faceBack = self.__create_face(Color.BLUE)
+        self.faceUp = self.__create_face(Color.WHITE)
+        self.faceDown = self.__create_face(Color.YELLOW)
+        self.faceLeft = self.__create_face(Color.ORANGE)
+        self.faceRight = self.__create_face(Color.RED)
 
     def draw(self) -> None:
         """Overrides RubikCubeInterface.draw()"""
