@@ -1,6 +1,7 @@
 from enum import Enum
 from random import choice
 
+from RubikCubeAlgorithms import layer_by_layer
 from RubikCubeInterface import RubikCubeInterface
 
 CUBE_SIZE = 3
@@ -216,3 +217,6 @@ class RubikCube(RubikCubeInterface):
                and len(set([s for row in self.face_down for s in row])) == 1 \
                and len(set([s for row in self.face_left for s in row])) == 1 \
                and len(set([s for row in self.face_right for s in row])) == 1
+
+    def solve(self) -> str:
+        return layer_by_layer(self)
