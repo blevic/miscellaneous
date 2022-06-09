@@ -21,6 +21,30 @@ class TestRubikCube(unittest.TestCase):
             with self.assertRaises(ValueError):
                 cube.move(moves)
 
+    def test_is_solved(self):
+        cube = RubikCube()
+        self.assertTrue(cube.is_solved())
+
+        cube.move("xyzxpypzpx2xy2z2")
+        self.assertTrue(cube.is_solved())
+
+        for i in range(6):
+            cube.move("RURpUp")
+            if i == 5:
+                self.assertTrue(cube.is_solved())
+            else:
+                self.assertFalse(cube.is_solved())
+
+        for i in range(1260):
+            cube.move("DRpU2M")
+            if i == 1259:
+                self.assertTrue(cube.is_solved())
+            else:
+                self.assertFalse(cube.is_solved())
+
+        cube.move("FFpBBpUUpDDpLLpRRpffpbbpuupddpllprrpxxpyypzzpMMpEEpSSp")
+        self.assertTrue(cube.is_solved())
+
 
 if __name__ == '__main__':
     unittest.main()
