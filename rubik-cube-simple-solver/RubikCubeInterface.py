@@ -33,7 +33,7 @@ class RubikCubeInterface:
 
                     Examples:
                         Valid:   "F′", "", "FFF", "FpF′", "x2l2lll′", "FBUDLRLLpL′L2fulxMMEyzSS′S2"
-                        Invalid: "F'", "A", "m", "Fpp", "pF", "S22", "S3" "FfuUY", "F "
+                        Invalid: "F'", "A", "m", "Fpp", "pF", "S22", "S3" "FfuUY", "F ", "F2'"
 
             Raises:
                 ValueError: Unrecognized move is requested
