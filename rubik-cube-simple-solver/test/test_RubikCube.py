@@ -25,9 +25,11 @@ class TestRubikCube(unittest.TestCase):
         cube = RubikCube()
         self.assertTrue(cube.is_solved())
 
+        cube = RubikCube()
         cube.move("xyzxpypzpx2xy2z2")
         self.assertTrue(cube.is_solved())
 
+        cube = RubikCube()
         for i in range(6):
             cube.move("RURpUp")
             if i == 5:
@@ -35,6 +37,7 @@ class TestRubikCube(unittest.TestCase):
             else:
                 self.assertFalse(cube.is_solved())
 
+        cube = RubikCube()
         for i in range(1260):
             cube.move("DRpU2M")
             if i == 1259:
@@ -42,6 +45,7 @@ class TestRubikCube(unittest.TestCase):
             else:
                 self.assertFalse(cube.is_solved())
 
+        cube = RubikCube()
         cube.move("FFpBBpUUpDDpLLpRRpffpbbpuupddpllprrpxxpyypzzpMMpEEpSSp")
         self.assertTrue(cube.is_solved())
 
