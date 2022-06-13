@@ -17,13 +17,10 @@ def initial_rotation(cube: RubikCubeInterface) -> list:
             'L': ['yp']
         }
 
-        for face in green_to_front_map:
-            if cube.get(face) == Color.GREEN:
-                moves = green_to_front_map[face]
-                cube.move(''.join(moves))
-                return moves
-
-        raise ValueError('Green face not found!')
+        green_face = cube.find([Color.GREEN])
+        moves = green_to_front_map[green_face]
+        cube.move(''.join(moves))
+        return moves
 
     def white_to_up():
         white_to_up_map = {
@@ -33,13 +30,10 @@ def initial_rotation(cube: RubikCubeInterface) -> list:
             'L': ['z']
         }
 
-        for face in white_to_up_map:
-            if cube.get(face) == Color.WHITE:
-                moves = white_to_up_map[face]
-                cube.move(''.join(moves))
-                return moves
-
-        raise ValueError('White face not found or not adjacent to green face!')
+        white_face = cube.find([Color.WHITE])
+        moves = white_to_up_map[white_face]
+        cube.move(''.join(moves))
+        return moves
 
     moves_list += green_to_front()
     moves_list += white_to_up()
