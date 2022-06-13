@@ -1,4 +1,6 @@
 import unittest
+
+from Color import Color
 from RubikCube import RubikCube
 
 
@@ -48,6 +50,55 @@ class TestRubikCube(unittest.TestCase):
         cube = RubikCube()
         cube.move("FFpBBpUUpDDpLLpRRpffpbbpuupddpllprrpxxpyypzzpMMpEEpSSp")
         self.assertTrue(cube.is_solved())
+
+    def test_get(self):
+        cube = RubikCube()
+        self.assertEqual(cube.get('F'), Color.GREEN)
+        self.assertEqual(cube.get('U'), Color.WHITE)
+        self.assertEqual(cube.get('D'), Color.YELLOW)
+
+        self.assertEqual(cube.get('01'), Color.GREEN)
+        self.assertEqual(cube.get('11'), Color.WHITE)
+        self.assertEqual(cube.get('31'), Color.YELLOW)
+
+        for invalid_piece in ['', 'FF', 'FUY', 'Y', 'f', 'FURB', 'FB', 'UR', '15', '5', '6', '66']:
+            with self.assertRaises(ValueError):
+                cube.get(invalid_piece)
+
+    def test_find(self):
+        cube = RubikCube()
+        self.assertEqual(cube.find([Color.GREEN]), 'F')
+        self.assertEqual(cube.find([Color.WHITE]), 'U')
+        self.assertEqual(cube.find([Color.RED]), 'R')
+
+        self.assertEqual(cube.find([Color.GREEN, Color.WHITE]), 'FU')
+        self.assertEqual(cube.find([Color.WHITE, Color.GREEN]), 'UF')
+        self.assertEqual(cube.find([Color.GREEN, Color.RED]), 'FR')
+        self.assertEqual(cube.find([Color.RED, Color.GREEN]), 'RF')
+
+        self.assertEqual(cube.find([Color.GREEN, Color.WHITE, Color.RED]), 'FUR')
+        self.assertEqual(cube.find([Color.GREEN, Color.RED, Color.WHITE]), 'FRU')
+        self.assertEqual(cube.find([Color.WHITE, Color.GREEN, Color.RED]), 'UFR')
+        self.assertEqual(cube.find([Color.WHITE, Color.RED, Color.GREEN]), 'URF')
+        self.assertEqual(cube.find([Color.RED, Color.GREEN, Color.WHITE]), 'RFU')
+        self.assertEqual(cube.find([Color.RED, Color.WHITE, Color.GREEN]), 'RUF')
+
+        invalid_pieces = [
+            [],
+            [Color.WHITE, Color.YELLOW],
+            [0, 1],
+            [Color.WHITE, Color.GREEN, Color.RED, Color.YELLOW],
+            [Color],
+            [[Color.WHITE]]
+        ]
+
+        for invalid_piece in invalid_pieces:
+            with self.assertRaises(ValueError):
+                cube.find(invalid_piece)
+
+    def test_get_size(self):
+        cube = RubikCube()
+        self.assertEqual(cube.get_size(), 3)
 
 
 if __name__ == '__main__':
