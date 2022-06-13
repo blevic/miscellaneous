@@ -59,6 +59,27 @@ class RubikCubeInterface:
         """Respond whether the cube is solved"""
         pass
 
+    def get(self, position: str):
+        """
+        Get color in a given position, according to Singmaster notation:
+
+                  11 12 13
+                  14 U  16
+                  17 18 19
+        21 22 23  01 02 03 41 42 43  51 52 53
+        24 L  26  04 F  06 44 R  46  54 B  56
+        27 28 29  07 08 09 47 48 49  57 58 59
+                  31 32 33
+                  34 D  36
+                  37 38 39
+
+            Args:
+                position: any valid position; all valid positions are listed above
+
+            Return:
+                color contained in the position
+        """
+
     def solve(self) -> str:
         """Return list of steps to solve the cube"""
         pass

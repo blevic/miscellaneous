@@ -1,21 +1,10 @@
-from enum import Enum
 from random import choice
 
+from Color import Color
 from RubikCubeAlgorithms import layer_by_layer
 from RubikCubeInterface import RubikCubeInterface
 
 CUBE_SIZE = 3
-
-
-class Color(Enum):
-    """Colors enumeration"""
-    RED = 1
-    ORANGE = 2
-    YELLOW = 3
-    WHITE = 4
-    BLUE = 5
-    GREEN = 6
-    BLACK = 7
 
 
 class RubikCube(RubikCubeInterface):
@@ -217,6 +206,62 @@ class RubikCube(RubikCubeInterface):
                and len(set([s for row in self.face_down for s in row])) == 1 \
                and len(set([s for row in self.face_left for s in row])) == 1 \
                and len(set([s for row in self.face_right for s in row])) == 1
+
+    def get(self, position: str):
+        if position == 'F':
+            return self.face_front[1][1]
+
+        if position == 'B':
+            return self.face_back[1][1]
+
+        if position == 'U':
+            return self.face_up[1][1]
+
+        if position == 'D':
+            return self.face_down[1][1]
+
+        if position == 'L':
+            return self.face_left[1][1]
+
+        if position == 'R':
+            return self.face_right[1][1]
+
+        if len(position) != 2 or position[1] not in "12346789" or position[0] not in "012345":
+            raise ValueError("Invalid position!")
+
+        map_singmaster = {
+            '1': (0, 0),
+            '2': (0, 1),
+            '3': (0, 2),
+            '4': (1, 0),
+            '6': (1, 2),
+            '7': (2, 0),
+            '8': (2, 1),
+            '9': (2, 2)
+        }
+
+        face_id = position[0]
+        x, y = map_singmaster[position[1]]
+
+        if face_id == '0':
+            return self.face_front[x][y]
+
+        if face_id == '1':
+            return self.face_up[x][y]
+
+        if face_id == '2':
+            return self.face_left[x][y]
+
+        if face_id == '3':
+            return self.face_down[x][y]
+
+        if face_id == '4':
+            return self.face_right[x][y]
+
+        if face_id == '5':
+            return self.face_back[x][y]
+
+        raise ValueError("No position reached!")
 
     def solve(self) -> str:
         return layer_by_layer(self)
