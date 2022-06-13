@@ -276,5 +276,59 @@ class RubikCube(RubikCubeInterface):
 
             raise ValueError('Face color not found!')
 
+        if len(colors) == 2:
+            edges = {
+                ('F', 'U'): ('02', '18'),
+                ('F', 'D'): ('08', '32'),
+                ('F', 'R'): ('06', '44'),
+                ('F', 'L'): ('04', '26'),
+                ('B', 'U'): ('52', '12'),
+                ('B', 'D'): ('58', '38'),
+                ('B', 'R'): ('54', '46'),
+                ('B', 'L'): ('56', '24'),
+                ('R', 'U'): ('42', '16'),
+                ('U', 'L'): ('14', '22'),
+                ('L', 'D'): ('28', '34'),
+                ('D', 'R'): ('36', '48')
+            }
+
+            for face_0, face_1 in edges:
+                if colors == [self.get(face_0), self.get(face_1)]:
+                    return face_0 + face_1
+                if colors == [self.get(face_1), self.get(face_0)]:
+                    return face_1 + face_0
+
+            raise ValueError('Edge colors not found!')
+
+        if len(colors) == 3:
+            corners = {
+                ('F', 'U', 'R'): ('03', '19', '41'),
+                ('F', 'U', 'L'): ('01', '17', '23'),
+                ('B', 'U', 'R'): ('51', '13', '43'),
+                ('B', 'U', 'L'): ('53', '11', '21'),
+                ('F', 'D', 'L'): ('07', '31', '29'),
+                ('F', 'D', 'R'): ('09', '33', '47'),
+                ('B', 'D', 'L'): ('59', '37', '27'),
+                ('B', 'D', 'R'): ('57', '39', '49')
+            }
+
+            for face_0, face_1, face_2 in corners:
+                if colors == [self.get(face_0), self.get(face_1), self.get(face_2)]:
+                    return face_0 + face_1 + face_2
+                if colors == [self.get(face_0), self.get(face_2), self.get(face_1)]:
+                    return face_0 + face_2 + face_1
+                if colors == [self.get(face_1), self.get(face_0), self.get(face_2)]:
+                    return face_1 + face_0 + face_2
+                if colors == [self.get(face_1), self.get(face_2), self.get(face_0)]:
+                    return face_1 + face_2 + face_0
+                if colors == [self.get(face_2), self.get(face_0), self.get(face_1)]:
+                    return face_2 + face_0 + face_1
+                if colors == [self.get(face_2), self.get(face_1), self.get(face_0)]:
+                    return face_2 + face_1 + face_0
+
+            raise ValueError('Corner colors not found!')
+
+        raise ValueError('Invalid colors length (>3)')
+
     def solve(self) -> str:
         return layer_by_layer(self)
