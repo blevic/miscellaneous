@@ -1,9 +1,51 @@
+from Color import Color
 from RubikCubeInterface import RubikCubeInterface
 
 
-def choose_base(cube: RubikCubeInterface) -> list:
-    """Make cube rotations to choose base and top layers"""
-    return []
+def initial_rotation(cube: RubikCubeInterface) -> list:
+    """Make cube rotations to set initial standard position"""
+
+    moves_list = []
+
+    def green_to_front():
+        green_to_front_map = {
+            'F': [],
+            'B': ['x2'],
+            'U': ['xp'],
+            'D': ['x'],
+            'R': ['y'],
+            'L': ['yp']
+        }
+
+        for face in green_to_front_map:
+            if cube.get(face) == Color.GREEN:
+                moves = green_to_front_map[face]
+                cube.move(''.join(moves))
+                return moves
+
+        raise ValueError('Green face not found!')
+
+    def white_to_up():
+        white_to_up_map = {
+            'U': [],
+            'D': ['z2'],
+            'R': ['zp'],
+            'L': ['z']
+        }
+
+        for face in white_to_up_map:
+            if cube.get(face) == Color.WHITE:
+                moves = white_to_up_map[face]
+                cube.move(''.join(moves))
+                return moves
+
+        raise ValueError('White face not found or not adjacent to green face!')
+
+    moves_list += green_to_front()
+    moves_list += white_to_up()
+
+    return moves_list
+
 
 def base_layer(cube: RubikCubeInterface) -> list:
     moves = []
@@ -61,9 +103,7 @@ def layer_by_layer(cube: RubikCubeInterface) -> str:
     if cube.size != 3:
         raise ValueError('LBL algorithm is valid for cube size 3 only.')
 
-    moves = []
-
-    moves += choose_base(cube)
+    moves = initial_rotation(cube)
     moves += base_layer(cube)
     moves += second_layer(cube)
     moves += top_layer(cube)
