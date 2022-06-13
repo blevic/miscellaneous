@@ -274,5 +274,7 @@ class RubikCube(RubikCubeInterface):
                 if self.get(face) == colors[0]:
                     return face
 
+            raise ValueError('Face color not found!')
+
     def solve(self) -> str:
         return layer_by_layer(self)
