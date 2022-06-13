@@ -1,14 +1,5 @@
 class RubikCubeInterface:
-    def __init__(self):
-        """Rubik cube fields"""
-        self.size = None
-        self.face_front = None
-        self.face_back = None
-        self.face_up = None
-        self.face_down = None
-        self.face_left = None
-        self.face_right = None
-
+    """Interface of Rubik's Cube Model"""
 
     def draw(self) -> None:
         """Draw the cube"""
@@ -102,7 +93,10 @@ class RubikCubeInterface:
         """
         pass
 
-
     def solve(self) -> str:
         """Return list of steps to solve the cube"""
+        pass
+
+    def get_size(selfself) -> int:
+        """Return the cube's size"""
         pass

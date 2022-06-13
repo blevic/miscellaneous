@@ -94,7 +94,7 @@ def layer_by_layer(cube: RubikCubeInterface) -> str:
     if cube.is_solved():
         return ''
 
-    if cube.size != 3:
+    if cube.get_size() != 3:
         raise ValueError('LBL algorithm is valid for cube size 3 only.')
 
     moves = initial_rotation(cube)

@@ -11,13 +11,13 @@ class RubikCube(RubikCubeInterface):
     """Models Rubik's Cube"""
 
     def __init__(self):
-        self.size = n = CUBE_SIZE
-        self.face_front = [[Color.GREEN]*n]*n
-        self.face_back = [[Color.BLUE]*n]*n
-        self.face_up = [[Color.WHITE]*n]*n
-        self.face_down = [[Color.YELLOW]*n]*n
-        self.face_left = [[Color.ORANGE]*n]*n
-        self.face_right = [[Color.RED]*n]*n
+        self.__size = n = CUBE_SIZE
+        self.__face_front = [[Color.GREEN] * n] * n
+        self.__face_back = [[Color.BLUE] * n] * n
+        self.__face_up = [[Color.WHITE] * n] * n
+        self.__face_down = [[Color.YELLOW] * n] * n
+        self.__face_left = [[Color.ORANGE] * n] * n
+        self.__face_right = [[Color.RED] * n] * n
 
     def draw(self) -> None:
         """Overrides RubikCubeInterface.draw()"""
@@ -36,24 +36,24 @@ class RubikCube(RubikCubeInterface):
             return emoji_map[color]
 
         pad = emoji(Color.BLACK)
-        n = self.size
+        n = self.__size
 
         for row in range(n):
             upper_lines = (pad + " ") * n \
-                          + " ".join([emoji(i) for i in self.face_up[row]]) + " " \
+                          + " ".join([emoji(i) for i in self.__face_up[row]]) + " " \
                           + (pad + " ") * 2 * n
             print(upper_lines)
 
         for row in range(n):
-            middle_lines = " ".join([emoji(i) for i in self.face_left[row]]) + " " \
-                           + " ".join([emoji(i) for i in self.face_front[row]]) + " " \
-                           + " ".join([emoji(i) for i in self.face_right[row]]) + " " \
-                           + " ".join([emoji(i) for i in self.face_back[row]]) + " "
+            middle_lines = " ".join([emoji(i) for i in self.__face_left[row]]) + " " \
+                           + " ".join([emoji(i) for i in self.__face_front[row]]) + " " \
+                           + " ".join([emoji(i) for i in self.__face_right[row]]) + " " \
+                           + " ".join([emoji(i) for i in self.__face_back[row]]) + " "
             print(middle_lines)
 
         for row in range(n):
             lower_lines = (pad + " ") * n \
-                          + " ".join([emoji(i) for i in self.face_down[row]]) + " " \
+                          + " ".join([emoji(i) for i in self.__face_down[row]]) + " " \
                           + (pad + " ") * 2 * n
             print(lower_lines)
 
@@ -140,37 +140,37 @@ class RubikCube(RubikCubeInterface):
         return [[face[j][i] for j in range(len(face))] for i in range(len(face[0]) - 1, -1, -1)]
 
     def __move_F(self) -> None:
-        self.face_front = self.__rotate_clockwise(self.face_front)
+        self.__face_front = self.__rotate_clockwise(self.__face_front)
 
-        n = self.size
-        _saved_up = self.face_up[n - 1]
+        n = self.__size
+        _saved_up = self.__face_up[n - 1]
 
-        self.face_up[n - 1] = [self.face_left[row][n - 1] for row in range(n)][::-1]
-        self.face_left = [l[:-1] + [self.face_down[0][i]] for i, l in enumerate(self.face_left)]
-        self.face_down[0] = [self.face_right[row][0] for row in range(n)][::-1]
-        self.face_right = [[_saved_up[i]] + l[1:] for i, l in enumerate(self.face_right)]
+        self.__face_up[n - 1] = [self.__face_left[row][n - 1] for row in range(n)][::-1]
+        self.__face_left = [l[:-1] + [self.__face_down[0][i]] for i, l in enumerate(self.__face_left)]
+        self.__face_down[0] = [self.__face_right[row][0] for row in range(n)][::-1]
+        self.__face_right = [[_saved_up[i]] + l[1:] for i, l in enumerate(self.__face_right)]
 
     def __move_x(self) -> None:
-        self.face_right = self.__rotate_clockwise(self.face_right)
-        self.face_left = self.__rotate_counterclockwise(self.face_left)
+        self.__face_right = self.__rotate_clockwise(self.__face_right)
+        self.__face_left = self.__rotate_counterclockwise(self.__face_left)
 
-        _saved_up = self.face_up
+        _saved_up = self.__face_up
 
-        self.face_up = self.face_front
-        self.face_front = self.face_down
-        self.face_down = [i[::-1] for i in self.face_back[::-1]]
-        self.face_back = [i[::-1] for i in _saved_up[::-1]]
+        self.__face_up = self.__face_front
+        self.__face_front = self.__face_down
+        self.__face_down = [i[::-1] for i in self.__face_back[::-1]]
+        self.__face_back = [i[::-1] for i in _saved_up[::-1]]
 
     def __move_y(self) -> None:
-        self.face_up = self.__rotate_clockwise(self.face_up)
-        self.face_down = self.__rotate_counterclockwise(self.face_down)
+        self.__face_up = self.__rotate_clockwise(self.__face_up)
+        self.__face_down = self.__rotate_counterclockwise(self.__face_down)
 
-        _saved_front = self.face_front
+        _saved_front = self.__face_front
 
-        self.face_front = self.face_right
-        self.face_right = self.face_back
-        self.face_back = self.face_left
-        self.face_left = _saved_front
+        self.__face_front = self.__face_right
+        self.__face_right = self.__face_back
+        self.__face_back = self.__face_left
+        self.__face_left = _saved_front
 
     def scramble(self, steps=20, wide_moves=False, slice_moves=False, cube_rotations=False) -> str:
         """Overrides RubikCubeInterface.scramble(steps)"""
@@ -200,31 +200,31 @@ class RubikCube(RubikCubeInterface):
 
     def is_solved(self) -> bool:
         """Overrides RubikCubeInterface.is_solved()"""
-        return len(set([s for row in self.face_front for s in row])) == 1 \
-               and len(set([s for row in self.face_back for s in row])) == 1 \
-               and len(set([s for row in self.face_up for s in row])) == 1 \
-               and len(set([s for row in self.face_down for s in row])) == 1 \
-               and len(set([s for row in self.face_left for s in row])) == 1 \
-               and len(set([s for row in self.face_right for s in row])) == 1
+        return len(set([s for row in self.__face_front for s in row])) == 1 \
+               and len(set([s for row in self.__face_back for s in row])) == 1 \
+               and len(set([s for row in self.__face_up for s in row])) == 1 \
+               and len(set([s for row in self.__face_down for s in row])) == 1 \
+               and len(set([s for row in self.__face_left for s in row])) == 1 \
+               and len(set([s for row in self.__face_right for s in row])) == 1
 
     def get(self, position: str):
         if position == 'F':
-            return self.face_front[1][1]
+            return self.__face_front[1][1]
 
         if position == 'B':
-            return self.face_back[1][1]
+            return self.__face_back[1][1]
 
         if position == 'U':
-            return self.face_up[1][1]
+            return self.__face_up[1][1]
 
         if position == 'D':
-            return self.face_down[1][1]
+            return self.__face_down[1][1]
 
         if position == 'L':
-            return self.face_left[1][1]
+            return self.__face_left[1][1]
 
         if position == 'R':
-            return self.face_right[1][1]
+            return self.__face_right[1][1]
 
         if len(position) != 2 or position[1] not in "12346789" or position[0] not in "012345":
             raise ValueError("Invalid position!")
@@ -244,22 +244,22 @@ class RubikCube(RubikCubeInterface):
         x, y = map_singmaster[position[1]]
 
         if face_id == '0':
-            return self.face_front[x][y]
+            return self.__face_front[x][y]
 
         if face_id == '1':
-            return self.face_up[x][y]
+            return self.__face_up[x][y]
 
         if face_id == '2':
-            return self.face_left[x][y]
+            return self.__face_left[x][y]
 
         if face_id == '3':
-            return self.face_down[x][y]
+            return self.__face_down[x][y]
 
         if face_id == '4':
-            return self.face_right[x][y]
+            return self.__face_right[x][y]
 
         if face_id == '5':
-            return self.face_back[x][y]
+            return self.__face_back[x][y]
 
         raise ValueError("No position reached!")
 
@@ -332,3 +332,6 @@ class RubikCube(RubikCubeInterface):
 
     def solve(self) -> str:
         return layer_by_layer(self)
+
+    def get_size(self) -> int:
+        return self.__size
