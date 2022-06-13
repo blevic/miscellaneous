@@ -263,5 +263,16 @@ class RubikCube(RubikCubeInterface):
 
         raise ValueError("No position reached!")
 
+    def find(self, colors: list) -> str:
+        if len(colors) == 0:
+            raise ValueError('Empty colors -- invalid!.')
+
+        if len(colors) == 1:
+            faces = {'F', 'B', 'U', 'D', 'R', 'L'}
+
+            for face in faces:
+                if self.get(face) == colors[0]:
+                    return face
+
     def solve(self) -> str:
         return layer_by_layer(self)

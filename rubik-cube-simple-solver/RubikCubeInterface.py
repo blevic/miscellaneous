@@ -79,6 +79,29 @@ class RubikCubeInterface:
             Return:
                 color contained in the position
         """
+        pass
+
+    def find(self, colors: list) -> str:
+        """
+        Find position of a piece in the cube
+
+        Args:
+            colors: list of 1 to 3 elements, with the colors representing piece to be found
+
+        Return:
+            position of that piece:
+                1 -> F, B, U, D, R, L
+                2 -> FU, FD, FR, FL, UF, DF, RF, LF, BU, BD, BR, BL, UB, DB, RB, LB, RU, UR, UL, LU, LD, DL, DR, RD
+                3 -> FUR, FRU, URF, UFR, RUF, RFU, FUL, FLU, LUF, LFU, ULF, UFL,
+                     BUR, BRU, URB, UBR, RBU, RUB, BUL, BLU, LUB, LBU, UBL, ULB,
+                     FDL, FLD, LDF, LFD, DFL, DLF, FDR, FRD, RDF, RFD, DFR, DRF,
+                     BDL, BLD, LDB, LBD, DBL, DLB, BDR, BRD, RBD, RDB, DBR, DRB
+
+        Raise:
+            ValueError if colors not found
+        """
+        pass
+
 
     def solve(self) -> str:
         """Return list of steps to solve the cube"""
