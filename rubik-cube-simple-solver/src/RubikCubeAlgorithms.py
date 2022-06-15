@@ -2,87 +2,123 @@ from Color import Color
 from RubikCubeInterface import RubikCubeInterface
 
 
-def initial_rotation(cube: RubikCubeInterface) -> list:
+def initial_rotation(cube: RubikCubeInterface) -> str:
     """Make cube rotations to set initial standard position"""
-
-    moves_list = []
 
     def green_to_front():
         green_to_front_map = {
-            'F': [],
-            'B': ['x2'],
-            'U': ['xp'],
-            'D': ['x'],
-            'R': ['y'],
-            'L': ['yp']
+            'F': '',
+            'B': 'x2',
+            'U': 'xp',
+            'D': 'x',
+            'R': 'y',
+            'L': 'yp'
         }
 
         green_face = cube.find([Color.GREEN])
         moves = green_to_front_map[green_face]
-        cube.move(''.join(moves))
+        cube.move(moves)
         return moves
 
     def white_to_up():
         white_to_up_map = {
-            'U': [],
-            'D': ['z2'],
-            'R': ['zp'],
-            'L': ['z']
+            'U': '',
+            'D': 'z2',
+            'R': 'zp',
+            'L': 'z'
         }
 
         white_face = cube.find([Color.WHITE])
         moves = white_to_up_map[white_face]
-        cube.move(''.join(moves))
+        cube.move(moves)
         return moves
 
-    moves_list += green_to_front()
-    moves_list += white_to_up()
+    moves_sequence = green_to_front()
+    moves_sequence += white_to_up()
 
-    return moves_list
-
-
-def base_layer(cube: RubikCubeInterface) -> list:
-    moves = []
-
-    def base_cross(cube: RubikCubeInterface) -> list:
-        return []
-
-    def base_corners(cube: RubikCubeInterface) -> list:
-        return []
-
-    moves += base_cross(cube)
-    moves += base_corners(cube)
-
-    return moves
+    return moves_sequence
 
 
-def second_layer(cube: RubikCubeInterface) -> list:
-    moves = []
+def base_layer(cube: RubikCubeInterface) -> str:
+    def base_cross(cube: RubikCubeInterface) -> str:
+        green_map = {
+            'FU': 'FRpDp',
+            'FD': 'FLD',
+            'FR': 'FpDp',
+            'FL': 'LD',
+            'UF': 'F2',
+            'DF': '',
+            'RF': 'F',
+            'LF': 'Fp',
+            'BU': 'URpF',
+            'BD': 'DLpFp',
+            'BR': 'RDp',
+            'BL': 'LpD',
+            'UB': 'U2F2',
+            'DB': 'D2',
+            'RB': 'R2F',
+            'LB': 'L2Fp',
+            'RU': 'RpF',
+            'UR': 'UF2',
+            'UL': 'UpF2',
+            'LU': 'LFp',
+            'LD': 'LpFp',
+            'DL': 'D',
+            'DR': 'Dp',
+            'RD': 'RF'
+        }
+        piece = cube.find([Color.YELLOW, Color.GREEN])
+        moves = green_map[piece]
+        cube.move(moves)
 
-    def edges(cube: RubikCubeInterface) -> list:
-        return []
+        # red
+        red_map = {
 
-    moves += edges(cube)
+        }
 
-    return moves
+        # blue
+        blue_map = {
+
+        }
+
+        # orange
+        orange_map = {
+
+        }
+        return moves
+
+    def base_corners(cube: RubikCubeInterface) -> str:
+        return ''
+
+    moves_sequence = base_cross(cube)
+    moves_sequence += base_corners(cube)
+
+    return moves_sequence
 
 
-def top_layer(cube: RubikCubeInterface) -> list:
-    moves = []
+def second_layer(cube: RubikCubeInterface) -> str:
+    def edges(cube: RubikCubeInterface) -> str:
+        return ''
 
-    def top_cross(cube: RubikCubeInterface) -> list:
-        return []
+    moves = edges(cube)
 
-    def cross_color_matching(cube: RubikCubeInterface) -> list:
-        return []
+    return ''
 
-    def corner_matching(cube: RubikCubeInterface) -> list:
-        return []
 
-    def final_round(cube: RubikCubeInterface) -> list:
-        return []
+def top_layer(cube: RubikCubeInterface) -> str:
+    def top_cross(cube: RubikCubeInterface) -> str:
+        return ''
 
-    moves += top_cross(cube)
+    def cross_color_matching(cube: RubikCubeInterface) -> str:
+        return ''
+
+    def corner_matching(cube: RubikCubeInterface) -> str:
+        return ''
+
+    def final_round(cube: RubikCubeInterface) -> str:
+        return ''
+
+    moves = top_cross(cube)
     moves += cross_color_matching(cube)
     moves += corner_matching(cube)
     moves += final_round(cube)
@@ -102,4 +138,4 @@ def layer_by_layer(cube: RubikCubeInterface) -> str:
     moves += second_layer(cube)
     moves += top_layer(cube)
 
-    return " ".join(moves)
+    return moves
