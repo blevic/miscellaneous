@@ -5,6 +5,7 @@ from RubikCube import RubikCube
 
 
 class TestRubikCube(unittest.TestCase):
+
     def test_valid_moves(self):
         valid_moves = ["F′", "", "FFF", "FpF′", "x2l2lll′", "FBUDLRLLpL′L2fulxMMEyzSS′S2"]
         cube = RubikCube()
@@ -61,11 +62,16 @@ class TestRubikCube(unittest.TestCase):
         self.assertEqual(cube.get('11'), Color.WHITE)
         self.assertEqual(cube.get('31'), Color.YELLOW)
 
+        cube.move("F")
+        self.assertEqual(cube.get('32'), Color.RED)
+
+        cube = RubikCube()
         for invalid_piece in ['', 'FF', 'FUY', 'Y', 'f', 'FURB', 'FB', 'UR', '15', '5', '6', '66']:
             with self.assertRaises(ValueError):
                 cube.get(invalid_piece)
 
     def test_find(self):
+
         cube = RubikCube()
         self.assertEqual(cube.find([Color.GREEN]), 'F')
         self.assertEqual(cube.find([Color.WHITE]), 'U')
@@ -83,6 +89,11 @@ class TestRubikCube(unittest.TestCase):
         self.assertEqual(cube.find([Color.RED, Color.GREEN, Color.WHITE]), 'RFU')
         self.assertEqual(cube.find([Color.RED, Color.WHITE, Color.GREEN]), 'RUF')
 
+        cube = RubikCube()
+        cube.move('F')
+        self.assertEqual(cube.find([Color.RED, Color.GREEN]), 'DF')
+
+        cube = RubikCube()
         invalid_pieces = [
             [],
             [Color.WHITE, Color.YELLOW],
@@ -91,7 +102,7 @@ class TestRubikCube(unittest.TestCase):
             [Color],
             [[Color.WHITE]]
         ]
-
+        
         for invalid_piece in invalid_pieces:
             with self.assertRaises(ValueError):
                 cube.find(invalid_piece)
