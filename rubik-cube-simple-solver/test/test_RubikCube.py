@@ -111,6 +111,22 @@ class TestRubikCube(unittest.TestCase):
         cube = RubikCube()
         self.assertEqual(cube.get_size(), 3)
 
+    def test_solve_random_scramble(self):
+        for _ in range(10):
+            cube = RubikCube()
+            cube.scramble()
+            self.assertFalse(cube.is_solved())  # extremely unlikely
+            cube.solve()
+            self.assertTrue(cube.is_solved())
+
+    def test_solve_random_scramble_with_parameters(self):
+        for _ in range(10):
+            cube = RubikCube()
+            cube.scramble(steps=50, wide_moves=True, slice_moves=True, cube_rotations=True)
+            self.assertFalse(cube.is_solved())  # extremely unlikely
+            cube.solve()
+            self.assertTrue(cube.is_solved())
+
 
 if __name__ == '__main__':
     unittest.main()
