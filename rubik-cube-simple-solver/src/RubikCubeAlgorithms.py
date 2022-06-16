@@ -247,12 +247,100 @@ def base_layer(cube: RubikCubeInterface) -> str:
 
 
 def second_layer(cube: RubikCubeInterface) -> str:
-    def edges(cube: RubikCubeInterface) -> str:
-        return ''
+    R_INSERT = 'RURpUpFpUpF'
+    L_INSERT = 'FpUpFURURp'
 
-    moves = edges(cube)
+    second_layer_moves = ''
 
-    return ''
+    green_red_map = {
+        'UF': 'U2' + L_INSERT,
+        'UR': 'Up' + L_INSERT,
+        'UB': L_INSERT,
+        'UL': 'U' + L_INSERT,
+        'FU': 'U' + R_INSERT,
+        'RU': 'U2' + R_INSERT,
+        'BU': 'Up' + R_INSERT,
+        'LU': R_INSERT,
+        'FR': '',
+        'RF': R_INSERT,
+        'RB': 'y' + R_INSERT + 'yp',
+        'BR': 'y' + R_INSERT + 'yp',
+        'BL': 'y2' + R_INSERT + 'y2',
+        'LB': 'y2' + R_INSERT + 'y2',
+        'LF': 'yp' + R_INSERT + 'y',
+        'FL': 'yp' + R_INSERT + 'y'
+    }
+
+    for _ in range(2):
+        position = cube.find([Color.GREEN, Color.RED])
+        moves = green_red_map[position]
+        cube.move(moves)
+        second_layer_moves += moves
+
+    red_blue_map = {
+        'UF': 'yU' + L_INSERT + 'yp',
+        'UR': 'yU2' + L_INSERT + 'yp',
+        'UB': 'yUp' + L_INSERT + 'yp',
+        'UL': 'y' + L_INSERT + 'yp',
+        'FU': 'y' + R_INSERT + 'yp',
+        'RU': 'yU' + R_INSERT + 'yp',
+        'BU': 'yU2' + R_INSERT + 'yp',
+        'LU': 'yUp' + R_INSERT + 'yp',
+        'RB': '',
+        'BR': 'y' + R_INSERT + 'yp',
+        'BL': 'y2' + R_INSERT + 'y2',
+        'LB': 'y2' + R_INSERT + 'y2',
+        'LF': 'yp' + R_INSERT + 'y',
+        'FL': 'yp' + R_INSERT + 'y'
+    }
+
+    for _ in range(2):
+        position = cube.find([Color.RED, Color.BLUE])
+        moves = red_blue_map[position]
+        cube.move(moves)
+        second_layer_moves += moves
+
+    blue_orange_map = {
+        'UF': 'y2' + L_INSERT + 'y2',
+        'UR': 'y2U' + L_INSERT + 'y2',
+        'UB': 'y2U2' + L_INSERT + 'y2',
+        'UL': 'y2Up' + L_INSERT + 'y2',
+        'FU': 'y2Up' + R_INSERT + 'y2',
+        'RU': 'y2' + R_INSERT + 'y2',
+        'BU': 'y2U' + R_INSERT + 'y2',
+        'LU': 'y2U2' + R_INSERT + 'y2',
+        'BL': '',
+        'LB': 'y2' + R_INSERT + 'y2',
+        'LF': 'yp' + R_INSERT + 'y',
+        'FL': 'yp' + R_INSERT + 'y'
+    }
+
+    for _ in range(2):
+        position = cube.find([Color.BLUE, Color.ORANGE])
+        moves = blue_orange_map[position]
+        cube.move(moves)
+        second_layer_moves += moves
+
+    orange_green_map = {
+        'UF': 'ypUp' + L_INSERT + 'y',
+        'UR': 'yp' + L_INSERT + 'y',
+        'UB': 'ypU' + L_INSERT + 'y',
+        'UL': 'ypU2' + L_INSERT + 'y',
+        'FU': 'ypU2' + R_INSERT + 'y',
+        'RU': 'ypUp' + R_INSERT + 'y',
+        'BU': 'yp' + R_INSERT + 'y',
+        'LU': 'ypU' + R_INSERT + 'y',
+        'LF': '',
+        'FL': 'yp' + R_INSERT + 'y'
+    }
+
+    for _ in range(2):
+        position = cube.find([Color.ORANGE, Color.GREEN])
+        moves = orange_green_map[position]
+        cube.move(moves)
+        second_layer_moves += moves
+
+    return second_layer_moves
 
 
 def top_layer(cube: RubikCubeInterface) -> str:
