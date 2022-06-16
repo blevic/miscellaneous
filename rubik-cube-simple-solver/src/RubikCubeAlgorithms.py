@@ -383,7 +383,92 @@ def top_layer(cube: RubikCubeInterface) -> str:
                 top_cross_moves += F_SWITCH
 
     def cross_color_matching(cube: RubikCubeInterface) -> str:
-        return ''
+        cross_color_matching_moves = ''
+
+        def f_match(c):
+            return c.get('F') == c.get('02')
+
+        def r_match(c):
+            return c.get('R') == c.get('42')
+
+        def b_match(c):
+            return c.get('B') == c.get('52')
+
+        def l_match(c):
+            return c.get('L') == c.get('22')
+
+        def count_matched(c):
+            return sum([f_match(c), r_match(c), b_match(c), l_match(c)])
+
+        def match_across(c):
+            return count_matched(c) == 2 and (f_match(c) and b_match(c)) or (r_match(c) and l_match(c))
+
+        def match_l(c):
+            return count_matched(c) == 2 and not match_across(c)
+
+        def matched_l_position(c):
+            if not match_l(c):
+                raise ValueError("Incorrect use of matched_l_position: no l matched")
+            if f_match(c) and r_match(c):
+                return "FR"
+            if r_match(c) and b_match(c):
+                return "RB"
+            if b_match(c) and l_match(c):
+                return "BL"
+            if l_match(c) and f_match(c):
+                return "LF"
+            raise ValueError("No L match found")
+
+        if count_matched(cube) == 4:
+            return ''
+
+        candidate_moves = ''
+        for _ in range(4):
+            candidate_moves += 'U'
+            cube.move('U')
+            if count_matched(cube) == 4:
+                return candidate_moves
+
+        CROSS_COLOR_MATCH_SEQ = 'RURpURU2Rp'
+
+        # two are matchable
+        while count_matched(cube) != 2:
+            cross_color_matching_moves += 'U'
+            cube.move('U')
+
+
+        if match_across(cube):
+            cross_color_matching_moves += CROSS_COLOR_MATCH_SEQ
+            cube.move(CROSS_COLOR_MATCH_SEQ)
+
+        while count_matched(cube) != 2:
+            cross_color_matching_moves += 'U'
+            cube.move('U')
+
+        matched_l_position_map = {
+            'FR': 'yp' + CROSS_COLOR_MATCH_SEQ + 'y',
+            'RB': CROSS_COLOR_MATCH_SEQ,
+            'BL': 'y' + CROSS_COLOR_MATCH_SEQ + 'yp',
+            'LF': 'y2' + CROSS_COLOR_MATCH_SEQ + 'y2'
+        }
+
+        if not match_l(cube):
+            raise ValueError("Expected L matched by here")
+
+        moves = matched_l_position_map[matched_l_position(cube)]
+        cross_color_matching_moves += moves
+        cube.move(moves)
+
+        if count_matched(cube) == 4:
+            return ''
+
+        for _ in range(4):
+            cross_color_matching_moves += 'U'
+            cube.move('U')
+            if count_matched(cube) == 4:
+                return cross_color_matching_moves
+
+        raise ValueError("Expected top cross to be color matched by here")
 
     def corner_matching(cube: RubikCubeInterface) -> str:
         return ''
