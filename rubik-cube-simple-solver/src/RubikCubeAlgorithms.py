@@ -41,6 +41,8 @@ def initial_rotation(cube: RubikCubeInterface) -> str:
 
 def base_layer(cube: RubikCubeInterface) -> str:
     def base_cross(cube: RubikCubeInterface) -> str:
+        base_moves = ''
+
         green_map = {
             'FU': 'FRpDp',
             'FD': 'FLD',
@@ -70,22 +72,90 @@ def base_layer(cube: RubikCubeInterface) -> str:
         piece = cube.find([Color.YELLOW, Color.GREEN])
         moves = green_map[piece]
         cube.move(moves)
+        base_moves += moves
 
-        # red
         red_map = {
-
+            'FU': 'FRpFp',
+            'FR': 'Rp',
+            'FL': 'F2RpF2',
+            'UF': 'UpR2',
+            'RF': 'FpUpFR2',
+            'LF': 'FpDF',
+            'BU': 'BpR',
+            'BD': 'BR',
+            'BR': 'R',
+            'BL': 'B2R',
+            'UB': 'UR2',
+            'DB': 'BDBpDp',
+            'RB': 'DBpDp',
+            'LB': 'DBDp',
+            'RU': 'UpBpR',
+            'UR': 'R2',
+            'UL': 'U2R2',
+            'LU': 'UpFRpFp',
+            'LD': 'LpFpDF',
+            'DL': 'FD2Fp',
+            'DR': '',
+            'RD': 'RFDFp'
         }
+        piece = cube.find([Color.YELLOW, Color.RED])
+        moves = red_map[piece]
+        cube.move(moves)
+        base_moves += moves
 
-        # blue
         blue_map = {
-
+            'FU': 'ULpB',
+            'FR': 'DpRpD',
+            'FL': 'DLDp',
+            'UF': 'U2B2',
+            'RF': 'R2BpR2',
+            'LF': 'D2FpD2',
+            'BU': 'BpDpRD',
+            'BD': 'BDpRD',
+            'BR': 'DpRD',
+            'BL': 'DLpDp',
+            'UB': 'B2',
+            'DB': '',
+            'RB': 'Bp',
+            'LB': 'B',
+            'RU': 'RBpRp',
+            'UR': 'UpB2',
+            'UL': 'UB2',
+            'LU': 'LpB',
+            'LD': 'LB',
+            'DL': 'LpDLDp'
         }
+        piece = cube.find([Color.YELLOW, Color.BLUE])
+        moves = blue_map[piece]
+        cube.move(moves)
+        base_moves += moves
 
-        # orange
         orange_map = {
-
+            'FU': 'FpLF',
+            'FR': 'D2RpD2',
+            'FL': 'L',
+            'UF': 'UL2',
+            'RF': 'DFDp',
+            'LF': 'DFpDp',
+            'BU': 'U2FpLF',
+            'BR': 'D2RD2',
+            'BL': 'Lp',
+            'UB': 'UpL2',
+            'RB': 'DpBpD',
+            'LB': 'DpBD',
+            'RU': 'UFpLF',
+            'UR': 'U2L2',
+            'UL': 'L2',
+            'LU': 'UpFpLF',
+            'LD': 'LpDFpDp',
+            'DL': ''
         }
-        return moves
+        piece = cube.find([Color.YELLOW, Color.ORANGE])
+        moves = orange_map[piece]
+        cube.move(moves)
+        base_moves += moves
+
+        return base_moves
 
     def base_corners(cube: RubikCubeInterface) -> str:
         return ''
