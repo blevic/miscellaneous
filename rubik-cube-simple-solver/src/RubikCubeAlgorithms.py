@@ -568,4 +568,4 @@ def layer_by_layer(cube: RubikCubeInterface) -> str:
     moves += second_layer(cube)
     moves += top_layer(cube)
 
-    return moves
+    return moves.replace("p", "′")
