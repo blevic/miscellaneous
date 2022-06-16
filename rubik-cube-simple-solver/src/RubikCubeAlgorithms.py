@@ -471,7 +471,63 @@ def top_layer(cube: RubikCubeInterface) -> str:
         raise ValueError("Expected top cross to be color matched by here")
 
     def corner_matching(cube: RubikCubeInterface) -> str:
-        return ''
+        corner_matching_moves = ''
+        SWAP_CORNERS = 'URUpLpURpUpL'
+
+        def number_matching_corners(c):
+            return sum([
+                ''.join(sorted(c.find([c.get('B'), c.get('L'), c.get('U')]))) == 'BLU',
+                ''.join(sorted(c.find([c.get('B'), c.get('R'), c.get('U')]))) == 'BRU',
+                ''.join(sorted(c.find([c.get('F'), c.get('L'), c.get('U')]))) == 'FLU',
+                ''.join(sorted(c.find([c.get('F'), c.get('R'), c.get('U')]))) == 'FRU'
+            ])
+
+        def matching_up_corner_position(c):
+            if number_matching_corners(c) != 1:
+                raise ValueError("Function matching_up_corner_position is valid only for 1 matching top corner")
+            if ''.join(sorted(c.find([c.get('B'), c.get('L'), c.get('U')]))) == 'BLU':
+                return 'BL'
+            if ''.join(sorted(c.find([c.get('B'), c.get('R'), c.get('U')]))) == 'BRU':
+                return 'BR'
+            if ''.join(sorted(c.find([c.get('F'), c.get('L'), c.get('U')]))) == 'FLU':
+                return 'FL'
+            if ''.join(sorted(c.find([c.get('F'), c.get('R'), c.get('U')]))) == 'FRU':
+                return 'FR'
+            raise ValueError("Expected any top position to be found")
+
+        if number_matching_corners(cube) == 4:
+            return ''
+
+        if number_matching_corners(cube) == 0:
+            corner_matching_moves += SWAP_CORNERS
+            cube.move(SWAP_CORNERS)
+
+        if number_matching_corners(cube) != 1:
+            raise ValueError("Expected 1 matching top corner")
+
+        matching_up_corner = matching_up_corner_position(cube)
+
+        rotation_map = {
+            'BL': ('y2', 'y2'),
+            'BR': ('y', 'yp'),
+            'FL': ('yp', 'y'),
+            'FR': ('', '')
+        }
+
+        pre_rotation, post_rotation = rotation_map[matching_up_corner]
+
+        corner_matching_moves += pre_rotation
+        cube.move(pre_rotation)
+        for _ in range(2):
+            corner_matching_moves += SWAP_CORNERS
+            cube.move(SWAP_CORNERS)
+
+            if number_matching_corners(cube) == 4:
+                corner_matching_moves += post_rotation
+                cube.move(post_rotation)
+                return corner_matching_moves
+
+        raise ValueError("Expected corners to be matched by here")
 
     def final_round(cube: RubikCubeInterface) -> str:
         return ''
