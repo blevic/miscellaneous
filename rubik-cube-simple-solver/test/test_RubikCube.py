@@ -127,6 +127,16 @@ class TestRubikCube(unittest.TestCase):
             cube.solve()
             self.assertTrue(cube.is_solved())
 
+    def test_initial_scramble_solution_concatenation(self):
+        for _ in range(10):
+            cube_1 = RubikCube()
+            initial_scramble = cube_1.scramble(steps=40, wide_moves=True, slice_moves=True, cube_rotations=True)
+            solution = cube_1.solve()
+
+            cube_2 = RubikCube()
+            cube_2.move(initial_scramble.replace(" ", "") + solution)
+            self.assertTrue(cube_2.is_solved())
+
 
 if __name__ == '__main__':
     unittest.main()
