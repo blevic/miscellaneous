@@ -530,7 +530,23 @@ def top_layer(cube: RubikCubeInterface) -> str:
         raise ValueError("Expected corners to be matched by here")
 
     def final_round(cube: RubikCubeInterface) -> str:
-        return ''
+        final_round_moves = ''
+        R_MOVES = 'RURpUp'
+
+        if cube.is_solved():
+            return ''
+
+        final_round_moves += 'x2'
+        cube.move('x2')
+
+        while not cube.is_solved():
+            while cube.get('33') != cube.get('D'):
+                final_round_moves += R_MOVES
+                cube.move(R_MOVES)
+            final_round_moves += 'D'
+            cube.move('D')
+
+        return final_round_moves
 
     moves = top_cross(cube)
     moves += cross_color_matching(cube)
