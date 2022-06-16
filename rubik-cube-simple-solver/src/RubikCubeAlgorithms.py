@@ -158,7 +158,87 @@ def base_layer(cube: RubikCubeInterface) -> str:
         return base_moves
 
     def base_corners(cube: RubikCubeInterface) -> str:
-        return ''
+        corners_moves = ''
+
+        green_red_map = {
+            'BDL': 'LU2Lp',
+            'BDR': 'BUBp',
+            'BLU': 'U2',
+            'BRU': 'U',
+            'DFL': 'FUpFpUp',
+            'DFR': '',
+            'FLU': 'Up',
+            'FRU': ''
+        }
+        piece = cube.find([Color.YELLOW, Color.GREEN, Color.RED])
+        sorted_piece = ''.join(sorted(piece))
+        moves = green_red_map[sorted_piece]
+        cube.move(moves)
+        corners_moves += moves
+
+        while cube.find([Color.YELLOW, Color.GREEN, Color.RED]) != 'DFR':
+            moves = 'RURpUp'
+            cube.move(moves)
+            corners_moves += moves
+
+        red_blue_map = {
+            'BDL': 'LULp',
+            'BDR': '',
+            'BLU': 'U',
+            'BRU': '',
+            'DFL': 'FU2Fp',
+            'FLU': 'U2',
+            'FRU': 'Up'
+        }
+        piece = cube.find([Color.YELLOW, Color.RED, Color.BLUE])
+        sorted_piece = ''.join(sorted(piece))
+        moves = red_blue_map[sorted_piece]
+        cube.move(moves)
+        corners_moves += moves
+
+        while cube.find([Color.YELLOW, Color.RED, Color.BLUE]) != 'DRB':
+            moves = 'BUBpUp'
+            cube.move(moves)
+            corners_moves += moves
+
+        blue_orange_map = {
+            'BDL': '',
+            'BLU': '',
+            'BRU': 'Up',
+            'DFL': 'FUFp',
+            'FLU': 'U',
+            'FRU': 'U2'
+        }
+        piece = cube.find([Color.YELLOW, Color.BLUE, Color.ORANGE])
+        sorted_piece = ''.join(sorted(piece))
+        moves = blue_orange_map[sorted_piece]
+        cube.move(moves)
+        corners_moves += moves
+
+        while cube.find([Color.YELLOW, Color.BLUE, Color.ORANGE]) != 'DBL':
+            moves = 'LULpUp'
+            cube.move(moves)
+            corners_moves += moves
+
+        orange_green_map = {
+            'BLU': 'Up',
+            'BRU': 'U2',
+            'DFL': '',
+            'FLU': '',
+            'FRU': 'U'
+        }
+        piece = cube.find([Color.YELLOW, Color.ORANGE, Color.GREEN])
+        sorted_piece = ''.join(sorted(piece))
+        moves = orange_green_map[sorted_piece]
+        cube.move(moves)
+        corners_moves += moves
+
+        while cube.find([Color.YELLOW, Color.ORANGE, Color.GREEN]) != 'DLF':
+            moves = 'FUFpUp'
+            cube.move(moves)
+            corners_moves += moves
+
+        return corners_moves
 
     moves_sequence = base_cross(cube)
     moves_sequence += base_corners(cube)
