@@ -97,6 +97,6 @@ class RubikCubeInterface:
         """Return list of steps to solve the cube"""
         pass
 
-    def get_size(selfself) -> int:
+    def get_size(self) -> int:
         """Return the cube's size"""
         pass
