@@ -44,7 +44,7 @@ def base_layer(cube: RubikCubeInterface) -> str:
         green_map = {
             'FU': 'FRpDp',
             'FD': 'FLD',
-            'FR': 'FpDp',
+            'FR': 'RpDp',
             'FL': 'LD',
             'UF': 'F2',
             'DF': '',
