@@ -345,7 +345,42 @@ def second_layer(cube: RubikCubeInterface) -> str:
 
 def top_layer(cube: RubikCubeInterface) -> str:
     def top_cross(cube: RubikCubeInterface) -> str:
-        return ''
+        top_cross_moves = ''
+        F_SWITCH = 'FRURpUpFp'
+
+        def top_cross_done(c):
+            return c.get('U') == c.get('12') == c.get('14') == c.get('16') == c.get('18')
+
+        def just_top(c):
+            return c.get('U') == c.get('02') == c.get('22') == c.get('42') == c.get('52')
+
+        def horizontal_line(c):
+            return not top_cross_done(c) and (c.get('12') == c.get('18') or c.get('14') == c.get('16'))
+
+        def l_shape(c):
+            return not top_cross_done(c) and not just_top(c) and not horizontal_line(c)
+
+        while True:
+            if top_cross_done(cube):
+                return top_cross_moves
+
+            if just_top(cube):
+                cube.move(F_SWITCH)
+                top_cross_moves += F_SWITCH
+
+            if l_shape(cube):
+                while cube.get('12') != cube.get('14'):
+                    cube.move('U')
+                    top_cross_moves += 'U'
+                cube.move(F_SWITCH)
+                top_cross_moves += F_SWITCH
+
+            if horizontal_line(cube):
+                if cube.get('12') == cube.get('18'):
+                    cube.move('U')
+                    top_cross_moves += 'U'
+                cube.move(F_SWITCH)
+                top_cross_moves += F_SWITCH
 
     def cross_color_matching(cube: RubikCubeInterface) -> str:
         return ''
