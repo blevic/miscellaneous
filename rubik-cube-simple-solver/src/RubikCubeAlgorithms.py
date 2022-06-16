@@ -1,49 +1,17 @@
-from Color import Color
 from RubikCubeInterface import RubikCubeInterface
 
 
-def initial_rotation(cube: RubikCubeInterface) -> str:
-    """Make cube rotations to set initial standard position"""
-
-    def green_to_front():
-        green_to_front_map = {
-            'F': '',
-            'B': 'x2',
-            'U': 'xp',
-            'D': 'x',
-            'R': 'y',
-            'L': 'yp'
-        }
-
-        green_face = cube.find([Color.GREEN])
-        moves = green_to_front_map[green_face]
-        cube.move(moves)
-        return moves
-
-    def white_to_up():
-        white_to_up_map = {
-            'U': '',
-            'D': 'z2',
-            'R': 'zp',
-            'L': 'z'
-        }
-
-        white_face = cube.find([Color.WHITE])
-        moves = white_to_up_map[white_face]
-        cube.move(moves)
-        return moves
-
-    moves_sequence = green_to_front()
-    moves_sequence += white_to_up()
-
-    return moves_sequence
-
-
 def base_layer(cube: RubikCubeInterface) -> str:
+    f_color = cube.get('F')
+    r_color = cube.get('R')
+    b_color = cube.get('B')
+    l_color = cube.get('L')
+    d_color = cube.get('D')
+
     def base_cross(cube: RubikCubeInterface) -> str:
         base_moves = ''
 
-        green_map = {
+        f_map = {
             'FU': 'FRpDp',
             'FD': 'FLD',
             'FR': 'RpDp',
@@ -69,12 +37,12 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'DR': 'Dp',
             'RD': 'RF'
         }
-        piece = cube.find([Color.YELLOW, Color.GREEN])
-        moves = green_map[piece]
+        piece = cube.find([d_color, f_color])
+        moves = f_map[piece]
         cube.move(moves)
         base_moves += moves
 
-        red_map = {
+        r_map = {
             'FU': 'FRpFp',
             'FR': 'Rp',
             'FL': 'F2RpF2',
@@ -98,12 +66,12 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'DR': '',
             'RD': 'RFDFp'
         }
-        piece = cube.find([Color.YELLOW, Color.RED])
-        moves = red_map[piece]
+        piece = cube.find([d_color, r_color])
+        moves = r_map[piece]
         cube.move(moves)
         base_moves += moves
 
-        blue_map = {
+        b_map = {
             'FU': 'ULpB',
             'FR': 'DpRpD',
             'FL': 'DLDp',
@@ -125,12 +93,12 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'LD': 'LB',
             'DL': 'LpDLDp'
         }
-        piece = cube.find([Color.YELLOW, Color.BLUE])
-        moves = blue_map[piece]
+        piece = cube.find([d_color, b_color])
+        moves = b_map[piece]
         cube.move(moves)
         base_moves += moves
 
-        orange_map = {
+        l_map = {
             'FU': 'FpLF',
             'FR': 'D2RpD2',
             'FL': 'L',
@@ -150,8 +118,8 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'LD': 'LpDFpDp',
             'DL': ''
         }
-        piece = cube.find([Color.YELLOW, Color.ORANGE])
-        moves = orange_map[piece]
+        piece = cube.find([d_color, l_color])
+        moves = l_map[piece]
         cube.move(moves)
         base_moves += moves
 
@@ -160,7 +128,7 @@ def base_layer(cube: RubikCubeInterface) -> str:
     def base_corners(cube: RubikCubeInterface) -> str:
         corners_moves = ''
 
-        green_red_map = {
+        dfr_map = {
             'BDL': 'LU2Lp',
             'BDR': 'BUBp',
             'BLU': 'U2',
@@ -170,18 +138,18 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'FLU': 'Up',
             'FRU': ''
         }
-        piece = cube.find([Color.YELLOW, Color.GREEN, Color.RED])
+        piece = cube.find([d_color, f_color, r_color])
         sorted_piece = ''.join(sorted(piece))
-        moves = green_red_map[sorted_piece]
+        moves = dfr_map[sorted_piece]
         cube.move(moves)
         corners_moves += moves
 
-        while cube.find([Color.YELLOW, Color.GREEN, Color.RED]) != 'DFR':
+        while cube.find([d_color, f_color, r_color]) != 'DFR':
             moves = 'RURpUp'
             cube.move(moves)
             corners_moves += moves
 
-        red_blue_map = {
+        drb_map = {
             'BDL': 'LULp',
             'BDR': '',
             'BLU': 'U',
@@ -190,18 +158,18 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'FLU': 'U2',
             'FRU': 'Up'
         }
-        piece = cube.find([Color.YELLOW, Color.RED, Color.BLUE])
+        piece = cube.find([d_color, r_color, b_color])
         sorted_piece = ''.join(sorted(piece))
-        moves = red_blue_map[sorted_piece]
+        moves = drb_map[sorted_piece]
         cube.move(moves)
         corners_moves += moves
 
-        while cube.find([Color.YELLOW, Color.RED, Color.BLUE]) != 'DRB':
+        while cube.find([d_color, r_color, b_color]) != 'DRB':
             moves = 'BUBpUp'
             cube.move(moves)
             corners_moves += moves
 
-        blue_orange_map = {
+        dbl_map = {
             'BDL': '',
             'BLU': '',
             'BRU': 'Up',
@@ -209,31 +177,31 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'FLU': 'U',
             'FRU': 'U2'
         }
-        piece = cube.find([Color.YELLOW, Color.BLUE, Color.ORANGE])
+        piece = cube.find([d_color, b_color, l_color])
         sorted_piece = ''.join(sorted(piece))
-        moves = blue_orange_map[sorted_piece]
+        moves = dbl_map[sorted_piece]
         cube.move(moves)
         corners_moves += moves
 
-        while cube.find([Color.YELLOW, Color.BLUE, Color.ORANGE]) != 'DBL':
+        while cube.find([d_color, b_color, l_color]) != 'DBL':
             moves = 'LULpUp'
             cube.move(moves)
             corners_moves += moves
 
-        orange_green_map = {
+        dlf_map = {
             'BLU': 'Up',
             'BRU': 'U2',
             'DFL': '',
             'FLU': '',
             'FRU': 'U'
         }
-        piece = cube.find([Color.YELLOW, Color.ORANGE, Color.GREEN])
+        piece = cube.find([d_color, l_color, f_color])
         sorted_piece = ''.join(sorted(piece))
-        moves = orange_green_map[sorted_piece]
+        moves = dlf_map[sorted_piece]
         cube.move(moves)
         corners_moves += moves
 
-        while cube.find([Color.YELLOW, Color.ORANGE, Color.GREEN]) != 'DLF':
+        while cube.find([d_color, l_color, f_color]) != 'DLF':
             moves = 'FUFpUp'
             cube.move(moves)
             corners_moves += moves
@@ -249,10 +217,14 @@ def base_layer(cube: RubikCubeInterface) -> str:
 def second_layer(cube: RubikCubeInterface) -> str:
     R_INSERT = 'RURpUpFpUpF'
     L_INSERT = 'FpUpFURURp'
+    f_color = cube.get('F')
+    r_color = cube.get('R')
+    b_color = cube.get('B')
+    l_color = cube.get('L')
 
     second_layer_moves = ''
 
-    green_red_map = {
+    fr_map = {
         'UF': 'U2' + L_INSERT,
         'UR': 'Up' + L_INSERT,
         'UB': L_INSERT,
@@ -272,12 +244,12 @@ def second_layer(cube: RubikCubeInterface) -> str:
     }
 
     for _ in range(2):
-        position = cube.find([Color.GREEN, Color.RED])
-        moves = green_red_map[position]
+        position = cube.find([f_color, r_color])
+        moves = fr_map[position]
         cube.move(moves)
         second_layer_moves += moves
 
-    red_blue_map = {
+    rb_map = {
         'UF': 'yU' + L_INSERT + 'yp',
         'UR': 'yU2' + L_INSERT + 'yp',
         'UB': 'yUp' + L_INSERT + 'yp',
@@ -295,12 +267,12 @@ def second_layer(cube: RubikCubeInterface) -> str:
     }
 
     for _ in range(2):
-        position = cube.find([Color.RED, Color.BLUE])
-        moves = red_blue_map[position]
+        position = cube.find([r_color, b_color])
+        moves = rb_map[position]
         cube.move(moves)
         second_layer_moves += moves
 
-    blue_orange_map = {
+    bl_map = {
         'UF': 'y2' + L_INSERT + 'y2',
         'UR': 'y2U' + L_INSERT + 'y2',
         'UB': 'y2U2' + L_INSERT + 'y2',
@@ -316,12 +288,12 @@ def second_layer(cube: RubikCubeInterface) -> str:
     }
 
     for _ in range(2):
-        position = cube.find([Color.BLUE, Color.ORANGE])
-        moves = blue_orange_map[position]
+        position = cube.find([b_color, l_color])
+        moves = bl_map[position]
         cube.move(moves)
         second_layer_moves += moves
 
-    orange_green_map = {
+    lf_map = {
         'UF': 'ypUp' + L_INSERT + 'y',
         'UR': 'yp' + L_INSERT + 'y',
         'UB': 'ypU' + L_INSERT + 'y',
@@ -335,8 +307,8 @@ def second_layer(cube: RubikCubeInterface) -> str:
     }
 
     for _ in range(2):
-        position = cube.find([Color.ORANGE, Color.GREEN])
-        moves = orange_green_map[position]
+        position = cube.find([l_color, f_color])
+        moves = lf_map[position]
         cube.move(moves)
         second_layer_moves += moves
 
@@ -563,8 +535,7 @@ def layer_by_layer(cube: RubikCubeInterface) -> str:
     if cube.get_size() != 3:
         raise ValueError('LBL algorithm is valid for cube size 3 only.')
 
-    moves = initial_rotation(cube)
-    moves += base_layer(cube)
+    moves = base_layer(cube)
     moves += second_layer(cube)
     moves += top_layer(cube)
 
