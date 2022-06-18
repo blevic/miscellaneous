@@ -73,35 +73,35 @@ class TestRubikCube(unittest.TestCase):
     def test_find(self):
 
         cube = RubikCube()
-        self.assertEqual(cube.find([Color.GREEN]), 'F')
-        self.assertEqual(cube.find([Color.WHITE]), 'U')
-        self.assertEqual(cube.find([Color.RED]), 'R')
+        self.assertEqual(cube.find(Color.GREEN), 'F')
+        self.assertEqual(cube.find(Color.WHITE), 'U')
+        self.assertEqual(cube.find(Color.RED), 'R')
 
-        self.assertEqual(cube.find([Color.GREEN, Color.WHITE]), 'FU')
-        self.assertEqual(cube.find([Color.WHITE, Color.GREEN]), 'UF')
-        self.assertEqual(cube.find([Color.GREEN, Color.RED]), 'FR')
-        self.assertEqual(cube.find([Color.RED, Color.GREEN]), 'RF')
+        self.assertEqual(cube.find(Color.GREEN, Color.WHITE), 'FU')
+        self.assertEqual(cube.find(Color.WHITE, Color.GREEN), 'UF')
+        self.assertEqual(cube.find(Color.GREEN, Color.RED), 'FR')
+        self.assertEqual(cube.find(Color.RED, Color.GREEN), 'RF')
 
-        self.assertEqual(cube.find([Color.GREEN, Color.WHITE, Color.RED]), 'FUR')
-        self.assertEqual(cube.find([Color.GREEN, Color.RED, Color.WHITE]), 'FRU')
-        self.assertEqual(cube.find([Color.WHITE, Color.GREEN, Color.RED]), 'UFR')
-        self.assertEqual(cube.find([Color.WHITE, Color.RED, Color.GREEN]), 'URF')
-        self.assertEqual(cube.find([Color.RED, Color.GREEN, Color.WHITE]), 'RFU')
-        self.assertEqual(cube.find([Color.RED, Color.WHITE, Color.GREEN]), 'RUF')
+        self.assertEqual(cube.find(Color.GREEN, Color.WHITE, Color.RED), 'FUR')
+        self.assertEqual(cube.find(Color.GREEN, Color.RED, Color.WHITE), 'FRU')
+        self.assertEqual(cube.find(Color.WHITE, Color.GREEN, Color.RED), 'UFR')
+        self.assertEqual(cube.find(Color.WHITE, Color.RED, Color.GREEN), 'URF')
+        self.assertEqual(cube.find(Color.RED, Color.GREEN, Color.WHITE), 'RFU')
+        self.assertEqual(cube.find(Color.RED, Color.WHITE, Color.GREEN), 'RUF')
 
         cube = RubikCube()
         cube.move('F')
-        self.assertEqual(cube.find([Color.RED, Color.GREEN]), 'DF')
+        self.assertEqual(cube.find(Color.RED, Color.GREEN), 'DF')
 
         cube = RubikCube()
-        invalid_pieces = [
-            [],
-            [Color.WHITE, Color.YELLOW],
-            [0, 1],
-            [Color.WHITE, Color.GREEN, Color.RED, Color.YELLOW],
-            [Color],
-            [[Color.WHITE]]
-        ]
+        invalid_pieces = {
+            (),
+            (Color.WHITE, Color.YELLOW),
+            (0, 1),
+            (Color.WHITE, Color.GREEN, Color.RED, Color.YELLOW),
+            (Color,),
+            ((Color.WHITE,),)
+        }
         
         for invalid_piece in invalid_pieces:
             with self.assertRaises(ValueError):

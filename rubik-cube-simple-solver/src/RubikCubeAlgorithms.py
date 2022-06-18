@@ -37,7 +37,7 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'DR': 'Dp',
             'RD': 'RF'
         }
-        piece = cube.find([d_color, f_color])
+        piece = cube.find(d_color, f_color)
         moves = f_map[piece]
         cube.move(moves)
         base_moves += moves
@@ -66,7 +66,7 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'DR': '',
             'RD': 'RFDFp'
         }
-        piece = cube.find([d_color, r_color])
+        piece = cube.find(d_color, r_color)
         moves = r_map[piece]
         cube.move(moves)
         base_moves += moves
@@ -93,7 +93,7 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'LD': 'LB',
             'DL': 'LpDLDp'
         }
-        piece = cube.find([d_color, b_color])
+        piece = cube.find(d_color, b_color)
         moves = b_map[piece]
         cube.move(moves)
         base_moves += moves
@@ -118,7 +118,7 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'LD': 'LpDFpDp',
             'DL': ''
         }
-        piece = cube.find([d_color, l_color])
+        piece = cube.find(d_color, l_color)
         moves = l_map[piece]
         cube.move(moves)
         base_moves += moves
@@ -138,13 +138,13 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'FLU': 'Up',
             'FRU': ''
         }
-        piece = cube.find([d_color, f_color, r_color])
+        piece = cube.find(d_color, f_color, r_color)
         sorted_piece = ''.join(sorted(piece))
         moves = dfr_map[sorted_piece]
         cube.move(moves)
         corners_moves += moves
 
-        while cube.find([d_color, f_color, r_color]) != 'DFR':
+        while cube.find(d_color, f_color, r_color) != 'DFR':
             moves = 'RURpUp'
             cube.move(moves)
             corners_moves += moves
@@ -158,13 +158,13 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'FLU': 'U2',
             'FRU': 'Up'
         }
-        piece = cube.find([d_color, r_color, b_color])
+        piece = cube.find(d_color, r_color, b_color)
         sorted_piece = ''.join(sorted(piece))
         moves = drb_map[sorted_piece]
         cube.move(moves)
         corners_moves += moves
 
-        while cube.find([d_color, r_color, b_color]) != 'DRB':
+        while cube.find(d_color, r_color, b_color) != 'DRB':
             moves = 'BUBpUp'
             cube.move(moves)
             corners_moves += moves
@@ -177,13 +177,13 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'FLU': 'U',
             'FRU': 'U2'
         }
-        piece = cube.find([d_color, b_color, l_color])
+        piece = cube.find(d_color, b_color, l_color)
         sorted_piece = ''.join(sorted(piece))
         moves = dbl_map[sorted_piece]
         cube.move(moves)
         corners_moves += moves
 
-        while cube.find([d_color, b_color, l_color]) != 'DBL':
+        while cube.find(d_color, b_color, l_color) != 'DBL':
             moves = 'LULpUp'
             cube.move(moves)
             corners_moves += moves
@@ -195,13 +195,13 @@ def base_layer(cube: RubikCubeInterface) -> str:
             'FLU': '',
             'FRU': 'U'
         }
-        piece = cube.find([d_color, l_color, f_color])
+        piece = cube.find(d_color, l_color, f_color)
         sorted_piece = ''.join(sorted(piece))
         moves = dlf_map[sorted_piece]
         cube.move(moves)
         corners_moves += moves
 
-        while cube.find([d_color, l_color, f_color]) != 'DLF':
+        while cube.find(d_color, l_color, f_color) != 'DLF':
             moves = 'FUFpUp'
             cube.move(moves)
             corners_moves += moves
@@ -244,7 +244,7 @@ def second_layer(cube: RubikCubeInterface) -> str:
     }
 
     for _ in range(2):
-        position = cube.find([f_color, r_color])
+        position = cube.find(f_color, r_color)
         moves = fr_map[position]
         cube.move(moves)
         second_layer_moves += moves
@@ -267,7 +267,7 @@ def second_layer(cube: RubikCubeInterface) -> str:
     }
 
     for _ in range(2):
-        position = cube.find([r_color, b_color])
+        position = cube.find(r_color, b_color)
         moves = rb_map[position]
         cube.move(moves)
         second_layer_moves += moves
@@ -288,7 +288,7 @@ def second_layer(cube: RubikCubeInterface) -> str:
     }
 
     for _ in range(2):
-        position = cube.find([b_color, l_color])
+        position = cube.find(b_color, l_color)
         moves = bl_map[position]
         cube.move(moves)
         second_layer_moves += moves
@@ -307,7 +307,7 @@ def second_layer(cube: RubikCubeInterface) -> str:
     }
 
     for _ in range(2):
-        position = cube.find([l_color, f_color])
+        position = cube.find(l_color, f_color)
         moves = lf_map[position]
         cube.move(moves)
         second_layer_moves += moves
@@ -448,22 +448,22 @@ def top_layer(cube: RubikCubeInterface) -> str:
 
         def number_matching_corners(c):
             return sum([
-                ''.join(sorted(c.find([c.get('B'), c.get('L'), c.get('U')]))) == 'BLU',
-                ''.join(sorted(c.find([c.get('B'), c.get('R'), c.get('U')]))) == 'BRU',
-                ''.join(sorted(c.find([c.get('F'), c.get('L'), c.get('U')]))) == 'FLU',
-                ''.join(sorted(c.find([c.get('F'), c.get('R'), c.get('U')]))) == 'FRU'
+                ''.join(sorted(c.find(c.get('B'), c.get('L'), c.get('U')))) == 'BLU',
+                ''.join(sorted(c.find(c.get('B'), c.get('R'), c.get('U')))) == 'BRU',
+                ''.join(sorted(c.find(c.get('F'), c.get('L'), c.get('U')))) == 'FLU',
+                ''.join(sorted(c.find(c.get('F'), c.get('R'), c.get('U')))) == 'FRU'
             ])
 
         def matching_up_corner_position(c):
             if number_matching_corners(c) != 1:
                 raise ValueError("Function matching_up_corner_position is valid only for 1 matching top corner")
-            if ''.join(sorted(c.find([c.get('B'), c.get('L'), c.get('U')]))) == 'BLU':
+            if ''.join(sorted(c.find(c.get('B'), c.get('L'), c.get('U')))) == 'BLU':
                 return 'BL'
-            if ''.join(sorted(c.find([c.get('B'), c.get('R'), c.get('U')]))) == 'BRU':
+            if ''.join(sorted(c.find(c.get('B'), c.get('R'), c.get('U')))) == 'BRU':
                 return 'BR'
-            if ''.join(sorted(c.find([c.get('F'), c.get('L'), c.get('U')]))) == 'FLU':
+            if ''.join(sorted(c.find(c.get('F'), c.get('L'), c.get('U')))) == 'FLU':
                 return 'FL'
-            if ''.join(sorted(c.find([c.get('F'), c.get('R'), c.get('U')]))) == 'FRU':
+            if ''.join(sorted(c.find(c.get('F'), c.get('R'), c.get('U')))) == 'FRU':
                 return 'FR'
             raise ValueError("Expected any top position to be found")
 

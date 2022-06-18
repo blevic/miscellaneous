@@ -263,7 +263,7 @@ class RubikCube(RubikCubeInterface):
 
         raise ValueError("No position reached!")
 
-    def find(self, colors: list) -> str:
+    def find(self, *colors: int) -> str:
         if len(colors) == 0:
             raise ValueError('Empty colors -- invalid!.')
 
@@ -271,7 +271,7 @@ class RubikCube(RubikCubeInterface):
             faces = {'F', 'B', 'U', 'D', 'R', 'L'}
 
             for face in faces:
-                if self.get(face) == colors[0]:
+                if colors == (self.get(face),):
                     return face
 
             raise ValueError('Face color not found!')
@@ -294,9 +294,9 @@ class RubikCube(RubikCubeInterface):
 
             for face_0, face_1 in edges:
                 e_0, e_1 = edges[(face_0, face_1)]
-                if colors == [self.get(e_0), self.get(e_1)]:
+                if colors == (self.get(e_0), self.get(e_1)):
                     return face_0 + face_1
-                if colors == [self.get(e_1), self.get(e_0)]:
+                if colors == (self.get(e_1), self.get(e_0)):
                     return face_1 + face_0
 
             raise ValueError('Edge colors not found!')
@@ -315,17 +315,17 @@ class RubikCube(RubikCubeInterface):
 
             for face_0, face_1, face_2 in corners:
                 c_0, c_1, c_2 = corners[(face_0, face_1, face_2)]
-                if colors == [self.get(c_0), self.get(c_1), self.get(c_2)]:
+                if colors == (self.get(c_0), self.get(c_1), self.get(c_2)):
                     return face_0 + face_1 + face_2
-                if colors == [self.get(c_0), self.get(c_2), self.get(c_1)]:
+                if colors == (self.get(c_0), self.get(c_2), self.get(c_1)):
                     return face_0 + face_2 + face_1
-                if colors == [self.get(c_1), self.get(c_0), self.get(c_2)]:
+                if colors == (self.get(c_1), self.get(c_0), self.get(c_2)):
                     return face_1 + face_0 + face_2
-                if colors == [self.get(c_1), self.get(c_2), self.get(c_0)]:
+                if colors == (self.get(c_1), self.get(c_2), self.get(c_0)):
                     return face_1 + face_2 + face_0
-                if colors == [self.get(c_2), self.get(c_0), self.get(c_1)]:
+                if colors == (self.get(c_2), self.get(c_0), self.get(c_1)):
                     return face_2 + face_0 + face_1
-                if colors == [self.get(c_2), self.get(c_1), self.get(c_0)]:
+                if colors == (self.get(c_2), self.get(c_1), self.get(c_0)):
                     return face_2 + face_1 + face_0
 
             raise ValueError('Corner colors not found!')

@@ -72,12 +72,12 @@ class RubikCubeInterface:
         """
         pass
 
-    def find(self, colors: list) -> str:
+    def find(self, *colors: int) -> str:
         """
         Find position of a piece in the cube
 
         Args:
-            colors: list of 1 to 3 elements, with the colors representing piece to be found
+            *colors: 1 to 3 elements, with the colors representing piece to be found
 
         Return:
             position of that piece:
