@@ -35,26 +35,23 @@ class RubikCube(RubikCubeInterface):
 
             return emoji_map[color]
 
-        pad = emoji(Color.BLACK)
         n = self.__size
 
+        padding = emoji(Color.BLACK) + ' '
+        pad_left = padding * n
+        pad_right = padding * 2 * n
+
         for row in range(n):
-            upper_lines = (pad + " ") * n \
-                          + " ".join([emoji(i) for i in self.__face_up[row]]) + " " \
-                          + (pad + " ") * 2 * n
+            upper_lines = pad_left + " ".join(map(emoji, self.__face_up[row])) + " " + pad_right
             print(upper_lines)
 
         for row in range(n):
-            middle_lines = " ".join([emoji(i) for i in self.__face_left[row]]) + " " \
-                           + " ".join([emoji(i) for i in self.__face_front[row]]) + " " \
-                           + " ".join([emoji(i) for i in self.__face_right[row]]) + " " \
-                           + " ".join([emoji(i) for i in self.__face_back[row]]) + " "
+            middle_lines = " ".join(map(emoji, self.__face_left[row] + self.__face_front[row] +
+                                        self.__face_right[row] + self.__face_back[row]))
             print(middle_lines)
 
         for row in range(n):
-            lower_lines = (pad + " ") * n \
-                          + " ".join([emoji(i) for i in self.__face_down[row]]) + " " \
-                          + (pad + " ") * 2 * n
+            lower_lines = pad_left + " ".join(map(emoji, self.__face_down[row])) + " " + pad_right
             print(lower_lines)
 
     def move(self, turns: str) -> None:
