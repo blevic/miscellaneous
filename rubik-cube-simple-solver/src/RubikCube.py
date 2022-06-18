@@ -197,12 +197,12 @@ class RubikCube(RubikCubeInterface):
 
     def is_solved(self) -> bool:
         """Overrides RubikCubeInterface.is_solved()"""
-        return len(set([s for row in self.__face_front for s in row])) == 1 \
-               and len(set([s for row in self.__face_back for s in row])) == 1 \
-               and len(set([s for row in self.__face_up for s in row])) == 1 \
-               and len(set([s for row in self.__face_down for s in row])) == 1 \
-               and len(set([s for row in self.__face_left for s in row])) == 1 \
-               and len(set([s for row in self.__face_right for s in row])) == 1
+
+        def solved_face(face):
+            return len(set([s for row in face for s in row])) == 1
+
+        return solved_face(self.__face_front) and solved_face(self.__face_back) and solved_face(self.__face_left) \
+               and solved_face(self.__face_right) and solved_face(self.__face_up) and solved_face(self.__face_down)
 
     def get(self, position: str):
         if position == 'F':
