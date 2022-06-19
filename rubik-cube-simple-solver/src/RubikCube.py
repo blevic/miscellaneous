@@ -1,3 +1,4 @@
+from itertools import permutations
 from random import choice
 
 from Color import Color
@@ -207,25 +208,10 @@ class RubikCube(RubikCubeInterface):
         if position in self.__faces.keys():
             return self.__faces[position][1][1]
 
-        map_face = {
-            '0': 'F',
-            '1': 'U',
-            '2': 'L',
-            '3': 'D',
-            '4': 'R',
-            '5': 'B'
-        }
+        map_face = {'0': 'F', '1': 'U', '2': 'L', '3': 'D', '4': 'R', '5': 'B'}
 
-        map_singmaster = {
-            '1': (0, 0),
-            '2': (0, 1),
-            '3': (0, 2),
-            '4': (1, 0),
-            '6': (1, 2),
-            '7': (2, 0),
-            '8': (2, 1),
-            '9': (2, 2)
-        }
+        map_singmaster = {'1': (0, 0), '2': (0, 1), '3': (0, 2), '4': (1, 0),
+                          '6': (1, 2), '7': (2, 0), '8': (2, 1), '9': (2, 2)}
 
         if len(position) != 2 or position[0] not in map_face.keys() or position[1] not in map_singmaster.keys():
             raise ValueError("Invalid position!")
@@ -262,13 +248,11 @@ class RubikCube(RubikCubeInterface):
                 ('D', 'R'): ('36', '48')
             }
 
-            for face_0, face_1 in edges:
-                e_0, e_1 = edges[(face_0, face_1)]
-                if colors == (self.get(e_0), self.get(e_1)):
-                    return face_0 + face_1
-                if colors == (self.get(e_1), self.get(e_0)):
-                    return face_1 + face_0
-
+            for edge_id, edge_value in edges.items():
+                z_dict = dict(zip(edge_value, edge_id))
+                for values in permutations(edge_value):
+                    if colors == tuple(map(self.get, values)):
+                        return ''.join(z_dict[i] for i in values)
             raise ValueError('Edge colors not found!')
 
         if len(colors) == 3:
@@ -283,21 +267,11 @@ class RubikCube(RubikCubeInterface):
                 ('B', 'D', 'R'): ('57', '39', '49')
             }
 
-            for face_0, face_1, face_2 in corners:
-                c_0, c_1, c_2 = corners[(face_0, face_1, face_2)]
-                if colors == (self.get(c_0), self.get(c_1), self.get(c_2)):
-                    return face_0 + face_1 + face_2
-                if colors == (self.get(c_0), self.get(c_2), self.get(c_1)):
-                    return face_0 + face_2 + face_1
-                if colors == (self.get(c_1), self.get(c_0), self.get(c_2)):
-                    return face_1 + face_0 + face_2
-                if colors == (self.get(c_1), self.get(c_2), self.get(c_0)):
-                    return face_1 + face_2 + face_0
-                if colors == (self.get(c_2), self.get(c_0), self.get(c_1)):
-                    return face_2 + face_0 + face_1
-                if colors == (self.get(c_2), self.get(c_1), self.get(c_0)):
-                    return face_2 + face_1 + face_0
-
+            for corner_id, corner_value in corners.items():
+                z_dict = dict(zip(corner_value, corner_id))
+                for values in permutations(corner_value):
+                    if colors == tuple(map(self.get, values)):
+                        return ''.join(z_dict[i] for i in values)
             raise ValueError('Corner colors not found!')
 
         raise ValueError('Invalid colors length (>3)')
