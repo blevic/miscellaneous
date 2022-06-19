@@ -350,7 +350,7 @@ def top_layer(cube: RubikCubeInterface) -> str:
 
         for _ in range(2):
             if top_cross_done(cube):
-                return top_cross_moves
+                break
 
             if just_top(cube):
                 cube.move(F_SWITCH)
@@ -373,6 +373,10 @@ def top_layer(cube: RubikCubeInterface) -> str:
                     top_cross_moves += 'U'
                 cube.move(F_SWITCH)
                 top_cross_moves += F_SWITCH
+        else:
+            raise ValueError("Expected top cross to be done")
+
+        return top_cross_moves
 
     def cross_color_matching(cube: RubikCubeInterface) -> str:
         cross_color_matching_moves = ''
