@@ -9,33 +9,33 @@ def base_layer(cube: RubikCubeInterface) -> str:
     d_color = cube.get('D')
 
     def base_cross(cube: RubikCubeInterface) -> str:
-        base_moves = ''
+        base_moves = ""
 
         f_map = {
-            'FU': 'FRpDp',
-            'FD': 'FLD',
-            'FR': 'RpDp',
-            'FL': 'LD',
-            'UF': 'F2',
-            'DF': '',
-            'RF': 'F',
-            'LF': 'Fp',
-            'BU': 'URpF',
-            'BD': 'DLpFp',
-            'BR': 'RDp',
-            'BL': 'LpD',
-            'UB': 'U2F2',
-            'DB': 'D2',
-            'RB': 'R2F',
-            'LB': 'L2Fp',
-            'RU': 'RpF',
-            'UR': 'UF2',
-            'UL': 'UpF2',
-            'LU': 'LFp',
-            'LD': 'LpFp',
-            'DL': 'D',
-            'DR': 'Dp',
-            'RD': 'RF'
+            'FU': "FR′D′",
+            'FD': "FLD",
+            'FR': "R′D′",
+            'FL': "LD",
+            'UF': "F2",
+            'DF': "",
+            'RF': "F",
+            'LF': "F′",
+            'BU': "UR′F",
+            'BD': "DL′F′",
+            'BR': "RD′",
+            'BL': "L′D",
+            'UB': "U2F2",
+            'DB': "D2",
+            'RB': "R2F",
+            'LB': "L2F′",
+            'RU': "R′F",
+            'UR': "UF2",
+            'UL': "U′F2",
+            'LU': "LF′",
+            'LD': "L′F′",
+            'DL': "D",
+            'DR': "D′",
+            'RD': "RF"
         }
         piece = cube.find(d_color, f_color)
         moves = f_map[piece]
@@ -43,28 +43,28 @@ def base_layer(cube: RubikCubeInterface) -> str:
         base_moves += moves
 
         r_map = {
-            'FU': 'FRpFp',
-            'FR': 'Rp',
-            'FL': 'F2RpF2',
-            'UF': 'UpR2',
-            'RF': 'FpUpFR2',
-            'LF': 'FpDF',
-            'BU': 'BpR',
-            'BD': 'BR',
-            'BR': 'R',
-            'BL': 'B2R',
-            'UB': 'UR2',
-            'DB': 'BDBpDp',
-            'RB': 'DBpDp',
-            'LB': 'DBDp',
-            'RU': 'UpBpR',
-            'UR': 'R2',
-            'UL': 'U2R2',
-            'LU': 'UpFRpFp',
-            'LD': 'LpFpDF',
-            'DL': 'FD2Fp',
-            'DR': '',
-            'RD': 'RFDFp'
+            'FU': "FR′F′",
+            'FR': "R′",
+            'FL': "F2R′F2",
+            'UF': "U′R2",
+            'RF': "F′U′FR2",
+            'LF': "F′DF",
+            'BU': "B′R",
+            'BD': "BR",
+            'BR': "R",
+            'BL': "B2R",
+            'UB': "UR2",
+            'DB': "BDB′D′",
+            'RB': "DB′D′",
+            'LB': "DBD′",
+            'RU': "U′B′R",
+            'UR': "R2",
+            'UL': "U2R2",
+            'LU': "U′FR′F′",
+            'LD': "L′F′DF",
+            'DL': "FD2F′",
+            'DR': "",
+            'RD': "RFDF′"
         }
         piece = cube.find(d_color, r_color)
         moves = r_map[piece]
@@ -72,26 +72,26 @@ def base_layer(cube: RubikCubeInterface) -> str:
         base_moves += moves
 
         b_map = {
-            'FU': 'ULpB',
-            'FR': 'DpRpD',
-            'FL': 'DLDp',
-            'UF': 'U2B2',
-            'RF': 'R2BpR2',
-            'LF': 'D2FpD2',
-            'BU': 'BpDpRD',
-            'BD': 'BDpRD',
-            'BR': 'DpRD',
-            'BL': 'DLpDp',
-            'UB': 'B2',
-            'DB': '',
-            'RB': 'Bp',
-            'LB': 'B',
-            'RU': 'RBpRp',
-            'UR': 'UpB2',
-            'UL': 'UB2',
-            'LU': 'LpB',
-            'LD': 'LB',
-            'DL': 'LpDLDp'
+            'FU': "UL′B",
+            'FR': "D′R′D",
+            'FL': "DLD′",
+            'UF': "U2B2",
+            'RF': "R2B′R2",
+            'LF': "D2F′D2",
+            'BU': "B′D′RD",
+            'BD': "BD′RD",
+            'BR': "D′RD",
+            'BL': "DL′D′",
+            'UB': "B2",
+            'DB': "",
+            'RB': "B′",
+            'LB': "B",
+            'RU': "RB′R′",
+            'UR': "U′B2",
+            'UL': "UB2",
+            'LU': "L′B",
+            'LD': "LB",
+            'DL': "L′DLD′"
         }
         piece = cube.find(d_color, b_color)
         moves = b_map[piece]
@@ -99,24 +99,24 @@ def base_layer(cube: RubikCubeInterface) -> str:
         base_moves += moves
 
         l_map = {
-            'FU': 'FpLF',
-            'FR': 'D2RpD2',
-            'FL': 'L',
-            'UF': 'UL2',
-            'RF': 'DFDp',
-            'LF': 'DFpDp',
-            'BU': 'U2FpLF',
-            'BR': 'D2RD2',
-            'BL': 'Lp',
-            'UB': 'UpL2',
-            'RB': 'DpBpD',
-            'LB': 'DpBD',
-            'RU': 'UFpLF',
-            'UR': 'U2L2',
-            'UL': 'L2',
-            'LU': 'UpFpLF',
-            'LD': 'LpDFpDp',
-            'DL': ''
+            'FU': "F′LF",
+            'FR': "D2R′D2",
+            'FL': "L",
+            'UF': "UL2",
+            'RF': "DFD′",
+            'LF': "DF′D′",
+            'BU': "U2F′LF",
+            'BR': "D2RD2",
+            'BL': "L′",
+            'UB': "U′L2",
+            'RB': "D′B′D",
+            'LB': "D′BD",
+            'RU': "UF′LF",
+            'UR': "U2L2",
+            'UL': "L2",
+            'LU': "U′F′LF",
+            'LD': "L′DF′D′",
+            'DL': ""
         }
         piece = cube.find(d_color, l_color)
         moves = l_map[piece]
@@ -126,17 +126,17 @@ def base_layer(cube: RubikCubeInterface) -> str:
         return base_moves
 
     def base_corners(cube: RubikCubeInterface) -> str:
-        corners_moves = ''
+        corners_moves = ""
 
         dfr_map = {
-            'BDL': 'LU2Lp',
-            'BDR': 'BUBp',
-            'BLU': 'U2',
-            'BRU': 'U',
-            'DFL': 'FUpFpUp',
-            'DFR': '',
-            'FLU': 'Up',
-            'FRU': ''
+            'BDL': "LU2L′",
+            'BDR': "BUB′",
+            'BLU': "U2",
+            'BRU': "U",
+            'DFL': "FU′F′U′",
+            'DFR': "",
+            'FLU': "U′",
+            'FRU': ""
         }
         piece = cube.find(d_color, f_color, r_color)
         sorted_piece = ''.join(sorted(piece))
@@ -147,20 +147,20 @@ def base_layer(cube: RubikCubeInterface) -> str:
         for _ in range(6):
             if cube.find(d_color, f_color, r_color) == 'DFR':
                 break
-            moves = 'RURpUp'
+            moves = "RUR′U′"
             cube.move(moves)
             corners_moves += moves
         else:
             raise ValueError("Exceeded moves trying to match DFR")
 
         drb_map = {
-            'BDL': 'LULp',
-            'BDR': '',
-            'BLU': 'U',
-            'BRU': '',
-            'DFL': 'FU2Fp',
-            'FLU': 'U2',
-            'FRU': 'Up'
+            'BDL': "LUL′",
+            'BDR': "",
+            'BLU': "U",
+            'BRU': "",
+            'DFL': "FU2F′",
+            'FLU': "U2",
+            'FRU': "U′"
         }
         piece = cube.find(d_color, r_color, b_color)
         sorted_piece = ''.join(sorted(piece))
@@ -171,19 +171,19 @@ def base_layer(cube: RubikCubeInterface) -> str:
         for _ in range(6):
             if cube.find(d_color, r_color, b_color) == 'DRB':
                 break
-            moves = 'BUBpUp'
+            moves = "BUB′U′"
             cube.move(moves)
             corners_moves += moves
         else:
             raise ValueError("Exceeded moves trying to match DRB")
 
         dbl_map = {
-            'BDL': '',
-            'BLU': '',
-            'BRU': 'Up',
-            'DFL': 'FUFp',
-            'FLU': 'U',
-            'FRU': 'U2'
+            'BDL': "",
+            'BLU': "",
+            'BRU': "U′",
+            'DFL': "FUF′",
+            'FLU': "U",
+            'FRU': "U2"
         }
         piece = cube.find(d_color, b_color, l_color)
         sorted_piece = ''.join(sorted(piece))
@@ -194,18 +194,18 @@ def base_layer(cube: RubikCubeInterface) -> str:
         for _ in range(6):
             if cube.find(d_color, b_color, l_color) == 'DBL':
                 break
-            moves = 'LULpUp'
+            moves = "LUL′U′"
             cube.move(moves)
             corners_moves += moves
         else:
             raise ValueError("Exceeded moves trying to match DBL")
 
         dlf_map = {
-            'BLU': 'Up',
-            'BRU': 'U2',
-            'DFL': '',
-            'FLU': '',
-            'FRU': 'U'
+            'BLU': "U′",
+            'BRU': "U2",
+            'DFL': "",
+            'FLU': "",
+            'FRU': "U"
         }
         piece = cube.find(d_color, l_color, f_color)
         sorted_piece = ''.join(sorted(piece))
@@ -216,7 +216,7 @@ def base_layer(cube: RubikCubeInterface) -> str:
         for _ in range(6):
             if cube.find(d_color, l_color, f_color) == 'DLF':
                 break
-            moves = 'FUFpUp'
+            moves = "FUF′U′"
             cube.move(moves)
             corners_moves += moves
         else:
@@ -231,32 +231,32 @@ def base_layer(cube: RubikCubeInterface) -> str:
 
 
 def second_layer(cube: RubikCubeInterface) -> str:
-    R_INSERT = 'RURpUpFpUpF'
-    L_INSERT = 'FpUpFURURp'
+    R_INSERT = "RUR′U′F′U′F"
+    L_INSERT = "F′U′FURUR′"
     f_color = cube.get('F')
     r_color = cube.get('R')
     b_color = cube.get('B')
     l_color = cube.get('L')
 
-    second_layer_moves = ''
+    second_layer_moves = ""
 
     fr_map = {
-        'UF': 'U2' + L_INSERT,
-        'UR': 'Up' + L_INSERT,
+        'UF': "U2" + L_INSERT,
+        'UR': "U′" + L_INSERT,
         'UB': L_INSERT,
-        'UL': 'U' + L_INSERT,
-        'FU': 'U' + R_INSERT,
-        'RU': 'U2' + R_INSERT,
-        'BU': 'Up' + R_INSERT,
+        'UL': "U" + L_INSERT,
+        'FU': "U" + R_INSERT,
+        'RU': "U2" + R_INSERT,
+        'BU': "U′" + R_INSERT,
         'LU': R_INSERT,
-        'FR': '',
+        'FR': "",
         'RF': R_INSERT,
-        'RB': 'y' + R_INSERT + 'yp',
-        'BR': 'y' + R_INSERT + 'yp',
-        'BL': 'y2' + R_INSERT + 'y2',
-        'LB': 'y2' + R_INSERT + 'y2',
-        'LF': 'yp' + R_INSERT + 'y',
-        'FL': 'yp' + R_INSERT + 'y'
+        'RB': "y" + R_INSERT + "y′",
+        'BR': "y" + R_INSERT + "y′",
+        'BL': "y2" + R_INSERT + "y2",
+        'LB': "y2" + R_INSERT + "y2",
+        'LF': "y′" + R_INSERT + "y",
+        'FL': "y′" + R_INSERT + "y"
     }
 
     for _ in range(2):
@@ -266,20 +266,20 @@ def second_layer(cube: RubikCubeInterface) -> str:
         second_layer_moves += moves
 
     rb_map = {
-        'UF': 'yU' + L_INSERT + 'yp',
-        'UR': 'yU2' + L_INSERT + 'yp',
-        'UB': 'yUp' + L_INSERT + 'yp',
-        'UL': 'y' + L_INSERT + 'yp',
-        'FU': 'y' + R_INSERT + 'yp',
-        'RU': 'yU' + R_INSERT + 'yp',
-        'BU': 'yU2' + R_INSERT + 'yp',
-        'LU': 'yUp' + R_INSERT + 'yp',
-        'RB': '',
-        'BR': 'y' + R_INSERT + 'yp',
-        'BL': 'y2' + R_INSERT + 'y2',
-        'LB': 'y2' + R_INSERT + 'y2',
-        'LF': 'yp' + R_INSERT + 'y',
-        'FL': 'yp' + R_INSERT + 'y'
+        'UF': "yU" + L_INSERT + "y′",
+        'UR': "yU2" + L_INSERT + "y′",
+        'UB': "yU′" + L_INSERT + "y′",
+        'UL': "y" + L_INSERT + "y′",
+        'FU': "y" + R_INSERT + "y′",
+        'RU': "yU" + R_INSERT + "y′",
+        'BU': "yU2" + R_INSERT + "y′",
+        'LU': "yU′" + R_INSERT + "y′",
+        'RB': "",
+        'BR': "y" + R_INSERT + "y′",
+        'BL': "y2" + R_INSERT + "y2",
+        'LB': "y2" + R_INSERT + "y2",
+        'LF': "y′" + R_INSERT + "y",
+        'FL': "y′" + R_INSERT + "y"
     }
 
     for _ in range(2):
@@ -289,18 +289,18 @@ def second_layer(cube: RubikCubeInterface) -> str:
         second_layer_moves += moves
 
     bl_map = {
-        'UF': 'y2' + L_INSERT + 'y2',
-        'UR': 'y2U' + L_INSERT + 'y2',
-        'UB': 'y2U2' + L_INSERT + 'y2',
-        'UL': 'y2Up' + L_INSERT + 'y2',
-        'FU': 'y2Up' + R_INSERT + 'y2',
-        'RU': 'y2' + R_INSERT + 'y2',
-        'BU': 'y2U' + R_INSERT + 'y2',
-        'LU': 'y2U2' + R_INSERT + 'y2',
-        'BL': '',
-        'LB': 'y2' + R_INSERT + 'y2',
-        'LF': 'yp' + R_INSERT + 'y',
-        'FL': 'yp' + R_INSERT + 'y'
+        'UF': "y2" + L_INSERT + "y2",
+        'UR': "y2U" + L_INSERT + "y2",
+        'UB': "y2U2" + L_INSERT + "y2",
+        'UL': "y2U′" + L_INSERT + "y2",
+        'FU': "y2U′" + R_INSERT + "y2",
+        'RU': "y2" + R_INSERT + "y2",
+        'BU': "y2U" + R_INSERT + "y2",
+        'LU': "y2U2" + R_INSERT + "y2",
+        'BL': "",
+        'LB': "y2" + R_INSERT + "y2",
+        'LF': "y′" + R_INSERT + "y",
+        'FL': "y′" + R_INSERT + "y"
     }
 
     for _ in range(2):
@@ -310,16 +310,16 @@ def second_layer(cube: RubikCubeInterface) -> str:
         second_layer_moves += moves
 
     lf_map = {
-        'UF': 'ypUp' + L_INSERT + 'y',
-        'UR': 'yp' + L_INSERT + 'y',
-        'UB': 'ypU' + L_INSERT + 'y',
-        'UL': 'ypU2' + L_INSERT + 'y',
-        'FU': 'ypU2' + R_INSERT + 'y',
-        'RU': 'ypUp' + R_INSERT + 'y',
-        'BU': 'yp' + R_INSERT + 'y',
-        'LU': 'ypU' + R_INSERT + 'y',
-        'LF': '',
-        'FL': 'yp' + R_INSERT + 'y'
+        'UF': "y′U′" + L_INSERT + "y",
+        'UR': "y′" + L_INSERT + "y",
+        'UB': "y′U" + L_INSERT + "y",
+        'UL': "y′U2" + L_INSERT + "y",
+        'FU': "y′U2" + R_INSERT + "y",
+        'RU': "y′U′" + R_INSERT + "y",
+        'BU': "y′" + R_INSERT + "y",
+        'LU': "y′U" + R_INSERT + "y",
+        'LF': "",
+        'FL': "y′" + R_INSERT + "y"
     }
 
     for _ in range(2):
@@ -333,8 +333,8 @@ def second_layer(cube: RubikCubeInterface) -> str:
 
 def top_layer(cube: RubikCubeInterface) -> str:
     def top_cross(cube: RubikCubeInterface) -> str:
-        top_cross_moves = ''
-        F_SWITCH = 'FRURpUpFp'
+        top_cross_moves = ""
+        F_SWITCH = "FRUR′U′F′"
 
         def top_cross_done(c):
             return c.get('U') == c.get('12') == c.get('14') == c.get('16') == c.get('18')
@@ -360,8 +360,8 @@ def top_layer(cube: RubikCubeInterface) -> str:
                 for i in range(4):
                     if cube.get('12') == cube.get('14'):
                         break
-                    cube.move('U')
-                    top_cross_moves += 'U'
+                    cube.move("U")
+                    top_cross_moves += "U"
                 else:
                     raise ValueError("Expected l shape to be found")
                 cube.move(F_SWITCH)
@@ -369,8 +369,8 @@ def top_layer(cube: RubikCubeInterface) -> str:
 
             if horizontal_line(cube):
                 if cube.get('12') == cube.get('18'):
-                    cube.move('U')
-                    top_cross_moves += 'U'
+                    cube.move("U")
+                    top_cross_moves += "U"
                 cube.move(F_SWITCH)
                 top_cross_moves += F_SWITCH
         else:
@@ -379,7 +379,7 @@ def top_layer(cube: RubikCubeInterface) -> str:
         return top_cross_moves
 
     def cross_color_matching(cube: RubikCubeInterface) -> str:
-        cross_color_matching_moves = ''
+        cross_color_matching_moves = ""
 
         def f_match(c):
             return c.get('F') == c.get('02')
@@ -406,33 +406,33 @@ def top_layer(cube: RubikCubeInterface) -> str:
             if not match_l(c):
                 raise ValueError("Incorrect use of matched_l_position: no l matched")
             if f_match(c) and r_match(c):
-                return "FR"
+                return 'FR'
             if r_match(c) and b_match(c):
-                return "RB"
+                return 'RB'
             if b_match(c) and l_match(c):
-                return "BL"
+                return 'BL'
             if l_match(c) and f_match(c):
-                return "LF"
+                return 'LF'
             raise ValueError("No L match found")
 
         if count_matched(cube) == 4:
-            return ''
+            return ""
 
-        candidate_moves = ''
+        candidate_moves = ""
         for _ in range(4):
-            candidate_moves += 'U'
-            cube.move('U')
+            candidate_moves += "U"
+            cube.move("U")
             if count_matched(cube) == 4:
                 return candidate_moves
 
-        CROSS_COLOR_MATCH_SEQ = 'RURpURU2Rp'
+        CROSS_COLOR_MATCH_SEQ = "RUR′URU2R′"
 
         # two colors are matchable
         for _ in range(4):
             if count_matched(cube) == 2:
                 break
-            cross_color_matching_moves += 'U'
-            cube.move('U')
+            cross_color_matching_moves += "U"
+            cube.move("U")
         else:
             ValueError("Expected two colors to match")
 
@@ -443,16 +443,16 @@ def top_layer(cube: RubikCubeInterface) -> str:
         for _ in range(4):
             if count_matched(cube) == 2:
                 break
-            cross_color_matching_moves += 'U'
-            cube.move('U')
+            cross_color_matching_moves += "U"
+            cube.move("U")
         else:
             ValueError("Expected two colors to match")
 
         matched_l_position_map = {
-            'FR': 'yp' + CROSS_COLOR_MATCH_SEQ + 'y',
+            'FR': "y′" + CROSS_COLOR_MATCH_SEQ + "y",
             'RB': CROSS_COLOR_MATCH_SEQ,
-            'BL': 'y' + CROSS_COLOR_MATCH_SEQ + 'yp',
-            'LF': 'y2' + CROSS_COLOR_MATCH_SEQ + 'y2'
+            'BL': "y" + CROSS_COLOR_MATCH_SEQ + "y′",
+            'LF': "y2" + CROSS_COLOR_MATCH_SEQ + "y2"
         }
 
         if not match_l(cube):
@@ -463,19 +463,19 @@ def top_layer(cube: RubikCubeInterface) -> str:
         cube.move(moves)
 
         if count_matched(cube) == 4:
-            return ''
+            return ""
 
         for _ in range(4):
-            cross_color_matching_moves += 'U'
-            cube.move('U')
+            cross_color_matching_moves += "U"
+            cube.move("U")
             if count_matched(cube) == 4:
                 return cross_color_matching_moves
 
         raise ValueError("Expected top cross to be color matched by here")
 
     def corner_matching(cube: RubikCubeInterface) -> str:
-        corner_matching_moves = ''
-        SWAP_CORNERS = 'URUpLpURpUpL'
+        corner_matching_moves = ""
+        SWAP_CORNERS = "URU′L′UR′U′L"
 
         def number_matching_corners(c):
             return sum([
@@ -499,7 +499,7 @@ def top_layer(cube: RubikCubeInterface) -> str:
             raise ValueError("Expected any top position to be found")
 
         if number_matching_corners(cube) == 4:
-            return ''
+            return ""
 
         if number_matching_corners(cube) == 0:
             corner_matching_moves += SWAP_CORNERS
@@ -511,10 +511,10 @@ def top_layer(cube: RubikCubeInterface) -> str:
         matching_up_corner = matching_up_corner_position(cube)
 
         rotation_map = {
-            'BL': ('y2', 'y2'),
-            'BR': ('y', 'yp'),
-            'FL': ('yp', 'y'),
-            'FR': ('', '')
+            'BL': ("y2", "y2"),
+            'BR': ("y", "y′"),
+            'FL': ("y′", "y"),
+            'FR': ("", "")
         }
 
         pre_rotation, post_rotation = rotation_map[matching_up_corner]
@@ -533,14 +533,14 @@ def top_layer(cube: RubikCubeInterface) -> str:
         raise ValueError("Expected corners to be matched by here")
 
     def final_round(cube: RubikCubeInterface) -> str:
-        final_round_moves = ''
-        R_MOVES = 'RURpUp'
+        final_round_moves = ""
+        R_MOVES = "RUR′U′"
 
         if cube.is_solved():
-            return ''
+            return ""
 
-        final_round_moves += 'x2'
-        cube.move('x2')
+        final_round_moves += "x2"
+        cube.move("x2")
 
         for _ in range(5):
             if cube.is_solved():
@@ -552,8 +552,8 @@ def top_layer(cube: RubikCubeInterface) -> str:
                 cube.move(R_MOVES)
             else:
                 raise ValueError("Expected bottom piece to be solved")
-            final_round_moves += 'D'
-            cube.move('D')
+            final_round_moves += "D"
+            cube.move("D")
         else:
             raise ValueError("Expected cube to be solved")
 
@@ -569,13 +569,13 @@ def top_layer(cube: RubikCubeInterface) -> str:
 
 def layer_by_layer(cube: RubikCubeInterface) -> str:
     if cube.is_solved():
-        return ''
+        return ""
 
     if cube.get_size() != 3:
-        raise ValueError('LBL algorithm is valid for cube size 3 only.')
+        raise ValueError("LBL algorithm is valid for cube size 3 only.")
 
     moves = base_layer(cube)
     moves += second_layer(cube)
     moves += top_layer(cube)
 
-    return moves.replace("p", "′")
+    return moves

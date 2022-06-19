@@ -67,21 +67,21 @@ class RubikCube(RubikCubeInterface):
         }
 
         move_equivalence = {
-            "B": "x2Fx2",
-            "U": "x′Fx",
-            "D": "xFx′",
-            "L": "y′Fy",
-            "R": "yFy′",
-            "f": "zB",
-            "b": "z′F",
-            "u": "yD",
-            "d": "y′U",
-            "l": "x′R",
-            "r": "xL",
-            "z": "xyx′",
-            "M": "lL′",
-            "E": "dD′",
-            "S": "fF′"
+            'B': "x2Fx2",
+            'U': "x′Fx",
+            'D': "xFx′",
+            'L': "y′Fy",
+            'R': "yFy′",
+            'f': "zB",
+            'b': "z′F",
+            'u': "yD",
+            'd': "y′U",
+            'l': "x′R",
+            'r': "xL",
+            'z': "xyx′",
+            'M': "lL′",
+            'E': "dD′",
+            'S': "fF′"
         }
 
         def parse_sequence(s):
@@ -118,10 +118,10 @@ class RubikCube(RubikCubeInterface):
                     raise ValueError("Unrecognized move: " + move)
 
             elif len(move) == 2:
-                if move[1] in 'p′':
+                if move[1] in "p′":
                     for _ in range(3):
                         self.move(move[0])
-                elif move[1] == '2':
+                elif move[1] == "2":
                     for _ in range(2):
                         self.move(move[0])
                 else:
@@ -175,11 +175,11 @@ class RubikCube(RubikCubeInterface):
         if steps < 1:
             return ""
 
-        face_turns = ["F", "B", "U", "D", "L", "R"]
-        wm_lst = ["f", "b", "u", "d", "l", "r"]
-        sm_lst = ["M", "E", "S"]
-        cr_lst = ["x", "y", "z"]
-        modifiers = ["", "′", "2"]
+        face_turns = ['F', 'B', 'U', 'D', 'L', 'R']
+        wm_lst = ['f', 'b', 'u', 'd', 'l', 'r']
+        sm_lst = ['M', 'E', 'S']
+        cr_lst = ['x', 'y', 'z']
+        modifiers = ['', '′', '2']
 
         allowed_moves = face_turns + wide_moves * wm_lst + slice_moves * sm_lst + cube_rotations * cr_lst
 
@@ -223,14 +223,14 @@ class RubikCube(RubikCubeInterface):
 
     def find(self, *colors: int) -> str:
         if len(colors) == 0:
-            raise ValueError('Empty colors -- invalid!.')
+            raise ValueError("Empty colors -- invalid!.")
 
         if len(colors) == 1:
             for face in self.__faces.keys():
                 if colors == (self.get(face),):
                     return face
 
-            raise ValueError('Face color not found!')
+            raise ValueError("Face color not found!")
 
         if len(colors) == 2:
             edges = {
@@ -253,7 +253,7 @@ class RubikCube(RubikCubeInterface):
                 for values in permutations(edge_value):
                     if colors == tuple(map(self.get, values)):
                         return ''.join(z_dict[i] for i in values)
-            raise ValueError('Edge colors not found!')
+            raise ValueError("Edge colors not found!")
 
         if len(colors) == 3:
             corners = {
@@ -272,9 +272,9 @@ class RubikCube(RubikCubeInterface):
                 for values in permutations(corner_value):
                     if colors == tuple(map(self.get, values)):
                         return ''.join(z_dict[i] for i in values)
-            raise ValueError('Corner colors not found!')
+            raise ValueError("Corner colors not found!")
 
-        raise ValueError('Invalid colors length (>3)')
+        raise ValueError("Invalid colors length (>3)")
 
     def solve(self) -> str:
         return layer_by_layer(self)
