@@ -144,10 +144,14 @@ def base_layer(cube: RubikCubeInterface) -> str:
         cube.move(moves)
         corners_moves += moves
 
-        while cube.find(d_color, f_color, r_color) != 'DFR':
+        for _ in range(6):
+            if cube.find(d_color, f_color, r_color) == 'DFR':
+                break
             moves = 'RURpUp'
             cube.move(moves)
             corners_moves += moves
+        else:
+            raise ValueError("Exceeded moves trying to match DFR")
 
         drb_map = {
             'BDL': 'LULp',
@@ -164,10 +168,14 @@ def base_layer(cube: RubikCubeInterface) -> str:
         cube.move(moves)
         corners_moves += moves
 
-        while cube.find(d_color, r_color, b_color) != 'DRB':
+        for _ in range(6):
+            if cube.find(d_color, r_color, b_color) == 'DRB':
+                break
             moves = 'BUBpUp'
             cube.move(moves)
             corners_moves += moves
+        else:
+            raise ValueError("Exceeded moves trying to match DRB")
 
         dbl_map = {
             'BDL': '',
@@ -183,10 +191,14 @@ def base_layer(cube: RubikCubeInterface) -> str:
         cube.move(moves)
         corners_moves += moves
 
-        while cube.find(d_color, b_color, l_color) != 'DBL':
+        for _ in range(6):
+            if cube.find(d_color, b_color, l_color) == 'DBL':
+                break
             moves = 'LULpUp'
             cube.move(moves)
             corners_moves += moves
+        else:
+            raise ValueError("Exceeded moves trying to match DBL")
 
         dlf_map = {
             'BLU': 'Up',
@@ -201,10 +213,14 @@ def base_layer(cube: RubikCubeInterface) -> str:
         cube.move(moves)
         corners_moves += moves
 
-        while cube.find(d_color, l_color, f_color) != 'DLF':
+        for _ in range(6):
+            if cube.find(d_color, l_color, f_color) == 'DLF':
+                break
             moves = 'FUFpUp'
             cube.move(moves)
             corners_moves += moves
+        else:
+            raise ValueError("Exceeded moves trying to match DLF")
 
         return corners_moves
 
@@ -332,7 +348,7 @@ def top_layer(cube: RubikCubeInterface) -> str:
         def l_shape(c):
             return not top_cross_done(c) and not just_top(c) and not horizontal_line(c)
 
-        while True:
+        for _ in range(2):
             if top_cross_done(cube):
                 return top_cross_moves
 
@@ -341,9 +357,13 @@ def top_layer(cube: RubikCubeInterface) -> str:
                 top_cross_moves += F_SWITCH
 
             if l_shape(cube):
-                while cube.get('12') != cube.get('14'):
+                for i in range(4):
+                    if cube.get('12') == cube.get('14'):
+                        break
                     cube.move('U')
                     top_cross_moves += 'U'
+                else:
+                    raise ValueError("Expected l shape to be found")
                 cube.move(F_SWITCH)
                 top_cross_moves += F_SWITCH
 
@@ -403,19 +423,26 @@ def top_layer(cube: RubikCubeInterface) -> str:
 
         CROSS_COLOR_MATCH_SEQ = 'RURpURU2Rp'
 
-        # two are matchable
-        while count_matched(cube) != 2:
+        # two colors are matchable
+        for _ in range(4):
+            if count_matched(cube) == 2:
+                break
             cross_color_matching_moves += 'U'
             cube.move('U')
-
+        else:
+            ValueError("Expected two colors to match")
 
         if match_across(cube):
             cross_color_matching_moves += CROSS_COLOR_MATCH_SEQ
             cube.move(CROSS_COLOR_MATCH_SEQ)
 
-        while count_matched(cube) != 2:
+        for _ in range(4):
+            if count_matched(cube) == 2:
+                break
             cross_color_matching_moves += 'U'
             cube.move('U')
+        else:
+            ValueError("Expected two colors to match")
 
         matched_l_position_map = {
             'FR': 'yp' + CROSS_COLOR_MATCH_SEQ + 'y',
@@ -511,12 +538,20 @@ def top_layer(cube: RubikCubeInterface) -> str:
         final_round_moves += 'x2'
         cube.move('x2')
 
-        while not cube.is_solved():
-            while cube.get('33') != cube.get('D'):
+        for _ in range(5):
+            if cube.is_solved():
+                break
+            for i in range(6):
+                if cube.get('33') == cube.get('D'):
+                    break
                 final_round_moves += R_MOVES
                 cube.move(R_MOVES)
+            else:
+                raise ValueError("Expected bottom piece to be solved")
             final_round_moves += 'D'
             cube.move('D')
+        else:
+            raise ValueError("Expected cube to be solved")
 
         return final_round_moves
 
