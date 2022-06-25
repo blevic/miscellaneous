@@ -2,11 +2,11 @@ from RubikCubeInterface import RubikCubeInterface
 
 
 def base_layer(cube: RubikCubeInterface) -> str:
-    f_color = cube.get('F')
-    r_color = cube.get('R')
-    b_color = cube.get('B')
-    l_color = cube.get('L')
-    d_color = cube.get('D')
+    f_color = cube.get_color('F')
+    r_color = cube.get_color('R')
+    b_color = cube.get_color('B')
+    l_color = cube.get_color('L')
+    d_color = cube.get_color('D')
 
     def base_cross(cube: RubikCubeInterface) -> str:
         base_moves = ""
@@ -233,10 +233,10 @@ def base_layer(cube: RubikCubeInterface) -> str:
 def second_layer(cube: RubikCubeInterface) -> str:
     R_INSERT = "RUR′U′F′U′F"
     L_INSERT = "F′U′FURUR′"
-    f_color = cube.get('F')
-    r_color = cube.get('R')
-    b_color = cube.get('B')
-    l_color = cube.get('L')
+    f_color = cube.get_color('F')
+    r_color = cube.get_color('R')
+    b_color = cube.get_color('B')
+    l_color = cube.get_color('L')
 
     second_layer_moves = ""
 
@@ -337,13 +337,14 @@ def top_layer(cube: RubikCubeInterface) -> str:
         F_SWITCH = "FRUR′U′F′"
 
         def top_cross_done(c):
-            return c.get('U') == c.get('12') == c.get('14') == c.get('16') == c.get('18')
+            return c.get_color('U') == c.get_color('12') == c.get_color('14') == c.get_color('16') == c.get_color('18')
 
         def just_top(c):
-            return c.get('U') == c.get('02') == c.get('22') == c.get('42') == c.get('52')
+            return c.get_color('U') == c.get_color('02') == c.get_color('22') == c.get_color('42') == c.get_color('52')
 
         def horizontal_line(c):
-            return not top_cross_done(c) and (c.get('12') == c.get('18') or c.get('14') == c.get('16'))
+            return not top_cross_done(c) and (
+                        c.get_color('12') == c.get_color('18') or c.get_color('14') == c.get_color('16'))
 
         def l_shape(c):
             return not top_cross_done(c) and not just_top(c) and not horizontal_line(c)
@@ -358,7 +359,7 @@ def top_layer(cube: RubikCubeInterface) -> str:
 
             if l_shape(cube):
                 for i in range(4):
-                    if cube.get('12') == cube.get('14'):
+                    if cube.get_color('12') == cube.get_color('14'):
                         break
                     cube.move("U")
                     top_cross_moves += "U"
@@ -368,7 +369,7 @@ def top_layer(cube: RubikCubeInterface) -> str:
                 top_cross_moves += F_SWITCH
 
             if horizontal_line(cube):
-                if cube.get('12') == cube.get('18'):
+                if cube.get_color('12') == cube.get_color('18'):
                     cube.move("U")
                     top_cross_moves += "U"
                 cube.move(F_SWITCH)
@@ -382,16 +383,16 @@ def top_layer(cube: RubikCubeInterface) -> str:
         cross_color_matching_moves = ""
 
         def f_match(c):
-            return c.get('F') == c.get('02')
+            return c.get_color('F') == c.get_color('02')
 
         def r_match(c):
-            return c.get('R') == c.get('42')
+            return c.get_color('R') == c.get_color('42')
 
         def b_match(c):
-            return c.get('B') == c.get('52')
+            return c.get_color('B') == c.get_color('52')
 
         def l_match(c):
-            return c.get('L') == c.get('22')
+            return c.get_color('L') == c.get_color('22')
 
         def count_matched(c):
             return sum([f_match(c), r_match(c), b_match(c), l_match(c)])
@@ -479,22 +480,22 @@ def top_layer(cube: RubikCubeInterface) -> str:
 
         def number_matching_corners(c):
             return sum([
-                ''.join(sorted(c.find(c.get('B'), c.get('L'), c.get('U')))) == 'BLU',
-                ''.join(sorted(c.find(c.get('B'), c.get('R'), c.get('U')))) == 'BRU',
-                ''.join(sorted(c.find(c.get('F'), c.get('L'), c.get('U')))) == 'FLU',
-                ''.join(sorted(c.find(c.get('F'), c.get('R'), c.get('U')))) == 'FRU'
+                ''.join(sorted(c.find(c.get_color('B'), c.get_color('L'), c.get_color('U')))) == 'BLU',
+                ''.join(sorted(c.find(c.get_color('B'), c.get_color('R'), c.get_color('U')))) == 'BRU',
+                ''.join(sorted(c.find(c.get_color('F'), c.get_color('L'), c.get_color('U')))) == 'FLU',
+                ''.join(sorted(c.find(c.get_color('F'), c.get_color('R'), c.get_color('U')))) == 'FRU'
             ])
 
         def matching_up_corner_position(c):
             if number_matching_corners(c) != 1:
                 raise ValueError("Function matching_up_corner_position is valid only for 1 matching top corner")
-            if ''.join(sorted(c.find(c.get('B'), c.get('L'), c.get('U')))) == 'BLU':
+            if ''.join(sorted(c.find(c.get_color('B'), c.get_color('L'), c.get_color('U')))) == 'BLU':
                 return 'BL'
-            if ''.join(sorted(c.find(c.get('B'), c.get('R'), c.get('U')))) == 'BRU':
+            if ''.join(sorted(c.find(c.get_color('B'), c.get_color('R'), c.get_color('U')))) == 'BRU':
                 return 'BR'
-            if ''.join(sorted(c.find(c.get('F'), c.get('L'), c.get('U')))) == 'FLU':
+            if ''.join(sorted(c.find(c.get_color('F'), c.get_color('L'), c.get_color('U')))) == 'FLU':
                 return 'FL'
-            if ''.join(sorted(c.find(c.get('F'), c.get('R'), c.get('U')))) == 'FRU':
+            if ''.join(sorted(c.find(c.get_color('F'), c.get_color('R'), c.get_color('U')))) == 'FRU':
                 return 'FR'
             raise ValueError("Expected any top position to be found")
 
@@ -546,7 +547,7 @@ def top_layer(cube: RubikCubeInterface) -> str:
             if cube.is_solved():
                 break
             for i in range(6):
-                if cube.get('33') == cube.get('D'):
+                if cube.get_color('33') == cube.get_color('D'):
                     break
                 final_round_moves += R_MOVES
                 cube.move(R_MOVES)

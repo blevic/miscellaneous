@@ -54,21 +54,21 @@ class TestRubikCube(unittest.TestCase):
 
     def test_get(self):
         cube = RubikCube()
-        self.assertEqual(cube.get('F'), Color.GREEN)
-        self.assertEqual(cube.get('U'), Color.WHITE)
-        self.assertEqual(cube.get('D'), Color.YELLOW)
+        self.assertEqual(cube.get_color('F'), Color.GREEN)
+        self.assertEqual(cube.get_color('U'), Color.WHITE)
+        self.assertEqual(cube.get_color('D'), Color.YELLOW)
 
-        self.assertEqual(cube.get('01'), Color.GREEN)
-        self.assertEqual(cube.get('11'), Color.WHITE)
-        self.assertEqual(cube.get('31'), Color.YELLOW)
+        self.assertEqual(cube.get_color('01'), Color.GREEN)
+        self.assertEqual(cube.get_color('11'), Color.WHITE)
+        self.assertEqual(cube.get_color('31'), Color.YELLOW)
 
         cube.move("F")
-        self.assertEqual(cube.get('32'), Color.RED)
+        self.assertEqual(cube.get_color('32'), Color.RED)
 
         cube = RubikCube()
         for invalid_piece in ['', 'FF', 'FUY', 'Y', 'f', 'FURB', 'FB', 'UR', '15', '5', '6', '66']:
             with self.assertRaises(ValueError):
-                cube.get(invalid_piece)
+                cube.get_color(invalid_piece)
 
     def test_find(self):
 

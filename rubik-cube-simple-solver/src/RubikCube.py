@@ -204,7 +204,7 @@ class RubikCube(RubikCubeInterface):
 
         return all(map(solved_face, self.__faces.values()))
 
-    def get(self, position: str):
+    def get_color(self, position: str):
         if position in self.__faces.keys():
             return self.__faces[position][1][1]
 
@@ -227,7 +227,7 @@ class RubikCube(RubikCubeInterface):
 
         if len(colors) == 1:
             for face in self.__faces.keys():
-                if colors == (self.get(face),):
+                if colors == (self.get_color(face),):
                     return face
 
             raise ValueError("Face color not found!")
@@ -251,7 +251,7 @@ class RubikCube(RubikCubeInterface):
             for edge_id, edge_value in edges.items():
                 z_dict = dict(zip(edge_value, edge_id))
                 for values in permutations(edge_value):
-                    if colors == tuple(map(self.get, values)):
+                    if colors == tuple(map(self.get_color, values)):
                         return ''.join(z_dict[i] for i in values)
             raise ValueError("Edge colors not found!")
 
@@ -270,7 +270,7 @@ class RubikCube(RubikCubeInterface):
             for corner_id, corner_value in corners.items():
                 z_dict = dict(zip(corner_value, corner_id))
                 for values in permutations(corner_value):
-                    if colors == tuple(map(self.get, values)):
+                    if colors == tuple(map(self.get_color, values)):
                         return ''.join(z_dict[i] for i in values)
             raise ValueError("Corner colors not found!")
 

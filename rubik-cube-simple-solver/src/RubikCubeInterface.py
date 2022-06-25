@@ -50,7 +50,7 @@ class RubikCubeInterface:
         """Respond whether the cube is solved"""
         pass
 
-    def get(self, position: str):
+    def get_color(self, position: str):
         """
         Get color in a given position, according to Singmaster notation:
 
