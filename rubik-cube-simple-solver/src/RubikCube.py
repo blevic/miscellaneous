@@ -12,8 +12,8 @@ class RubikCube(RubikCubeInterface):
     """Models Rubik's Cube"""
 
     def __init__(self):
-        self.__size = n = CUBE_SIZE
-        self.__faces = {'F': [[Color.GREEN] * n] * n,
+        self._size = n = CUBE_SIZE
+        self._faces = {'F': [[Color.GREEN] * n] * n,
                         'B': [[Color.BLUE] * n] * n,
                         'U': [[Color.WHITE] * n] * n,
                         'D': [[Color.YELLOW] * n] * n,
@@ -36,23 +36,23 @@ class RubikCube(RubikCubeInterface):
 
             return emoji_map[color]
 
-        n = self.__size
+        n = self._size
 
         padding = emoji(Color.BLACK) + ' '
         pad_left = padding * n
         pad_right = padding * 2 * n
 
         for row in range(n):
-            upper_lines = pad_left + " ".join(map(emoji, self.__faces['U'][row])) + " " + pad_right
+            upper_lines = pad_left + " ".join(map(emoji, self._faces['U'][row])) + " " + pad_right
             print(upper_lines)
 
         for row in range(n):
-            middle_lines = " ".join(map(emoji, self.__faces['L'][row] + self.__faces['F'][row] +
-                                        self.__faces['R'][row] + self.__faces['B'][row]))
+            middle_lines = " ".join(map(emoji, self._faces['L'][row] + self._faces['F'][row] +
+                                        self._faces['R'][row] + self._faces['B'][row]))
             print(middle_lines)
 
         for row in range(n):
-            lower_lines = pad_left + " ".join(map(emoji, self.__faces['D'][row])) + " " + pad_right
+            lower_lines = pad_left + " ".join(map(emoji, self._faces['D'][row])) + " " + pad_right
             print(lower_lines)
 
     def move(self, turns: str) -> None:
@@ -61,7 +61,7 @@ class RubikCube(RubikCubeInterface):
         allowed_modifiers = set("2p′")
 
         move_base_functions = {
-            'F': self.__move_F,
+            'F': self._move_F,
             'x': self.__move_x,
             'y': self.__move_y
         }
@@ -130,45 +130,45 @@ class RubikCube(RubikCubeInterface):
                 raise ValueError("Unrecognized move length. Move: " + move)
 
     @staticmethod
-    def __rotate_clockwise(face: list) -> list:
+    def _rotate_clockwise(face: list) -> list:
         return [[face[j][i] for j in range(len(face[0]) - 1, -1, -1)] for i in range(len(face))]
 
     @staticmethod
-    def __rotate_counterclockwise(face: list) -> list:
+    def _rotate_counterclockwise(face: list) -> list:
         return [[face[j][i] for j in range(len(face))] for i in range(len(face[0]) - 1, -1, -1)]
 
-    def __move_F(self) -> None:
-        self.__faces['F'] = self.__rotate_clockwise(self.__faces['F'])
+    def _move_F(self) -> None:
+        self._faces['F'] = self._rotate_clockwise(self._faces['F'])
 
-        n = self.__size
-        _saved_up = self.__faces['U'][n - 1]
+        n = self._size
+        _saved_up = self._faces['U'][n - 1]
 
-        self.__faces['U'][n - 1] = [self.__faces['L'][row][n - 1] for row in range(n)][::-1]
-        self.__faces['L'] = [l[:-1] + [self.__faces['D'][0][i]] for i, l in enumerate(self.__faces['L'])]
-        self.__faces['D'][0] = [self.__faces['R'][row][0] for row in range(n)][::-1]
-        self.__faces['R'] = [[_saved_up[i]] + l[1:] for i, l in enumerate(self.__faces['R'])]
+        self._faces['U'][n - 1] = [self._faces['L'][row][n - 1] for row in range(n)][::-1]
+        self._faces['L'] = [l[:-1] + [self._faces['D'][0][i]] for i, l in enumerate(self._faces['L'])]
+        self._faces['D'][0] = [self._faces['R'][row][0] for row in range(n)][::-1]
+        self._faces['R'] = [[_saved_up[i]] + l[1:] for i, l in enumerate(self._faces['R'])]
 
     def __move_x(self) -> None:
-        self.__faces['R'] = self.__rotate_clockwise(self.__faces['R'])
-        self.__faces['L'] = self.__rotate_counterclockwise(self.__faces['L'])
+        self._faces['R'] = self._rotate_clockwise(self._faces['R'])
+        self._faces['L'] = self._rotate_counterclockwise(self._faces['L'])
 
-        _saved_up = self.__faces['U']
+        _saved_up = self._faces['U']
 
-        self.__faces['U'] = self.__faces['F']
-        self.__faces['F'] = self.__faces['D']
-        self.__faces['D'] = [i[::-1] for i in self.__faces['B'][::-1]]
-        self.__faces['B'] = [i[::-1] for i in _saved_up[::-1]]
+        self._faces['U'] = self._faces['F']
+        self._faces['F'] = self._faces['D']
+        self._faces['D'] = [i[::-1] for i in self._faces['B'][::-1]]
+        self._faces['B'] = [i[::-1] for i in _saved_up[::-1]]
 
     def __move_y(self) -> None:
-        self.__faces['U'] = self.__rotate_clockwise(self.__faces['U'])
-        self.__faces['D'] = self.__rotate_counterclockwise(self.__faces['D'])
+        self._faces['U'] = self._rotate_clockwise(self._faces['U'])
+        self._faces['D'] = self._rotate_counterclockwise(self._faces['D'])
 
-        _saved_front = self.__faces['F']
+        _saved_front = self._faces['F']
 
-        self.__faces['F'] = self.__faces['R']
-        self.__faces['R'] = self.__faces['B']
-        self.__faces['B'] = self.__faces['L']
-        self.__faces['L'] = _saved_front
+        self._faces['F'] = self._faces['R']
+        self._faces['R'] = self._faces['B']
+        self._faces['B'] = self._faces['L']
+        self._faces['L'] = _saved_front
 
     def scramble(self, steps=20, wide_moves=False, slice_moves=False, cube_rotations=False) -> str:
         """Overrides RubikCubeInterface.scramble(steps)"""
@@ -202,11 +202,11 @@ class RubikCube(RubikCubeInterface):
         def solved_face(face):
             return len(set([s for row in face for s in row])) == 1
 
-        return all(map(solved_face, self.__faces.values()))
+        return all(map(solved_face, self._faces.values()))
 
     def get_color(self, position: str):
-        if position in self.__faces.keys():
-            return self.__faces[position][1][1]
+        if position in self._faces.keys():
+            return self._faces[position][1][1]
 
         map_face = {'0': 'F', '1': 'U', '2': 'L', '3': 'D', '4': 'R', '5': 'B'}
 
@@ -219,14 +219,14 @@ class RubikCube(RubikCubeInterface):
         face_id = map_face[position[0]]
         x, y = map_singmaster[position[1]]
 
-        return self.__faces[face_id][x][y]
+        return self._faces[face_id][x][y]
 
     def find(self, *colors: int) -> str:
         if len(colors) == 0:
             raise ValueError("Empty colors -- invalid!.")
 
         if len(colors) == 1:
-            for face in self.__faces.keys():
+            for face in self._faces.keys():
                 if colors == (self.get_color(face),):
                     return face
 
@@ -280,7 +280,7 @@ class RubikCube(RubikCubeInterface):
         return layer_by_layer(self)
 
     def get_size(self) -> int:
-        return self.__size
+        return self._size
 
     def set_color(self, position: str, color: str) -> None:
         colors = {'G': Color.GREEN, 'R': Color.RED, 'O': Color.ORANGE,
@@ -294,8 +294,8 @@ class RubikCube(RubikCubeInterface):
         if color not in colors:
             raise ValueError("Invalid color!")
 
-        if position in self.__faces.keys():
-            self.__faces[position] = colors[color]
+        if position in self._faces.keys():
+            self._faces[position] = colors[color]
             return
 
         if len(position) != 2 or position[0] not in map_face or position[1] not in map_singmaster:
@@ -304,7 +304,7 @@ class RubikCube(RubikCubeInterface):
         face_id = map_face[position[0]]
         x, y = map_singmaster[position[1]]
 
-        self.__faces[face_id][x][y] = colors[color]
+        self._faces[face_id][x][y] = colors[color]
 
 
     def set_all_colors(self, color_dict: dict) -> None:
