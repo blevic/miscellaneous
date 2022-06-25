@@ -230,9 +230,6 @@ class RubikCube(RubikCubeInterface):
         if len(colors) == 0:
             raise ValueError("Empty colors -- invalid!.")
 
-        map_color = {Color.GREEN: 'G', Color.RED: 'R', Color.ORANGE: 'O',
-                     Color.WHITE: 'W', Color.BLUE: 'B', Color.YELLOW: 'Y'}
-
         if len(colors) == 1:
             for face in self._faces.keys():
                 if colors == (self.get_color(face),):
@@ -303,7 +300,7 @@ class RubikCube(RubikCubeInterface):
             raise ValueError("Invalid color!")
 
         if position in self._faces.keys():
-            self._faces[position] = colors[color]
+            self._faces[position][1][1] = colors[color]
             return
 
         if len(position) != 2 or position[0] not in map_face or position[1] not in map_singmaster:
