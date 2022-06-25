@@ -221,7 +221,7 @@ class RubikCube(RubikCubeInterface):
 
         return self._faces[face_id][x][y]
 
-    def find(self, *colors: int) -> str:
+    def find_position(self, *colors: int) -> str:
         if len(colors) == 0:
             raise ValueError("Empty colors -- invalid!.")
 
