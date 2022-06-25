@@ -1,6 +1,5 @@
 import unittest
 
-from Color import Color
 from RubikCube import RubikCube
 
 
@@ -52,57 +51,56 @@ class TestRubikCube(unittest.TestCase):
         cube.move("FFpBBpUUpDDpLLpRRpffpbbpuupddpllprrpxxpyypzzpMMpEEpSSp")
         self.assertTrue(cube.is_solved())
 
-    def test_get(self):
+    def test_get_color(self):
         cube = RubikCube()
-        self.assertEqual(cube.get_color('F'), Color.GREEN)
-        self.assertEqual(cube.get_color('U'), Color.WHITE)
-        self.assertEqual(cube.get_color('D'), Color.YELLOW)
+        self.assertEqual(cube.get_color('F'), 'G')
+        self.assertEqual(cube.get_color('U'), 'W')
+        self.assertEqual(cube.get_color('D'), 'Y')
 
-        self.assertEqual(cube.get_color('01'), Color.GREEN)
-        self.assertEqual(cube.get_color('11'), Color.WHITE)
-        self.assertEqual(cube.get_color('31'), Color.YELLOW)
+        self.assertEqual(cube.get_color('01'), 'G')
+        self.assertEqual(cube.get_color('11'), 'W')
+        self.assertEqual(cube.get_color('31'), 'Y')
 
         cube.move("F")
-        self.assertEqual(cube.get_color('32'), Color.RED)
+        self.assertEqual(cube.get_color('32'), 'R')
 
         cube = RubikCube()
         for invalid_piece in ['', 'FF', 'FUY', 'Y', 'f', 'FURB', 'FB', 'UR', '15', '5', '6', '66']:
             with self.assertRaises(ValueError):
                 cube.get_color(invalid_piece)
 
-    def test_find(self):
+    def test_find_position(self):
 
         cube = RubikCube()
-        self.assertEqual(cube.find_position(Color.GREEN), 'F')
-        self.assertEqual(cube.find_position(Color.WHITE), 'U')
-        self.assertEqual(cube.find_position(Color.RED), 'R')
+        self.assertEqual(cube.find_position('G'), 'F')
+        self.assertEqual(cube.find_position('W'), 'U')
+        self.assertEqual(cube.find_position('R'), 'R')
 
-        self.assertEqual(cube.find_position(Color.GREEN, Color.WHITE), 'FU')
-        self.assertEqual(cube.find_position(Color.WHITE, Color.GREEN), 'UF')
-        self.assertEqual(cube.find_position(Color.GREEN, Color.RED), 'FR')
-        self.assertEqual(cube.find_position(Color.RED, Color.GREEN), 'RF')
+        self.assertEqual(cube.find_position('G', 'W'), 'FU')
+        self.assertEqual(cube.find_position('W', 'G'), 'UF')
+        self.assertEqual(cube.find_position('G', 'R'), 'FR')
+        self.assertEqual(cube.find_position('R', 'G'), 'RF')
 
-        self.assertEqual(cube.find_position(Color.GREEN, Color.WHITE, Color.RED), 'FUR')
-        self.assertEqual(cube.find_position(Color.GREEN, Color.RED, Color.WHITE), 'FRU')
-        self.assertEqual(cube.find_position(Color.WHITE, Color.GREEN, Color.RED), 'UFR')
-        self.assertEqual(cube.find_position(Color.WHITE, Color.RED, Color.GREEN), 'URF')
-        self.assertEqual(cube.find_position(Color.RED, Color.GREEN, Color.WHITE), 'RFU')
-        self.assertEqual(cube.find_position(Color.RED, Color.WHITE, Color.GREEN), 'RUF')
+        self.assertEqual(cube.find_position('G', 'W', 'R'), 'FUR')
+        self.assertEqual(cube.find_position('G', 'R', 'W'), 'FRU')
+        self.assertEqual(cube.find_position('W', 'G', 'R'), 'UFR')
+        self.assertEqual(cube.find_position('W', 'R', 'G'), 'URF')
+        self.assertEqual(cube.find_position('R', 'G', 'W'), 'RFU')
+        self.assertEqual(cube.find_position('R', 'W', 'G'), 'RUF')
 
         cube = RubikCube()
         cube.move('F')
-        self.assertEqual(cube.find_position(Color.RED, Color.GREEN), 'DF')
+        self.assertEqual(cube.find_position('R', 'G'), 'DF')
 
         cube = RubikCube()
         invalid_pieces = {
             (),
-            (Color.WHITE, Color.YELLOW),
+            ('W', 'Y'),
             (0, 1),
-            (Color.WHITE, Color.GREEN, Color.RED, Color.YELLOW),
-            (Color,),
-            ((Color.WHITE,),)
+            ('W', 'G', 'R', 'Y'),
+            (('W',),)
         }
-        
+
         for invalid_piece in invalid_pieces:
             with self.assertRaises(ValueError):
                 cube.find_position(invalid_piece)

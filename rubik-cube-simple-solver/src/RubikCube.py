@@ -204,9 +204,13 @@ class RubikCube(RubikCubeInterface):
 
         return all(map(solved_face, self._faces.values()))
 
-    def get_color(self, position: str):
+    def get_color(self, position: str) -> str:
+        map_color = {Color.GREEN: 'G', Color.RED: 'R', Color.ORANGE: 'O',
+                     Color.WHITE: 'W', Color.BLUE: 'B', Color.YELLOW: 'Y'}
+
         if position in self._faces.keys():
-            return self._faces[position][1][1]
+            color = self._faces[position][1][1]
+            return map_color[color]
 
         map_face = {'0': 'F', '1': 'U', '2': 'L', '3': 'D', '4': 'R', '5': 'B'}
 
@@ -218,12 +222,16 @@ class RubikCube(RubikCubeInterface):
 
         face_id = map_face[position[0]]
         x, y = map_singmaster[position[1]]
+        color = self._faces[face_id][x][y]
 
-        return self._faces[face_id][x][y]
+        return map_color[color]
 
-    def find_position(self, *colors: int) -> str:
+    def find_position(self, *colors: str) -> str:
         if len(colors) == 0:
             raise ValueError("Empty colors -- invalid!.")
+
+        map_color = {Color.GREEN: 'G', Color.RED: 'R', Color.ORANGE: 'O',
+                     Color.WHITE: 'W', Color.BLUE: 'B', Color.YELLOW: 'Y'}
 
         if len(colors) == 1:
             for face in self._faces.keys():

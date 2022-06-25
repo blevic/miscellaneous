@@ -50,7 +50,7 @@ class RubikCubeInterface:
         """Respond whether the cube is solved"""
         pass
 
-    def get_color(self, position: str):
+    def get_color(self, position: str) -> str:
         """
         Get color in a given position, according to Singmaster notation:
 
@@ -68,16 +68,18 @@ class RubikCubeInterface:
                 position: any valid position; all valid positions are listed above
 
             Return:
-                color contained in the position
+                color contained in the position:
+                    'G', 'R', 'O', 'W', 'B', 'Y'
         """
         pass
 
-    def find_position(self, *colors: int) -> str:
+    def find_position(self, *colors: str) -> str:
         """
         Find position of a piece in the cube
 
         Args:
-            *colors: 1 to 3 elements, with the colors representing piece to be found
+            *colors: 1 to 3 elements, with the colors representing piece to be found:
+                     'G', 'R', 'O', 'W', 'B', 'Y'
 
         Return:
             position of that piece:
