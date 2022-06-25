@@ -281,3 +281,42 @@ class RubikCube(RubikCubeInterface):
 
     def get_size(self) -> int:
         return self.__size
+
+    def set_color(self, position: str, color: str) -> None:
+        colors = {'G': Color.GREEN, 'R': Color.RED, 'O': Color.ORANGE,
+                  'W': Color.WHITE, 'B': Color.BLUE, 'Y': Color.YELLOW}
+
+        map_face = {'0': 'F', '1': 'U', '2': 'L', '3': 'D', '4': 'R', '5': 'B'}
+
+        map_singmaster = {'1': (0, 0), '2': (0, 1), '3': (0, 2), '4': (1, 0),
+                          '6': (1, 2), '7': (2, 0), '8': (2, 1), '9': (2, 2)}
+
+        if color not in colors:
+            raise ValueError("Invalid color!")
+
+        if position in self.__faces.keys():
+            self.__faces[position] = colors[color]
+            return
+
+        if len(position) != 2 or position[0] not in map_face or position[1] not in map_singmaster:
+            raise ValueError("Invalid position!")
+
+        face_id = map_face[position[0]]
+        x, y = map_singmaster[position[1]]
+
+        self.__faces[face_id][x][y] = colors[color]
+
+
+    def set_all_colors(self, color_dict: dict) -> None:
+        if len(color_dict) != 54:
+            raise ValueError("Expected 54 keys in direct_dict")
+
+        if set(color_dict.values()) != set('GROWBY'):
+            raise ValueError('Expected G-R-O-W-B-Y as colors')
+
+        for color in set('GROWBY'):
+            if list(color_dict.values()).count(color) != 9:
+                raise ValueError(f"Expected 9 times the color '{color}'")
+
+        for color, position in color_dict.items():
+            self.set_color(color, position)
