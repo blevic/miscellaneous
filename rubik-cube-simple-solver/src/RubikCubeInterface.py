@@ -100,3 +100,28 @@ class RubikCubeInterface:
     def get_size(self) -> int:
         """Return the cube's size"""
         pass
+
+    def set_color(self, position: str, color: str) -> None:
+        """
+        Sets a color on the cube
+
+        Args:
+            position: position on the cube according to Singmaster notation:
+                      'F', 'B', 'U', 'D', 'L', 'R', '01', ..., '04', '06', ..., '09','11', ..., '59'
+            color: one of the 6 standard colors on the cube:
+                      'G', 'R', 'O', 'W', 'B', 'Y'
+        """
+        pass
+
+    def set_all_colors(self, color_dict=False) -> None:
+        """
+        Sets the colors on the cube
+
+        Args:
+            color_dict: dictionary that sets colors on all 54 cube positions;
+                         keys: 54 (6 + 6*8) positions, according to Singmaster notation:
+                               'F', 'B', 'U', 'D', 'L', 'R', '01', ..., '04', '06', ..., '09','11', ..., '59'
+                         values: one of the 6 standard colors on the cube:
+                                 'G', 'R', 'O', 'W', 'B', 'Y'
+        """
+        pass
