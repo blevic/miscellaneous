@@ -113,7 +113,7 @@ class RubikCubeInterface:
         """
         pass
 
-    def set_all_colors(self, color_dict=False) -> None:
+    def set_all_colors(self, color_dict: dict) -> None:
         """
         Sets the colors on the cube
 
