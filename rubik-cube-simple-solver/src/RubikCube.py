@@ -58,8 +58,6 @@ class RubikCube(RubikCubeInterface):
 
     def move(self, turns: str) -> None:
         """Overrides RubikCubeInterface.move(turns)"""
-        allowed_moves = set("FBUDLRfbudlrxyzMES")
-        allowed_modifiers = set("2p′")
 
         move_base_functions = {
             'F': self._move_F,
@@ -85,31 +83,7 @@ class RubikCube(RubikCubeInterface):
             'S': "fF′"
         }
 
-        def parse_sequence(s):
-            if len(s) <= 2:
-                if len(s) == 0:
-                    return []
-                elif len(s) == 1:
-                    if s in allowed_moves:
-                        return [s]
-                    else:
-                        raise ValueError("Unrecognized move was requested: '" + s + "'")
-                elif len(s) == 2:
-                    if s[0] in allowed_moves and s[1] in allowed_moves:
-                        return [s[0], s[1]]
-                    elif s[0] in allowed_moves and s[1] in allowed_modifiers:
-                        return [s]
-                    else:
-                        raise ValueError("Unrecognized move(s) requested: '" + s + "'")
-            else:
-                if s[0] in allowed_moves and s[1] in allowed_modifiers:
-                    return [s[:2]] + parse_sequence(s[2:])
-                elif s[0] in allowed_moves:
-                    return [s[:1]] + parse_sequence(s[1:])
-                else:
-                    raise ValueError("Unrecognized move was requested: '" + s[0] + "'")
-
-        for move in parse_sequence(turns):
+        for move in self._parse_moves(turns):
             if len(move) == 1:
                 if move in move_base_functions:
                     move_base_functions[move]()
@@ -129,6 +103,33 @@ class RubikCube(RubikCubeInterface):
                     raise ValueError("Unrecognized modifier. Move: " + move)
             else:
                 raise ValueError("Unrecognized move length. Move: " + move)
+
+    def _parse_moves(self, moves: str) -> list:
+        allowed_moves = set("FBUDLRfbudlrxyzMES")
+        allowed_modifiers = set("2p′")
+
+        if len(moves) <= 2:
+            if len(moves) == 0:
+                return []
+            elif len(moves) == 1:
+                if moves in allowed_moves:
+                    return [moves]
+                else:
+                    raise ValueError(f"Unrecognized move was requested: '{moves}'")
+            elif len(moves) == 2:
+                if moves[0] in allowed_moves and moves[1] in allowed_moves:
+                    return [moves[0], moves[1]]
+                elif moves[0] in allowed_moves and moves[1] in allowed_modifiers:
+                    return [moves]
+                else:
+                    raise ValueError(f"Unrecognized move(s) requested: '{moves}'")
+        else:
+            if moves[0] in allowed_moves and moves[1] in allowed_modifiers:
+                return [moves[:2]] + self._parse_moves(moves[2:])
+            elif moves[0] in allowed_moves:
+                return [moves[:1]] + self._parse_moves(moves[1:])
+            else:
+                raise ValueError(f"Unrecognized move was requested: '{moves[0]}'")
 
     @staticmethod
     def _rotate_clockwise(face: list) -> list:
