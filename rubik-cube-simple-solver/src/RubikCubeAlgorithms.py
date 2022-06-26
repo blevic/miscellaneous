@@ -144,14 +144,19 @@ def base_layer(cube: RubikCubeInterface) -> str:
         cube.move(moves)
         corners_moves += moves
 
-        for _ in range(6):
-            if cube.find_position(d_color, f_color, r_color) == 'DFR':
-                break
-            moves = "RUR′U′"
-            cube.move(moves)
-            corners_moves += moves
-        else:
-            raise ValueError("Exceeded moves trying to match DFR")
+        dfr_elevator_map = {
+            'DFR': "",
+            'FRD': "F′U′FUF′U′F",
+            'RDF': "RUR′U′RUR′",
+            'URF': "RU2R′U′RUR′",
+            'RFU': "RUR′",
+            'FUR': "F′U′F"
+        }
+
+        position = cube.find_position(d_color, f_color, r_color)
+        moves = dfr_elevator_map[position]
+        cube.move(moves)
+        corners_moves += moves
 
         drb_map = {
             'BDL': "LUL′",
@@ -168,14 +173,13 @@ def base_layer(cube: RubikCubeInterface) -> str:
         cube.move(moves)
         corners_moves += moves
 
-        for _ in range(6):
-            if cube.find_position(d_color, r_color, b_color) == 'DRB':
-                break
-            moves = "BUB′U′"
+        if cube.find_position(d_color, r_color, b_color) != 'DRB':
+            cube.move("y")
+            corners_moves += "y"
+            position = cube.find_position(d_color, r_color, b_color)
+            moves = dfr_elevator_map[position] + "y′"
             cube.move(moves)
             corners_moves += moves
-        else:
-            raise ValueError("Exceeded moves trying to match DRB")
 
         dbl_map = {
             'BDL': "",
@@ -191,14 +195,13 @@ def base_layer(cube: RubikCubeInterface) -> str:
         cube.move(moves)
         corners_moves += moves
 
-        for _ in range(6):
-            if cube.find_position(d_color, b_color, l_color) == 'DBL':
-                break
-            moves = "LUL′U′"
+        if cube.find_position(d_color, b_color, l_color) != 'DBL':
+            cube.move("y2")
+            corners_moves += "y2"
+            position = cube.find_position(d_color, b_color, l_color)
+            moves = dfr_elevator_map[position] + "y2"
             cube.move(moves)
             corners_moves += moves
-        else:
-            raise ValueError("Exceeded moves trying to match DBL")
 
         dlf_map = {
             'BLU': "U′",
@@ -213,14 +216,13 @@ def base_layer(cube: RubikCubeInterface) -> str:
         cube.move(moves)
         corners_moves += moves
 
-        for _ in range(6):
-            if cube.find_position(d_color, l_color, f_color) == 'DLF':
-                break
-            moves = "FUF′U′"
+        if cube.find_position(d_color, l_color, f_color) != 'DLF':
+            cube.move("y′")
+            corners_moves += "y′"
+            position = cube.find_position(d_color, l_color, f_color)
+            moves = dfr_elevator_map[position] + "y"
             cube.move(moves)
             corners_moves += moves
-        else:
-            raise ValueError("Exceeded moves trying to match DLF")
 
         return corners_moves
 
