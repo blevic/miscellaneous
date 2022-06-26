@@ -315,9 +315,59 @@ class RubikCube(RubikCubeInterface):
 
         return ''.join(new_moves)
 
+    def _remove_consecutive_moves(self, moves: str) -> str:
+        """Removes consecutive moves"""
+        moves_lst = self._parse_moves(moves)
+
+        if len(moves_lst) == 0:
+            return ''
+
+        modifier_counter_map = {'': 1, '2': 2, '′': 3, 'p': 3}
+        counter_modifier_map = {1: '', 2: '2', 3: '′'}
+
+        def aggregate_moves(m1: str, m2: str) -> int:
+            c1 = modifier_counter_map[m1]
+            c2 = modifier_counter_map[m2]
+            return (c1 + c2) % 4
+
+        len_0 = len(moves_lst) + 1
+
+        while len(moves_lst) < len_0:
+            len_0 = len(moves_lst)
+            new_moves = []
+
+            i = 0
+            add_final_element = True
+            while i < len(moves_lst) - 1:
+                base_0, modifier_0 = moves_lst[i][0], moves_lst[i][1:]
+                base_1, modifier_1 = moves_lst[i + 1][0], moves_lst[i + 1][1:]
+
+                if base_0 == base_1:
+                    counter = aggregate_moves(modifier_0, modifier_1)
+                    if counter != 0:
+                        new_moves.append(base_0 + counter_modifier_map[counter])
+
+                    if i < len(moves_lst) - 2:
+                        i += 2
+                        continue
+                    else:
+                        add_final_element = False
+                        break
+
+                new_moves.append(moves_lst[i])
+                i += 1
+
+            if add_final_element:
+                new_moves.append(moves_lst[-1])
+
+            moves_lst = new_moves
+
+        return ''.join(new_moves)
+
     def solve(self) -> str:
         solution = layer_by_layer(self)
         solution = self._remove_rotations(solution)
+        solution = self._remove_consecutive_moves(solution)
         return solution
 
     def get_size(self) -> int:
