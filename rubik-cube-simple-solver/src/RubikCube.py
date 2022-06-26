@@ -283,8 +283,55 @@ class RubikCube(RubikCubeInterface):
 
         raise ValueError("Invalid colors length (>3)")
 
+    def _remove_rotations(self, moves: str) -> str:
+        """Removes x-y-z rotations from moves"""
+        moves_lst = self._parse_moves(moves)
+        new_moves = []
+
+        x_map = {'U': 'F', 'D': 'B', 'L': 'L', 'R': 'R', 'F': 'D', 'B': 'U'}
+        y_map = {'U': 'U', 'D': 'D', 'L': 'F', 'R': 'B', 'F': 'R', 'B': 'L'}
+        z_map = {'U': 'L', 'D': 'R', 'L': 'D', 'R': 'U', 'F': 'F', 'B': 'B'}
+
+        my_map = {'U': 'U', 'D': 'D', 'L': 'L', 'R': 'R', 'F': 'F', 'B': 'B'}
+
+        for move in moves_lst:
+            base, modifier = move[0], move[1:]
+
+            if modifier == '':
+                counter = 1
+            elif modifier == '2':
+                counter = 2
+            elif modifier == '′' or modifier == 'p':
+                counter = 3
+            else:
+                raise ValueError("Invalid modifier!")
+
+            if base == 'x':
+                for _ in range(counter):
+                    inv_map = {v: k for k, v in my_map.items()}
+                    for key in x_map:
+                        my_map[inv_map[key]] = x_map[key]
+            elif base == 'y':
+                for _ in range(counter):
+                    inv_map = {v: k for k, v in my_map.items()}
+                    for key in y_map:
+                        my_map[inv_map[key]] = y_map[key]
+            elif base == 'z':
+                for _ in range(counter):
+                    inv_map = {v: k for k, v in my_map.items()}
+                    for key in z_map:
+                        my_map[inv_map[key]] = z_map[key]
+            elif base in my_map:
+                new_moves.append(my_map[base] + modifier)
+            else:
+                return moves
+
+        return ''.join(new_moves)
+
     def solve(self) -> str:
-        return layer_by_layer(self)
+        solution = layer_by_layer(self)
+        solution = self._remove_rotations(solution)
+        return solution
 
     def get_size(self) -> int:
         return self._size
