@@ -61,8 +61,8 @@ class RubikCube(RubikCubeInterface):
 
         move_base_functions = {
             'F': self._move_F,
-            'x': self.__move_x,
-            'y': self.__move_y
+            'x': self._move_x,
+            'y': self._move_y
         }
 
         move_equivalence = {
@@ -150,7 +150,7 @@ class RubikCube(RubikCubeInterface):
         self._faces['D'][0] = [self._faces['R'][row][0] for row in range(n)][::-1]
         self._faces['R'] = [[_saved_up[i]] + l[1:] for i, l in enumerate(self._faces['R'])]
 
-    def __move_x(self) -> None:
+    def _move_x(self) -> None:
         self._faces['R'] = self._rotate_clockwise(self._faces['R'])
         self._faces['L'] = self._rotate_counterclockwise(self._faces['L'])
 
@@ -161,7 +161,7 @@ class RubikCube(RubikCubeInterface):
         self._faces['D'] = [i[::-1] for i in self._faces['B'][::-1]]
         self._faces['B'] = [i[::-1] for i in _saved_up[::-1]]
 
-    def __move_y(self) -> None:
+    def _move_y(self) -> None:
         self._faces['U'] = self._rotate_clockwise(self._faces['U'])
         self._faces['D'] = self._rotate_counterclockwise(self._faces['D'])
 
