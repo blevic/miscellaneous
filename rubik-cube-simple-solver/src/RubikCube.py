@@ -13,12 +13,12 @@ class RubikCube(RubikCubeInterface):
 
     def __init__(self):
         self._size = n = CUBE_SIZE
-        self._faces = {'F': [[Color.GREEN] * n] * n,
-                        'B': [[Color.BLUE] * n] * n,
-                        'U': [[Color.WHITE] * n] * n,
-                        'D': [[Color.YELLOW] * n] * n,
-                        'L': [[Color.ORANGE] * n] * n,
-                        'R': [[Color.RED] * n] * n}
+        self._faces = {'F': [[Color.GREEN] * n for _ in range(n)],
+                       'B': [[Color.BLUE] * n for _ in range(n)],
+                       'U': [[Color.WHITE] * n for _ in range(n)],
+                       'D': [[Color.YELLOW] * n for _ in range(n)],
+                       'L': [[Color.ORANGE] * n for _ in range(n)],
+                       'R': [[Color.RED] * n for _ in range(n)]}
 
     def draw(self) -> None:
         """Overrides RubikCubeInterface.draw()"""
@@ -311,7 +311,6 @@ class RubikCube(RubikCubeInterface):
 
         self._faces[face_id][x][y] = colors[color]
 
-
     def set_all_colors(self, color_dict: dict) -> None:
         if len(color_dict) != 54:
             raise ValueError("Expected 54 keys in direct_dict")
@@ -323,5 +322,5 @@ class RubikCube(RubikCubeInterface):
             if list(color_dict.values()).count(color) != 9:
                 raise ValueError(f"Expected 9 times the color '{color}'")
 
-        for color, position in color_dict.items():
-            self.set_color(color, position)
+        for position, color in color_dict.items():
+            self.set_color(position, color)

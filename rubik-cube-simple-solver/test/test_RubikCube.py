@@ -135,6 +135,30 @@ class TestRubikCube(unittest.TestCase):
             cube_2.move(initial_scramble.replace(" ", "") + solution)
             self.assertTrue(cube_2.is_solved())
 
+    def test_set_color(self):
+        colors = list('GROWBY')
+        positions = list('FBUDRL') + [a + b for a in list('012345') for b in list('12346789')]
+        for color in colors:
+            for position in positions:
+                cube = RubikCube()
+                cube.set_color(position, color)
+                self.assertEqual(cube.get_color(position), color)
+
+    def test_set_all_colors(self):
+        colors = list('GROWBY')
+        positions = list('FBUDRL') + [a + b for a in list('012345') for b in list('12346789')]
+
+        colors_dict = {}
+
+        for idx, position in enumerate(positions):
+            colors_dict[position] = colors[idx % len(colors)]
+
+        cube = RubikCube()
+        cube.set_all_colors(colors_dict)
+
+        for position in positions:
+            self.assertEqual(cube.get_color(position), colors_dict[position])
+
 
 if __name__ == '__main__':
     unittest.main()
