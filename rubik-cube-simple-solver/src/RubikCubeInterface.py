@@ -127,3 +127,12 @@ class RubikCubeInterface:
                                  'G', 'R', 'O', 'W', 'B', 'Y'
         """
         pass
+
+    def is_solvable(self) -> bool:
+        """
+        Check if the cube is solvable
+
+        Return:
+            True if the cube is solvable, False otherwise
+        """
+        pass

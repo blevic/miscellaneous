@@ -159,6 +159,26 @@ class TestRubikCube(unittest.TestCase):
         for position in positions:
             self.assertEqual(cube.get_color(position), colors_dict[position])
 
+    def test_is_solvable(self):
+        cube = RubikCube()
+        self.assertTrue(cube.is_solvable())
+
+        cube = RubikCube()
+        cube.move("FBUDLRLLpL′L2fulxMMEyzSS′S2")
+        self.assertTrue(cube.is_solvable())
+
+        cube = RubikCube()
+        f_color = cube.get_color('F')
+        b_color = cube.get_color('B')
+        cube.set_color('F', b_color)
+        cube.set_color('B', f_color)
+        self.assertFalse(cube.is_solvable())
+
+        cube = RubikCube()
+        cube.move("FBUDLRLLpL′L2fulxMMEyzSS′S2")
+        cube.set_color('F', 'R')
+        self.assertFalse(cube.is_solvable())
+
 
 if __name__ == '__main__':
     unittest.main()

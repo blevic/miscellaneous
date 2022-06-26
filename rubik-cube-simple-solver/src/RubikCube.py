@@ -1,5 +1,6 @@
 from itertools import permutations
 from random import choice
+from copy import deepcopy
 
 from Color import Color
 from RubikCubeAlgorithms import layer_by_layer
@@ -324,3 +325,14 @@ class RubikCube(RubikCubeInterface):
 
         for position, color in color_dict.items():
             self.set_color(position, color)
+
+    def is_solvable(self) -> bool:
+        cube_copy = deepcopy(self)
+        try:
+            cube_copy.solve()
+            if cube_copy.is_solved():
+                return True
+            else:
+                return False
+        except (ValueError, KeyError):
+            return False
