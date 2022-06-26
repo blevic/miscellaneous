@@ -291,36 +291,23 @@ class RubikCube(RubikCubeInterface):
         x_map = {'U': 'F', 'D': 'B', 'L': 'L', 'R': 'R', 'F': 'D', 'B': 'U'}
         y_map = {'U': 'U', 'D': 'D', 'L': 'F', 'R': 'B', 'F': 'R', 'B': 'L'}
         z_map = {'U': 'L', 'D': 'R', 'L': 'D', 'R': 'U', 'F': 'F', 'B': 'B'}
+        modifier_counter_map = {'': 1, '2': 2, '′': 3, 'p': 3}
+        base_ref_map = {'x': x_map, 'y': y_map, 'z': z_map}
 
         my_map = {'U': 'U', 'D': 'D', 'L': 'L', 'R': 'R', 'F': 'F', 'B': 'B'}
 
+        def rotate_my_map(n: int, ref_map: dict):
+            for _ in range(n):
+                inv_map = {v: k for k, v in my_map.items()}
+                for key in ref_map:
+                    my_map[inv_map[key]] = ref_map[key]
+
         for move in moves_lst:
             base, modifier = move[0], move[1:]
+            counter = modifier_counter_map[modifier]
 
-            if modifier == '':
-                counter = 1
-            elif modifier == '2':
-                counter = 2
-            elif modifier == '′' or modifier == 'p':
-                counter = 3
-            else:
-                raise ValueError("Invalid modifier!")
-
-            if base == 'x':
-                for _ in range(counter):
-                    inv_map = {v: k for k, v in my_map.items()}
-                    for key in x_map:
-                        my_map[inv_map[key]] = x_map[key]
-            elif base == 'y':
-                for _ in range(counter):
-                    inv_map = {v: k for k, v in my_map.items()}
-                    for key in y_map:
-                        my_map[inv_map[key]] = y_map[key]
-            elif base == 'z':
-                for _ in range(counter):
-                    inv_map = {v: k for k, v in my_map.items()}
-                    for key in z_map:
-                        my_map[inv_map[key]] = z_map[key]
+            if base in base_ref_map:
+                rotate_my_map(counter, base_ref_map[base])
             elif base in my_map:
                 new_moves.append(my_map[base] + modifier)
             else:
