@@ -5,4 +5,3 @@ a tiny conglomerate of personal programs and hopefully other things
 * obi-challenges 🥇: my solutions to OBI coding challenges
 * daily-coding-problem 👨‍💻: my solutions to Daily Coding Problem 
 * hello-cmake Ⓜ️: simple use of CMake
-* rubik-cube-simple-solver 🧩: rubik's cube model
