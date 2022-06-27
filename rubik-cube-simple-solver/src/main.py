@@ -1,7 +1,7 @@
-from RubikCube import RubikCube
+from RubiksCube import RubiksCube
 
 if __name__ == '__main__':
-    cube = RubikCube()
+    cube = RubiksCube()
     initial_scramble = cube.scramble()
     print("Initial scramble:", initial_scramble)
     cube.draw()

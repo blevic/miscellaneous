@@ -1,13 +1,13 @@
 import unittest
 
-from RubikCube import RubikCube
+from RubiksCube import RubiksCube
 
 
 class TestRubikCube(unittest.TestCase):
 
     def test_valid_moves(self):
         valid_moves = ["F′", "", "FFF", "FpF′", "x2l2lll′", "FBUDLRLLpL′L2fulxMMEyzSS′S2"]
-        cube = RubikCube()
+        cube = RubiksCube()
 
         for moves in valid_moves:
             try:
@@ -17,21 +17,21 @@ class TestRubikCube(unittest.TestCase):
 
     def test_invalid_moves(self):
         invalid_moves = ["F'", "A", "m", "Fpp", "pF", "S22", "S3" "FfuUY", "F ", "F2′"]
-        cube = RubikCube()
+        cube = RubiksCube()
 
         for moves in invalid_moves:
             with self.assertRaises(ValueError):
                 cube.move(moves)
 
     def test_is_solved(self):
-        cube = RubikCube()
+        cube = RubiksCube()
         self.assertTrue(cube.is_solved())
 
-        cube = RubikCube()
+        cube = RubiksCube()
         cube.move("xyzxpypzpx2xy2z2")
         self.assertTrue(cube.is_solved())
 
-        cube = RubikCube()
+        cube = RubiksCube()
         for i in range(6):
             cube.move("RURpUp")
             if i == 5:
@@ -39,7 +39,7 @@ class TestRubikCube(unittest.TestCase):
             else:
                 self.assertFalse(cube.is_solved())
 
-        cube = RubikCube()
+        cube = RubiksCube()
         for i in range(1260):
             cube.move("DRpU2M")
             if i == 1259:
@@ -47,12 +47,12 @@ class TestRubikCube(unittest.TestCase):
             else:
                 self.assertFalse(cube.is_solved())
 
-        cube = RubikCube()
+        cube = RubiksCube()
         cube.move("FFpBBpUUpDDpLLpRRpffpbbpuupddpllprrpxxpyypzzpMMpEEpSSp")
         self.assertTrue(cube.is_solved())
 
     def test_get_color(self):
-        cube = RubikCube()
+        cube = RubiksCube()
         self.assertEqual(cube.get_color('F'), 'G')
         self.assertEqual(cube.get_color('U'), 'W')
         self.assertEqual(cube.get_color('D'), 'Y')
@@ -64,14 +64,14 @@ class TestRubikCube(unittest.TestCase):
         cube.move("F")
         self.assertEqual(cube.get_color('32'), 'R')
 
-        cube = RubikCube()
+        cube = RubiksCube()
         for invalid_piece in ['', 'FF', 'FUY', 'Y', 'f', 'FURB', 'FB', 'UR', '15', '5', '6', '66']:
             with self.assertRaises(ValueError):
                 cube.get_color(invalid_piece)
 
     def test_find_position(self):
 
-        cube = RubikCube()
+        cube = RubiksCube()
         self.assertEqual(cube.find_position('G'), 'F')
         self.assertEqual(cube.find_position('W'), 'U')
         self.assertEqual(cube.find_position('R'), 'R')
@@ -88,11 +88,11 @@ class TestRubikCube(unittest.TestCase):
         self.assertEqual(cube.find_position('R', 'G', 'W'), 'RFU')
         self.assertEqual(cube.find_position('R', 'W', 'G'), 'RUF')
 
-        cube = RubikCube()
+        cube = RubiksCube()
         cube.move('F')
         self.assertEqual(cube.find_position('R', 'G'), 'DF')
 
-        cube = RubikCube()
+        cube = RubiksCube()
         invalid_pieces = {
             (),
             ('W', 'Y'),
@@ -106,12 +106,12 @@ class TestRubikCube(unittest.TestCase):
                 cube.find_position(invalid_piece)
 
     def test_get_size(self):
-        cube = RubikCube()
+        cube = RubiksCube()
         self.assertEqual(cube.get_size(), 3)
 
     def test_solve_random_scramble(self):
         for _ in range(10):
-            cube = RubikCube()
+            cube = RubiksCube()
             cube.scramble()
             self.assertFalse(cube.is_solved())  # extremely unlikely
             cube.solve()
@@ -119,7 +119,7 @@ class TestRubikCube(unittest.TestCase):
 
     def test_solve_random_scramble_with_parameters(self):
         for _ in range(10):
-            cube = RubikCube()
+            cube = RubiksCube()
             cube.scramble(steps=50, wide_moves=True, slice_moves=True, cube_rotations=True)
             self.assertFalse(cube.is_solved())  # extremely unlikely
             cube.solve()
@@ -127,11 +127,11 @@ class TestRubikCube(unittest.TestCase):
 
     def test_initial_scramble_solution_concatenation(self):
         for _ in range(10):
-            cube_1 = RubikCube()
+            cube_1 = RubiksCube()
             initial_scramble = cube_1.scramble(steps=40, wide_moves=True, slice_moves=True, cube_rotations=True)
             solution = cube_1.solve()
 
-            cube_2 = RubikCube()
+            cube_2 = RubiksCube()
             cube_2.move(initial_scramble.replace(" ", "") + solution)
             self.assertTrue(cube_2.is_solved())
 
@@ -140,7 +140,7 @@ class TestRubikCube(unittest.TestCase):
         positions = list('FBUDRL') + [a + b for a in list('012345') for b in list('12346789')]
         for color in colors:
             for position in positions:
-                cube = RubikCube()
+                cube = RubiksCube()
                 cube.set_color(position, color)
                 self.assertEqual(cube.get_color(position), color)
 
@@ -153,28 +153,28 @@ class TestRubikCube(unittest.TestCase):
         for idx, position in enumerate(positions):
             colors_dict[position] = colors[idx % len(colors)]
 
-        cube = RubikCube()
+        cube = RubiksCube()
         cube.set_all_colors(colors_dict)
 
         for position in positions:
             self.assertEqual(cube.get_color(position), colors_dict[position])
 
     def test_is_solvable(self):
-        cube = RubikCube()
+        cube = RubiksCube()
         self.assertTrue(cube.is_solvable())
 
-        cube = RubikCube()
+        cube = RubiksCube()
         cube.move("FBUDLRLLpL′L2fulxMMEyzSS′S2")
         self.assertTrue(cube.is_solvable())
 
-        cube = RubikCube()
+        cube = RubiksCube()
         f_color = cube.get_color('F')
         b_color = cube.get_color('B')
         cube.set_color('F', b_color)
         cube.set_color('B', f_color)
         self.assertFalse(cube.is_solvable())
 
-        cube = RubikCube()
+        cube = RubiksCube()
         cube.move("FBUDLRLLpL′L2fulxMMEyzSS′S2")
         cube.set_color('F', 'R')
         self.assertFalse(cube.is_solvable())

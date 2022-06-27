@@ -1,4 +1,4 @@
-class RubikCubeInterface:
+class RubiksCubeInterface:
     """Interface of Rubik's Cube Model"""
 
     def draw(self) -> None:

@@ -1,14 +1,14 @@
-from RubikCubeInterface import RubikCubeInterface
+from RubiksCubeInterface import RubiksCubeInterface
 
 
-def base_layer(cube: RubikCubeInterface) -> str:
+def base_layer(cube: RubiksCubeInterface) -> str:
     f_color = cube.get_color('F')
     r_color = cube.get_color('R')
     b_color = cube.get_color('B')
     l_color = cube.get_color('L')
     d_color = cube.get_color('D')
 
-    def base_cross(cube: RubikCubeInterface) -> str:
+    def base_cross(cube: RubiksCubeInterface) -> str:
         base_moves = ""
 
         f_map = {
@@ -125,7 +125,7 @@ def base_layer(cube: RubikCubeInterface) -> str:
 
         return base_moves
 
-    def base_corners(cube: RubikCubeInterface) -> str:
+    def base_corners(cube: RubiksCubeInterface) -> str:
         corners_moves = ""
 
         dfr_map = {
@@ -232,7 +232,7 @@ def base_layer(cube: RubikCubeInterface) -> str:
     return moves_sequence
 
 
-def second_layer(cube: RubikCubeInterface) -> str:
+def second_layer(cube: RubiksCubeInterface) -> str:
     R_INSERT = "RUR′U′F′U′F"
     L_INSERT = "F′U′FURUR′"
     f_color = cube.get_color('F')
@@ -333,8 +333,8 @@ def second_layer(cube: RubikCubeInterface) -> str:
     return second_layer_moves
 
 
-def top_layer(cube: RubikCubeInterface) -> str:
-    def top_cross(cube: RubikCubeInterface) -> str:
+def top_layer(cube: RubiksCubeInterface) -> str:
+    def top_cross(cube: RubiksCubeInterface) -> str:
         top_cross_moves = ""
         F_SWITCH = "FRUR′U′F′"
 
@@ -381,7 +381,7 @@ def top_layer(cube: RubikCubeInterface) -> str:
 
         return top_cross_moves
 
-    def cross_color_matching(cube: RubikCubeInterface) -> str:
+    def cross_color_matching(cube: RubiksCubeInterface) -> str:
         cross_color_matching_moves = ""
 
         def f_match(c):
@@ -476,7 +476,7 @@ def top_layer(cube: RubikCubeInterface) -> str:
 
         raise ValueError("Expected top cross to be color matched by here")
 
-    def corner_matching(cube: RubikCubeInterface) -> str:
+    def corner_matching(cube: RubiksCubeInterface) -> str:
         corner_matching_moves = ""
         SWAP_CORNERS = "URU′L′UR′U′L"
 
@@ -535,7 +535,7 @@ def top_layer(cube: RubikCubeInterface) -> str:
 
         raise ValueError("Expected corners to be matched by here")
 
-    def final_round(cube: RubikCubeInterface) -> str:
+    def final_round(cube: RubiksCubeInterface) -> str:
         final_round_moves = ""
         R_MOVES = "RUR′U′"
 
@@ -570,7 +570,7 @@ def top_layer(cube: RubikCubeInterface) -> str:
     return moves
 
 
-def layer_by_layer(cube: RubikCubeInterface) -> str:
+def layer_by_layer(cube: RubiksCubeInterface) -> str:
     if cube.is_solved():
         return ""
 

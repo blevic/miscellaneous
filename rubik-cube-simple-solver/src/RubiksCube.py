@@ -3,13 +3,13 @@ from random import choice
 from copy import deepcopy
 
 from Color import Color
-from RubikCubeAlgorithms import layer_by_layer
-from RubikCubeInterface import RubikCubeInterface
+from RubiksCubeAlgorithms import layer_by_layer
+from RubiksCubeInterface import RubiksCubeInterface
 
 CUBE_SIZE = 3
 
 
-class RubikCube(RubikCubeInterface):
+class RubiksCube(RubiksCubeInterface):
     """Models Rubik's Cube"""
 
     def __init__(self):
@@ -22,7 +22,7 @@ class RubikCube(RubikCubeInterface):
                        'R': [[Color.RED] * n for _ in range(n)]}
 
     def draw(self) -> None:
-        """Overrides RubikCubeInterface.draw()"""
+        """Overrides RubiksCubeInterface.draw()"""
 
         def emoji(color):
             emoji_map = {
@@ -57,7 +57,7 @@ class RubikCube(RubikCubeInterface):
             print(lower_lines)
 
     def move(self, turns: str) -> None:
-        """Overrides RubikCubeInterface.move(turns)"""
+        """Overrides RubiksCubeInterface.move(turns)"""
 
         move_base_functions = {
             'F': self._move_F,
@@ -173,7 +173,7 @@ class RubikCube(RubikCubeInterface):
         self._faces['L'] = _saved_front
 
     def scramble(self, steps=20, wide_moves=False, slice_moves=False, cube_rotations=False) -> str:
-        """Overrides RubikCubeInterface.scramble(steps)"""
+        """Overrides RubiksCubeInterface.scramble(steps)"""
         if steps < 1:
             return ""
 
@@ -199,7 +199,7 @@ class RubikCube(RubikCubeInterface):
         return ' '.join(sequence)
 
     def is_solved(self) -> bool:
-        """Overrides RubikCubeInterface.is_solved()"""
+        """Overrides RubiksCubeInterface.is_solved()"""
 
         def solved_face(face):
             return len(set([s for row in face for s in row])) == 1
