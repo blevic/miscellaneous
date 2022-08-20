@@ -20,7 +20,7 @@ def first_palindromic_prime(n, filename):
         for i in range(len(pi) - n):
             number = pi[i:i+n]
             if is_palindrome(number) and fast_is_prime(int(number)):
-                    return number
+                return number
 
     raise Exception("No palindromic prime found. Try another file with more digits of pi.")
 
